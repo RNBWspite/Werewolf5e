@@ -340,28 +340,43 @@
 
             // Determine auspice from moon phase
             function getAuspiceFromPhase(phase) {
-                // Moon phases and corresponding auspices
-                // 0-1.85 days: New Moon (Ragabash)
-                // 1.85-7.38 days: Waxing Crescent (Theurge)
-                // 7.38-11.07 days: First Quarter (Philodox)
-                // 11.07-14.77 days: Waxing Gibbous (Galliard)
-                // 14.77-18.46 days: Full Moon (Ahroun)
-                // 18.46-22.15 days: Waning Gibbous (Galliard)
-                // 22.15-25.84 days: Last Quarter (Philodox)
-                // 25.84-27.69 days: Waning Crescent (Theurge)
-                // 27.69-29.53 days: New Moon (Ragabash)
+                // Moon phases and corresponding auspices (29.53 day cycle)
+                // New Moon: 0-1.85 days AND 27.69-29.53 days (Ragabash)
+                // Crescent: 1.85-7.38 days AND 25.84-27.69 days (Theurge)
+                // Half Moon: 7.38-11.07 days AND 22.15-25.84 days (Philodox)
+                // Gibbous: 11.07-14.77 days AND 18.46-22.15 days (Galliard)
+                // Full Moon: 14.77-18.46 days (Ahroun)
                 
+                // New Moon (Ragabash)
                 if (phase < 1.85 || phase >= 27.69) {
                     return { auspice: 'ragabash', name: 'Ragabash', moon: 'New Moon', icon: '🌑' };
-                } else if (phase < 7.38 || phase >= 25.84) {
-                    return { auspice: 'theurge', name: 'Theurge', moon: 'Crescent Moon', icon: '🌒' };
-                } else if (phase < 11.07 || phase >= 22.15) {
-                    return { auspice: 'philodox', name: 'Philodox', moon: 'Half Moon', icon: '🌓' };
-                } else if (phase < 14.77 || phase >= 18.46) {
-                    return { auspice: 'galliard', name: 'Galliard', moon: 'Gibbous Moon', icon: '🌔' };
-                } else {
-                    return { auspice: 'ahroun', name: 'Ahroun', moon: 'Full Moon', icon: '🌕' };
                 }
+                // Waxing Crescent (Theurge)
+                if (phase >= 1.85 && phase < 7.38) {
+                    return { auspice: 'theurge', name: 'Theurge', moon: 'Crescent Moon', icon: '🌒' };
+                }
+                // Waning Crescent (Theurge)
+                if (phase >= 25.84 && phase < 27.69) {
+                    return { auspice: 'theurge', name: 'Theurge', moon: 'Crescent Moon', icon: '🌘' };
+                }
+                // First Quarter (Philodox)
+                if (phase >= 7.38 && phase < 11.07) {
+                    return { auspice: 'philodox', name: 'Philodox', moon: 'Half Moon', icon: '🌓' };
+                }
+                // Last Quarter (Philodox)
+                if (phase >= 22.15 && phase < 25.84) {
+                    return { auspice: 'philodox', name: 'Philodox', moon: 'Half Moon', icon: '🌗' };
+                }
+                // Waxing Gibbous (Galliard)
+                if (phase >= 11.07 && phase < 14.77) {
+                    return { auspice: 'galliard', name: 'Galliard', moon: 'Gibbous Moon', icon: '🌔' };
+                }
+                // Waning Gibbous (Galliard)
+                if (phase >= 18.46 && phase < 22.15) {
+                    return { auspice: 'galliard', name: 'Galliard', moon: 'Gibbous Moon', icon: '🌖' };
+                }
+                // Full Moon (Ahroun) - default for 14.77-18.46
+                return { auspice: 'ahroun', name: 'Ahroun', moon: 'Full Moon', icon: '🌕' };
             }
 
             // Handle birth date input
@@ -387,11 +402,14 @@
             toggleManualBtn.addEventListener('click', function() {
                 birthdateGroup.classList.add('hidden');
                 manualAuspiceGroup.classList.remove('hidden');
-                // Clear any auto-selected auspice
-                if (!auspiceInput.value || birthdateInput.value) {
-                    auspiceInput.value = '';
-                    submitBtn.disabled = true;
-                }
+                // Always clear the auspice when switching to manual mode
+                // User must make a new selection
+                auspiceInput.value = '';
+                submitBtn.disabled = true;
+                // Clear any previous manual selections
+                auspiceChoices.forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
             });
 
             // Back to birthdate selection
