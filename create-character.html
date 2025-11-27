@@ -172,7 +172,115 @@
                     
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="back-to-tribe">Back</button>
-                        <button type="submit" class="btn btn-primary" id="submit-character" disabled>Begin Your Journey</button>
+                        <button type="button" class="btn btn-primary" id="next-to-attributes" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Primary Attribute Category -->
+                <div class="adventure-step hidden" id="step-attr-category" data-step="5">
+                    <p class="adventure-prompt">The ancient one studies you more intently now, their gaze piercing through to your very essence.</p>
+                    <p class="adventure-question">"When faced with a difficult situation, your greatest strength lies in..."</p>
+                    <div class="form-group">
+                        <div class="attribute-choices">
+                            <button type="button" class="choice-btn attribute-category-choice" data-category="physical">
+                                <span class="choice-title">The Body</span>
+                                <span class="choice-desc">Using your physical prowess to adapt to whatever comes your way</span>
+                            </button>
+                            <button type="button" class="choice-btn attribute-category-choice" data-category="social">
+                                <span class="choice-title">The Pack</span>
+                                <span class="choice-desc">Relying on those around you and your ability to influence others</span>
+                            </button>
+                            <button type="button" class="choice-btn attribute-category-choice" data-category="mental">
+                                <span class="choice-title">The Mind</span>
+                                <span class="choice-desc">Thinking several steps ahead to find the best solution</span>
+                            </button>
+                        </div>
+                        <input type="hidden" id="primary-category" name="primary-category">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-auspice">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-primary-attr" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Primary Attribute Selection -->
+                <div class="adventure-step hidden" id="step-primary-attr" data-step="6">
+                    <p class="adventure-prompt" id="primary-attr-prompt">The figure nods approvingly, sensing your inner nature.</p>
+                    <p class="adventure-question" id="primary-attr-question">"Your strength manifests in many forms. Which speaks truest to your spirit?"</p>
+                    <div class="form-group">
+                        <div class="attribute-choices" id="primary-attr-choices">
+                            <!-- Dynamically populated based on category choice -->
+                        </div>
+                        <input type="hidden" id="primary-attribute" name="primary-attribute">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-category">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-secondary-category" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 7: Secondary Attribute Category -->
+                <div class="adventure-step hidden" id="step-secondary-category" data-step="7">
+                    <p class="adventure-prompt">The wind picks up around you, carrying whispers of ancient wisdom.</p>
+                    <p class="adventure-question">"Beyond your primary strength, where does your second nature lie?"</p>
+                    <div class="form-group">
+                        <div class="attribute-choices" id="secondary-category-choices">
+                            <!-- Dynamically populated excluding primary category -->
+                        </div>
+                        <input type="hidden" id="secondary-category" name="secondary-category">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-primary-attr">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-secondary-attrs" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 8: Secondary Attributes Selection -->
+                <div class="adventure-step hidden" id="step-secondary-attrs" data-step="8">
+                    <p class="adventure-prompt" id="secondary-attrs-prompt">The ancient one's eyes gleam with recognition.</p>
+                    <p class="adventure-question">"Within this realm, which aspects define you? Choose three that resonate most."</p>
+                    <div class="form-group">
+                        <p class="selection-counter" id="secondary-counter">Selected: 0/3</p>
+                        <div class="attribute-choices multi-select" id="secondary-attr-choices">
+                            <!-- Dynamically populated -->
+                        </div>
+                        <input type="hidden" id="secondary-attributes" name="secondary-attributes">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-secondary-category">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-tertiary-attrs" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 9: Tertiary Attributes -->
+                <div class="adventure-step hidden" id="step-tertiary-attrs" data-step="9">
+                    <p class="adventure-prompt">The clearing grows still as the figure considers you one final time.</p>
+                    <p class="adventure-question">"The remaining aspects of your being... which four shall carry modest strength, and which one lies dormant?"</p>
+                    <div class="form-group">
+                        <p class="selection-info">Select 4 attributes for moderate strength (2 points). The remaining attribute will have minimal strength (1 point).</p>
+                        <p class="selection-counter" id="tertiary-counter">Selected: 0/4</p>
+                        <div class="attribute-choices multi-select" id="tertiary-attr-choices">
+                            <!-- Dynamically populated with remaining attributes -->
+                        </div>
+                        <input type="hidden" id="tertiary-attributes" name="tertiary-attributes">
+                        <input type="hidden" id="weakest-attribute" name="weakest-attribute">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-secondary-attrs">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-summary" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 10: Character Summary -->
+                <div class="adventure-step hidden" id="step-summary" data-step="10">
+                    <p class="adventure-prompt">The ancient one steps back, a profound respect in their eyes. The mist swirls around you both as your true nature is revealed.</p>
+                    <p class="adventure-question">"Your spirit has spoken. Behold who you truly are..."</p>
+                    <div class="character-summary" id="character-summary">
+                        <!-- Dynamically populated -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-tertiary">Back</button>
+                        <button type="submit" class="btn btn-primary" id="submit-character">Begin Your Journey</button>
                     </div>
                 </div>
             </form>
@@ -444,19 +552,575 @@
                     btn.classList.add('selected');
                     // Update hidden input
                     auspiceInput.value = btn.dataset.auspice;
-                    // Enable submit button
-                    submitBtn.disabled = false;
+                    // Enable next button (changed from submit)
+                    document.getElementById('next-to-attributes').disabled = false;
                 });
             });
 
-            // Character data storage
+            // Character data storage with attributes
             const characterData = {
                 name: '',
                 gender: '',
                 tribe: '',
                 auspice: '',
-                birthdate: ''
+                birthdate: '',
+                attributes: {
+                    strength: 1,
+                    dexterity: 1,
+                    stamina: 1,
+                    charisma: 1,
+                    manipulation: 1,
+                    appearance: 1,
+                    perception: 1,
+                    intelligence: 1,
+                    wits: 1
+                }
             };
+
+            // Attribute definitions
+            const attributeCategories = {
+                physical: {
+                    name: 'Physical',
+                    prompt: 'Your body is a finely tuned instrument. In moments of crisis, you find that...',
+                    attributes: {
+                        strength: {
+                            name: 'Strength',
+                            desc: 'Raw physical power courses through your muscles, letting you crush obstacles in your path'
+                        },
+                        dexterity: {
+                            name: 'Dexterity', 
+                            desc: 'Your reflexes are lightning quick, allowing you to dodge, weave, and strike with precision'
+                        },
+                        stamina: {
+                            name: 'Stamina',
+                            desc: 'Your endurance knows no bounds - you can outlast any foe through sheer resilience'
+                        }
+                    }
+                },
+                social: {
+                    name: 'Social',
+                    prompt: 'Your connection with others defines your strength. You find that...',
+                    attributes: {
+                        charisma: {
+                            name: 'Charisma',
+                            desc: 'Others are naturally drawn to you, inspired by your presence and conviction'
+                        },
+                        manipulation: {
+                            name: 'Manipulation',
+                            desc: 'You understand the subtle art of influence, guiding others to see things your way'
+                        },
+                        appearance: {
+                            name: 'Appearance',
+                            desc: 'Your striking presence commands attention and leaves lasting impressions'
+                        }
+                    }
+                },
+                mental: {
+                    name: 'Mental',
+                    prompt: 'Your mind is your greatest weapon. In challenging moments, you rely on...',
+                    attributes: {
+                        perception: {
+                            name: 'Perception',
+                            desc: 'Nothing escapes your notice - you see what others miss and sense danger before it arrives'
+                        },
+                        intelligence: {
+                            name: 'Intelligence',
+                            desc: 'Your vast knowledge and analytical mind help you unravel any mystery'
+                        },
+                        wits: {
+                            name: 'Wits',
+                            desc: 'Quick thinking and sharp intuition guide your snap decisions in critical moments'
+                        }
+                    }
+                }
+            };
+
+            // Track attribute selections
+            let selectedPrimaryCategory = null;
+            let selectedPrimaryAttribute = null;
+            let selectedSecondaryCategory = null;
+            let selectedSecondaryAttributes = [];
+            let selectedTertiaryAttributes = [];
+            let weakestAttribute = null;
+
+            // Add new steps to the steps object
+            steps.attrCategory = document.getElementById('step-attr-category');
+            steps.primaryAttr = document.getElementById('step-primary-attr');
+            steps.secondaryCategory = document.getElementById('step-secondary-category');
+            steps.secondaryAttrs = document.getElementById('step-secondary-attrs');
+            steps.tertiaryAttrs = document.getElementById('step-tertiary-attrs');
+            steps.summary = document.getElementById('step-summary');
+
+            // Update birthdate change handler to use new button
+            birthdateInput.removeEventListener('change', function(){});
+            birthdateInput.addEventListener('change', function() {
+                if (this.value) {
+                    const birthDate = new Date(this.value);
+                    const phase = getMoonPhase(birthDate);
+                    const auspiceData = getAuspiceFromPhase(phase);
+                    
+                    auspiceInput.value = auspiceData.auspice;
+                    auspiceResult.innerHTML = `${auspiceData.icon} Luna reveals your path: <strong>${auspiceData.name}</strong> (${auspiceData.moon})`;
+                    auspiceResult.classList.add('show');
+                    document.getElementById('next-to-attributes').disabled = false;
+                } else {
+                    auspiceInput.value = '';
+                    auspiceResult.innerHTML = '';
+                    auspiceResult.classList.remove('show');
+                    document.getElementById('next-to-attributes').disabled = true;
+                }
+            });
+
+            // Step 4 -> Step 5 (Auspice to Attribute Category)
+            document.getElementById('next-to-attributes').addEventListener('click', function() {
+                if (auspiceInput.value) {
+                    showStep(steps.auspice, steps.attrCategory);
+                }
+            });
+
+            // Back to Auspice
+            document.getElementById('back-to-auspice').addEventListener('click', function() {
+                showStep(steps.attrCategory, steps.auspice);
+            });
+
+            // Primary Category Selection
+            const categoryChoices = document.querySelectorAll('.attribute-category-choice');
+            categoryChoices.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    categoryChoices.forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
+                    btn.classList.add('selected');
+                    selectedPrimaryCategory = btn.dataset.category;
+                    document.getElementById('primary-category').value = selectedPrimaryCategory;
+                    document.getElementById('next-to-primary-attr').disabled = false;
+                });
+            });
+
+            // Step 5 -> Step 6 (Category to Primary Attribute)
+            document.getElementById('next-to-primary-attr').addEventListener('click', function() {
+                if (selectedPrimaryCategory) {
+                    populatePrimaryAttributes();
+                    showStep(steps.attrCategory, steps.primaryAttr);
+                }
+            });
+
+            // Populate primary attribute choices
+            function populatePrimaryAttributes() {
+                const container = document.getElementById('primary-attr-choices');
+                const category = attributeCategories[selectedPrimaryCategory];
+                
+                document.getElementById('primary-attr-prompt').textContent = category.prompt;
+                document.getElementById('primary-attr-question').textContent = '"Which aspect defines your very core?"';
+                
+                container.innerHTML = '';
+                Object.entries(category.attributes).forEach(function([key, attr]) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn attribute-choice';
+                    btn.dataset.attribute = key;
+                    btn.innerHTML = `
+                        <span class="choice-title">${attr.name}</span>
+                        <span class="choice-desc">${attr.desc}</span>
+                    `;
+                    btn.addEventListener('click', function() {
+                        container.querySelectorAll('.attribute-choice').forEach(function(b) {
+                            b.classList.remove('selected');
+                        });
+                        btn.classList.add('selected');
+                        selectedPrimaryAttribute = key;
+                        document.getElementById('primary-attribute').value = key;
+                        document.getElementById('next-to-secondary-category').disabled = false;
+                    });
+                    container.appendChild(btn);
+                });
+            }
+
+            // Back to Category
+            document.getElementById('back-to-category').addEventListener('click', function() {
+                showStep(steps.primaryAttr, steps.attrCategory);
+            });
+
+            // Step 6 -> Step 7 (Primary Attr to Secondary Category)
+            document.getElementById('next-to-secondary-category').addEventListener('click', function() {
+                if (selectedPrimaryAttribute) {
+                    populateSecondaryCategories();
+                    showStep(steps.primaryAttr, steps.secondaryCategory);
+                }
+            });
+
+            // Populate secondary category choices
+            function populateSecondaryCategories() {
+                const container = document.getElementById('secondary-category-choices');
+                container.innerHTML = '';
+                
+                Object.entries(attributeCategories).forEach(function([key, cat]) {
+                    if (key !== selectedPrimaryCategory) {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'choice-btn attribute-category-choice';
+                        btn.dataset.category = key;
+                        
+                        let title, desc;
+                        if (key === 'physical') {
+                            title = 'The Body';
+                            desc = 'Physical prowess and endurance';
+                        } else if (key === 'social') {
+                            title = 'The Pack';
+                            desc = 'Social influence and connection';
+                        } else {
+                            title = 'The Mind';
+                            desc = 'Mental acuity and awareness';
+                        }
+                        
+                        btn.innerHTML = `
+                            <span class="choice-title">${title}</span>
+                            <span class="choice-desc">${desc}</span>
+                        `;
+                        btn.addEventListener('click', function() {
+                            container.querySelectorAll('.attribute-category-choice').forEach(function(b) {
+                                b.classList.remove('selected');
+                            });
+                            btn.classList.add('selected');
+                            selectedSecondaryCategory = key;
+                            document.getElementById('secondary-category').value = key;
+                            document.getElementById('next-to-secondary-attrs').disabled = false;
+                        });
+                        container.appendChild(btn);
+                    }
+                });
+            }
+
+            // Back to Primary Attr
+            document.getElementById('back-to-primary-attr').addEventListener('click', function() {
+                showStep(steps.secondaryCategory, steps.primaryAttr);
+            });
+
+            // Step 7 -> Step 8 (Secondary Category to Secondary Attrs)
+            document.getElementById('next-to-secondary-attrs').addEventListener('click', function() {
+                if (selectedSecondaryCategory) {
+                    populateSecondaryAttributes();
+                    showStep(steps.secondaryCategory, steps.secondaryAttrs);
+                }
+            });
+
+            // Populate secondary attribute choices (multi-select 3)
+            function populateSecondaryAttributes() {
+                const container = document.getElementById('secondary-attr-choices');
+                const primaryCat = attributeCategories[selectedPrimaryCategory];
+                const secondaryCat = attributeCategories[selectedSecondaryCategory];
+                
+                container.innerHTML = '';
+                selectedSecondaryAttributes = [];
+                updateSecondaryCounter();
+                
+                // Add remaining attributes from primary category (excluding the primary one)
+                Object.entries(primaryCat.attributes).forEach(function([key, attr]) {
+                    if (key !== selectedPrimaryAttribute) {
+                        addSecondaryAttrButton(container, key, attr);
+                    }
+                });
+                
+                // Add all attributes from secondary category
+                Object.entries(secondaryCat.attributes).forEach(function([key, attr]) {
+                    addSecondaryAttrButton(container, key, attr);
+                });
+            }
+
+            function addSecondaryAttrButton(container, key, attr) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'choice-btn attribute-choice';
+                btn.dataset.attribute = key;
+                btn.innerHTML = `
+                    <span class="choice-title">${attr.name}</span>
+                    <span class="choice-desc">${attr.desc}</span>
+                `;
+                btn.addEventListener('click', function() {
+                    if (btn.classList.contains('selected')) {
+                        btn.classList.remove('selected');
+                        selectedSecondaryAttributes = selectedSecondaryAttributes.filter(a => a !== key);
+                    } else if (selectedSecondaryAttributes.length < 3) {
+                        btn.classList.add('selected');
+                        selectedSecondaryAttributes.push(key);
+                    }
+                    updateSecondaryCounter();
+                    document.getElementById('next-to-tertiary-attrs').disabled = selectedSecondaryAttributes.length !== 3;
+                });
+                container.appendChild(btn);
+            }
+
+            function updateSecondaryCounter() {
+                document.getElementById('secondary-counter').textContent = `Selected: ${selectedSecondaryAttributes.length}/3`;
+            }
+
+            // Back to Secondary Category
+            document.getElementById('back-to-secondary-category').addEventListener('click', function() {
+                showStep(steps.secondaryAttrs, steps.secondaryCategory);
+            });
+
+            // Step 8 -> Step 9 (Secondary Attrs to Tertiary Attrs)
+            document.getElementById('next-to-tertiary-attrs').addEventListener('click', function() {
+                if (selectedSecondaryAttributes.length === 3) {
+                    populateTertiaryAttributes();
+                    showStep(steps.secondaryAttrs, steps.tertiaryAttrs);
+                }
+            });
+
+            // Get tertiary category (the one not selected)
+            function getTertiaryCategory() {
+                const categories = ['physical', 'social', 'mental'];
+                return categories.find(c => c !== selectedPrimaryCategory && c !== selectedSecondaryCategory);
+            }
+
+            // Populate tertiary attribute choices (multi-select 4, leaving 1 at lowest)
+            function populateTertiaryAttributes() {
+                const container = document.getElementById('tertiary-attr-choices');
+                const tertiaryCatKey = getTertiaryCategory();
+                const tertiaryCat = attributeCategories[tertiaryCatKey];
+                const primaryCat = attributeCategories[selectedPrimaryCategory];
+                const secondaryCat = attributeCategories[selectedSecondaryCategory];
+                
+                container.innerHTML = '';
+                selectedTertiaryAttributes = [];
+                updateTertiaryCounter();
+                
+                // Collect all remaining attributes not yet assigned
+                const remainingAttrs = [];
+                
+                // Add all attributes from tertiary category (none assigned yet)
+                Object.entries(tertiaryCat.attributes).forEach(function([key, attr]) {
+                    remainingAttrs.push({ key, attr });
+                });
+                
+                // Add remaining from primary category (not the primary attribute and not selected as secondary)
+                Object.entries(primaryCat.attributes).forEach(function([key, attr]) {
+                    if (key !== selectedPrimaryAttribute && !selectedSecondaryAttributes.includes(key)) {
+                        remainingAttrs.push({ key, attr });
+                    }
+                });
+                
+                // Add remaining from secondary category (not selected as secondary)
+                Object.entries(secondaryCat.attributes).forEach(function([key, attr]) {
+                    if (!selectedSecondaryAttributes.includes(key)) {
+                        remainingAttrs.push({ key, attr });
+                    }
+                });
+                
+                // Add buttons for all remaining attributes
+                remainingAttrs.forEach(function(item) {
+                    addTertiaryAttrButton(container, item.key, item.attr);
+                });
+            }
+
+            function addTertiaryAttrButton(container, key, attr) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'choice-btn attribute-choice';
+                btn.dataset.attribute = key;
+                btn.innerHTML = `
+                    <span class="choice-title">${attr.name}</span>
+                    <span class="choice-desc">${attr.desc}</span>
+                `;
+                btn.addEventListener('click', function() {
+                    if (btn.classList.contains('selected')) {
+                        btn.classList.remove('selected');
+                        selectedTertiaryAttributes = selectedTertiaryAttributes.filter(a => a !== key);
+                    } else if (selectedTertiaryAttributes.length < 4) {
+                        btn.classList.add('selected');
+                        selectedTertiaryAttributes.push(key);
+                    }
+                    updateTertiaryCounter();
+                    
+                    // Calculate weakest attribute (the one not selected from all remaining)
+                    if (selectedTertiaryAttributes.length === 4) {
+                        // Get all remaining attributes
+                        const allRemainingAttrs = getAllRemainingAttributes();
+                        weakestAttribute = allRemainingAttrs.find(a => !selectedTertiaryAttributes.includes(a));
+                    }
+                    
+                    document.getElementById('next-to-summary').disabled = selectedTertiaryAttributes.length !== 4;
+                });
+                container.appendChild(btn);
+            }
+            
+            // Helper function to get all remaining attributes
+            function getAllRemainingAttributes() {
+                const remaining = [];
+                const tertiaryCatKey = getTertiaryCategory();
+                const tertiaryCat = attributeCategories[tertiaryCatKey];
+                const primaryCat = attributeCategories[selectedPrimaryCategory];
+                const secondaryCat = attributeCategories[selectedSecondaryCategory];
+                
+                // Tertiary category attrs
+                Object.keys(tertiaryCat.attributes).forEach(function(key) {
+                    remaining.push(key);
+                });
+                
+                // Remaining from primary
+                Object.keys(primaryCat.attributes).forEach(function(key) {
+                    if (key !== selectedPrimaryAttribute && !selectedSecondaryAttributes.includes(key)) {
+                        remaining.push(key);
+                    }
+                });
+                
+                // Remaining from secondary
+                Object.keys(secondaryCat.attributes).forEach(function(key) {
+                    if (!selectedSecondaryAttributes.includes(key)) {
+                        remaining.push(key);
+                    }
+                });
+                
+                return remaining;
+            }
+
+            function updateTertiaryCounter() {
+                document.getElementById('tertiary-counter').textContent = `Selected: ${selectedTertiaryAttributes.length}/4`;
+            }
+
+            // Back to Secondary Attrs
+            document.getElementById('back-to-secondary-attrs').addEventListener('click', function() {
+                showStep(steps.tertiaryAttrs, steps.secondaryAttrs);
+            });
+
+            // Step 9 -> Step 10 (Tertiary to Summary)
+            document.getElementById('next-to-summary').addEventListener('click', function() {
+                if (selectedTertiaryAttributes.length === 4) {
+                    calculateFinalAttributes();
+                    populateSummary();
+                    showStep(steps.tertiaryAttrs, steps.summary);
+                }
+            });
+
+            // Calculate final attribute values
+            function calculateFinalAttributes() {
+                // Reset all to base 1
+                Object.keys(characterData.attributes).forEach(function(attr) {
+                    characterData.attributes[attr] = 1;
+                });
+                
+                // Primary attribute: 4 points
+                characterData.attributes[selectedPrimaryAttribute] = 4;
+                
+                // Secondary attributes (3 selected): 3 points each
+                selectedSecondaryAttributes.forEach(function(attr) {
+                    characterData.attributes[attr] = 3;
+                });
+                
+                // Tertiary attributes (4 selected from tertiary category): 2 points each
+                selectedTertiaryAttributes.forEach(function(attr) {
+                    characterData.attributes[attr] = 2;
+                });
+                
+                // Weakest attribute stays at 1
+                if (weakestAttribute) {
+                    characterData.attributes[weakestAttribute] = 1;
+                }
+            }
+
+            // Populate summary
+            function populateSummary() {
+                const container = document.getElementById('character-summary');
+                const name = characterNameInput.value;
+                
+                container.innerHTML = `
+                    <div class="summary-section">
+                        <h3>${name}</h3>
+                        <p class="summary-subtitle">${getGenderLabel(genderInput.value)} ${getTribeLabel(document.getElementById('tribe').value)} ${getAuspiceLabel(auspiceInput.value)}</p>
+                    </div>
+                    <div class="summary-section">
+                        <h4>Attributes</h4>
+                        <div class="attribute-grid">
+                            <div class="attr-category">
+                                <h5>Physical</h5>
+                                <div class="attr-item ${characterData.attributes.strength === 4 ? 'primary' : characterData.attributes.strength === 3 ? 'secondary' : characterData.attributes.strength === 2 ? 'tertiary' : 'weak'}">
+                                    Strength: ${getDotsDisplay(characterData.attributes.strength)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.dexterity === 4 ? 'primary' : characterData.attributes.dexterity === 3 ? 'secondary' : characterData.attributes.dexterity === 2 ? 'tertiary' : 'weak'}">
+                                    Dexterity: ${getDotsDisplay(characterData.attributes.dexterity)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.stamina === 4 ? 'primary' : characterData.attributes.stamina === 3 ? 'secondary' : characterData.attributes.stamina === 2 ? 'tertiary' : 'weak'}">
+                                    Stamina: ${getDotsDisplay(characterData.attributes.stamina)}
+                                </div>
+                            </div>
+                            <div class="attr-category">
+                                <h5>Social</h5>
+                                <div class="attr-item ${characterData.attributes.charisma === 4 ? 'primary' : characterData.attributes.charisma === 3 ? 'secondary' : characterData.attributes.charisma === 2 ? 'tertiary' : 'weak'}">
+                                    Charisma: ${getDotsDisplay(characterData.attributes.charisma)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.manipulation === 4 ? 'primary' : characterData.attributes.manipulation === 3 ? 'secondary' : characterData.attributes.manipulation === 2 ? 'tertiary' : 'weak'}">
+                                    Manipulation: ${getDotsDisplay(characterData.attributes.manipulation)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.appearance === 4 ? 'primary' : characterData.attributes.appearance === 3 ? 'secondary' : characterData.attributes.appearance === 2 ? 'tertiary' : 'weak'}">
+                                    Appearance: ${getDotsDisplay(characterData.attributes.appearance)}
+                                </div>
+                            </div>
+                            <div class="attr-category">
+                                <h5>Mental</h5>
+                                <div class="attr-item ${characterData.attributes.perception === 4 ? 'primary' : characterData.attributes.perception === 3 ? 'secondary' : characterData.attributes.perception === 2 ? 'tertiary' : 'weak'}">
+                                    Perception: ${getDotsDisplay(characterData.attributes.perception)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.intelligence === 4 ? 'primary' : characterData.attributes.intelligence === 3 ? 'secondary' : characterData.attributes.intelligence === 2 ? 'tertiary' : 'weak'}">
+                                    Intelligence: ${getDotsDisplay(characterData.attributes.intelligence)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.wits === 4 ? 'primary' : characterData.attributes.wits === 3 ? 'secondary' : characterData.attributes.wits === 2 ? 'tertiary' : 'weak'}">
+                                    Wits: ${getDotsDisplay(characterData.attributes.wits)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function getDotsDisplay(value) {
+                return '●'.repeat(value) + '○'.repeat(5 - value);
+            }
+
+            function getGenderLabel(gender) {
+                const labels = {
+                    'male': 'Male',
+                    'female': 'Female',
+                    'non-binary': 'Non-Binary',
+                    'genderfluid': 'Genderfluid',
+                    'agender': 'Agender'
+                };
+                return labels[gender] || gender;
+            }
+
+            function getTribeLabel(tribe) {
+                const labels = {
+                    'black-furies': 'Black Fury',
+                    'bone-gnawers': 'Bone Gnawer',
+                    'children-of-gaia': 'Child of Gaia',
+                    'fianna': 'Fianna',
+                    'get-of-fenris': 'Get of Fenris',
+                    'glass-walkers': 'Glass Walker',
+                    'red-talons': 'Red Talon',
+                    'shadow-lords': 'Shadow Lord',
+                    'silent-striders': 'Silent Strider',
+                    'silver-fangs': 'Silver Fang',
+                    'stargazers': 'Stargazer',
+                    'uktena': 'Uktena',
+                    'wendigo': 'Wendigo'
+                };
+                return labels[tribe] || tribe;
+            }
+
+            function getAuspiceLabel(auspice) {
+                const labels = {
+                    'ragabash': 'Ragabash',
+                    'theurge': 'Theurge',
+                    'philodox': 'Philodox',
+                    'galliard': 'Galliard',
+                    'ahroun': 'Ahroun'
+                };
+                return labels[auspice] || auspice;
+            }
+
+            // Back to Tertiary
+            document.getElementById('back-to-tertiary').addEventListener('click', function() {
+                showStep(steps.summary, steps.tertiaryAttrs);
+            });
 
             // Update character data on form submission
             document.getElementById('character-form').addEventListener('submit', function(e) {

@@ -590,3 +590,138 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
 }
+
+/* Attribute Choice Buttons */
+.attribute-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.attribute-choices .choice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  text-align: left;
+}
+
+.attribute-choices .choice-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #9acd32;
+}
+
+.attribute-choices .choice-desc {
+  font-size: 14px;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+.attribute-choices.multi-select .choice-btn.selected {
+  background-color: rgba(85, 107, 47, 0.7);
+  border-color: #9acd32;
+}
+
+/* Selection Counter */
+.selection-counter {
+  text-align: center;
+  font-size: 16px;
+  color: #9acd32;
+  margin-bottom: 15px;
+  font-family: 'Special Elite', cursive;
+}
+
+.selection-info {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 10px;
+  font-family: 'Special Elite', cursive;
+  font-style: italic;
+}
+
+/* Character Summary */
+.character-summary {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(107, 142, 35, 0.5);
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.summary-section {
+  margin-bottom: 25px;
+}
+
+.summary-section:last-child {
+  margin-bottom: 0;
+}
+
+.summary-section h3 {
+  font-size: 28px;
+  color: #9acd32;
+  margin: 0 0 5px 0;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.summary-section h4 {
+  font-size: 20px;
+  color: #ffffff;
+  margin: 0 0 15px 0;
+  font-family: 'Special Elite', cursive;
+  border-bottom: 1px solid rgba(107, 142, 35, 0.5);
+  padding-bottom: 10px;
+}
+
+.summary-section h5 {
+  font-size: 16px;
+  color: #9acd32;
+  margin: 0 0 10px 0;
+  font-family: 'Special Elite', cursive;
+}
+
+.summary-subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-family: 'Special Elite', cursive;
+}
+
+.attribute-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.attr-category {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.attr-item {
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  margin-bottom: 8px;
+  padding: 5px 0;
+}
+
+.attr-item.primary {
+  color: #ffd700;
+}
+
+.attr-item.secondary {
+  color: #9acd32;
+}
+
+.attr-item.tertiary {
+  color: #ffffff;
+}
+
+.attr-item.weak {
+  color: rgba(255, 255, 255, 0.5);
+}
