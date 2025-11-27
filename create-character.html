@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Character - Werewolf 5e</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/styles/styles.css">
 </head>
 <body>
@@ -187,12 +190,23 @@
             const nextToGenderBtn = document.getElementById('next-to-gender');
             const nextToAuspiceBtn = document.getElementById('next-to-auspice');
 
-            // Show step function
-            function showStep(stepToShow) {
-                Object.values(steps).forEach(function(step) {
-                    step.classList.add('hidden');
-                });
-                stepToShow.classList.remove('hidden');
+            // Show step function with fade transition
+            function showStep(currentStep, stepToShow) {
+                if (currentStep) {
+                    currentStep.classList.add('fade-out');
+                    setTimeout(function() {
+                        Object.values(steps).forEach(function(step) {
+                            step.classList.add('hidden');
+                            step.classList.remove('fade-out');
+                        });
+                        stepToShow.classList.remove('hidden');
+                    }, 500);
+                } else {
+                    Object.values(steps).forEach(function(step) {
+                        step.classList.add('hidden');
+                    });
+                    stepToShow.classList.remove('hidden');
+                }
             }
 
             // Step 1 -> Step 2 (Name to Gender)
@@ -200,7 +214,7 @@
                 const name = characterNameInput.value.trim();
                 if (name) {
                     spokenName.textContent = name;
-                    showStep(steps.gender);
+                    showStep(steps.name, steps.gender);
                 } else {
                     characterNameInput.focus();
                 }
@@ -233,7 +247,7 @@
             // Step 2 -> Step 3 (Gender to Tribe)
             document.getElementById('next-to-tribe').addEventListener('click', function() {
                 if (genderInput.value) {
-                    showStep(steps.tribe);
+                    showStep(steps.gender, steps.tribe);
                 }
             });
 
@@ -241,7 +255,7 @@
             nextToAuspiceBtn.addEventListener('click', function() {
                 const tribe = document.getElementById('tribe').value;
                 if (tribe) {
-                    showStep(steps.auspice);
+                    showStep(steps.tribe, steps.auspice);
                 } else {
                     document.getElementById('tribe').focus();
                 }
@@ -249,15 +263,15 @@
 
             // Back buttons
             document.getElementById('back-to-name').addEventListener('click', function() {
-                showStep(steps.name);
+                showStep(steps.gender, steps.name);
             });
 
             document.getElementById('back-to-gender').addEventListener('click', function() {
-                showStep(steps.gender);
+                showStep(steps.tribe, steps.gender);
             });
 
             document.getElementById('back-to-tribe').addEventListener('click', function() {
-                showStep(steps.tribe);
+                showStep(steps.auspice, steps.tribe);
             });
         });
     </script>
