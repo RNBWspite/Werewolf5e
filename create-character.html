@@ -294,7 +294,7 @@
             const soundOnIcon = document.getElementById('sound-on-icon');
             const soundOffIcon = document.getElementById('sound-off-icon');
             
-            let isMuted = true; // Start muted by default
+            let isMuted = false; // Start with audio on by default
             
             // Update icon display
             function updateSoundIcon() {
@@ -321,9 +321,18 @@
                 updateSoundIcon();
             });
             
-            // Initialize audio state
+            // Initialize audio state - auto-play on page load
             audio.muted = isMuted;
             updateSoundIcon();
+            
+            // Auto-play audio on page load
+            audio.play().catch(function(error) {
+                console.log('Auto-play failed (browser may require user interaction):', error);
+                // If auto-play fails, set to muted state
+                isMuted = true;
+                audio.muted = true;
+                updateSoundIcon();
+            });
 
             // Adventure Step Navigation
             const steps = {
