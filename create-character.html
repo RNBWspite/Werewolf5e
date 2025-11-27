@@ -117,20 +117,62 @@
                 <div class="adventure-step hidden" id="step-auspice" data-step="4">
                     <p class="adventure-prompt">Above, Luna reveals herself through the parting clouds, her silver light bathing the clearing.</p>
                     <p class="adventure-question">"Under which phase of Luna were you born? What role does she bestow upon you?"</p>
-                    <div class="form-group">
-                        <label for="auspice">Your Auspice</label>
-                        <select id="auspice" name="auspice" required>
-                            <option value="">Select an auspice</option>
-                            <option value="ragabash">Ragabash (New Moon)</option>
-                            <option value="theurge">Theurge (Crescent Moon)</option>
-                            <option value="philodox">Philodox (Half Moon)</option>
-                            <option value="galliard">Galliard (Gibbous Moon)</option>
-                            <option value="ahroun">Ahroun (Full Moon)</option>
-                        </select>
+                    
+                    <!-- Birth Date Selection (Auto-calculate Auspice) -->
+                    <div class="form-group" id="birthdate-group">
+                        <label for="birthdate">Your Birth Date</label>
+                        <div class="birthdate-input-wrapper">
+                            <input type="date" id="birthdate" name="birthdate" placeholder="Enter your birth date">
+                            <button type="button" class="btn-manual-select" id="toggle-manual-auspice" title="Choose manually instead">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="auspice-result" id="auspice-result"></p>
                     </div>
+                    
+                    <!-- Manual Auspice Selection (Hidden by default) -->
+                    <div class="form-group hidden" id="manual-auspice-group">
+                        <label for="auspice-select">Choose Your Auspice</label>
+                        <div class="auspice-choices">
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="ragabash">
+                                <span class="moon-icon">🌑</span>
+                                <span class="auspice-name">Ragabash</span>
+                                <span class="moon-phase">New Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="theurge">
+                                <span class="moon-icon">🌒</span>
+                                <span class="auspice-name">Theurge</span>
+                                <span class="moon-phase">Crescent Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="philodox">
+                                <span class="moon-icon">🌓</span>
+                                <span class="auspice-name">Philodox</span>
+                                <span class="moon-phase">Half Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="galliard">
+                                <span class="moon-icon">🌔</span>
+                                <span class="auspice-name">Galliard</span>
+                                <span class="moon-phase">Gibbous Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="ahroun">
+                                <span class="moon-icon">🌕</span>
+                                <span class="auspice-name">Ahroun</span>
+                                <span class="moon-phase">Full Moon</span>
+                            </button>
+                        </div>
+                        <button type="button" class="btn-back-to-birthdate" id="back-to-birthdate">
+                            ← Use birth date instead
+                        </button>
+                    </div>
+                    
+                    <input type="hidden" id="auspice" name="auspice">
+                    
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="back-to-tribe">Back</button>
-                        <button type="submit" class="btn btn-primary">Begin Your Journey</button>
+                        <button type="submit" class="btn btn-primary" id="submit-character" disabled>Begin Your Journey</button>
                     </div>
                 </div>
             </form>
@@ -272,6 +314,147 @@
 
             document.getElementById('back-to-tribe').addEventListener('click', function() {
                 showStep(steps.auspice, steps.tribe);
+            });
+
+            // Auspice Selection Logic
+            const birthdateInput = document.getElementById('birthdate');
+            const auspiceInput = document.getElementById('auspice');
+            const auspiceResult = document.getElementById('auspice-result');
+            const birthdateGroup = document.getElementById('birthdate-group');
+            const manualAuspiceGroup = document.getElementById('manual-auspice-group');
+            const toggleManualBtn = document.getElementById('toggle-manual-auspice');
+            const backToBirthdateBtn = document.getElementById('back-to-birthdate');
+            const auspiceChoices = document.querySelectorAll('.auspice-choice');
+            const submitBtn = document.getElementById('submit-character');
+
+            // Moon phase calculation based on date
+            function getMoonPhase(date) {
+                // Calculate days since known new moon (Jan 6, 2000)
+                const knownNewMoon = new Date(2000, 0, 6, 18, 14, 0);
+                const lunarCycle = 29.53058867; // days
+                const daysSinceNewMoon = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+                const currentCycle = daysSinceNewMoon / lunarCycle;
+                const phase = (currentCycle - Math.floor(currentCycle)) * lunarCycle;
+                return phase;
+            }
+
+            // Determine auspice from moon phase
+            function getAuspiceFromPhase(phase) {
+                // Moon phases and corresponding auspices
+                // 0-1.85 days: New Moon (Ragabash)
+                // 1.85-7.38 days: Waxing Crescent (Theurge)
+                // 7.38-11.07 days: First Quarter (Philodox)
+                // 11.07-14.77 days: Waxing Gibbous (Galliard)
+                // 14.77-18.46 days: Full Moon (Ahroun)
+                // 18.46-22.15 days: Waning Gibbous (Galliard)
+                // 22.15-25.84 days: Last Quarter (Philodox)
+                // 25.84-27.69 days: Waning Crescent (Theurge)
+                // 27.69-29.53 days: New Moon (Ragabash)
+                
+                if (phase < 1.85 || phase >= 27.69) {
+                    return { auspice: 'ragabash', name: 'Ragabash', moon: 'New Moon', icon: '🌑' };
+                } else if (phase < 7.38 || phase >= 25.84) {
+                    return { auspice: 'theurge', name: 'Theurge', moon: 'Crescent Moon', icon: '🌒' };
+                } else if (phase < 11.07 || phase >= 22.15) {
+                    return { auspice: 'philodox', name: 'Philodox', moon: 'Half Moon', icon: '🌓' };
+                } else if (phase < 14.77 || phase >= 18.46) {
+                    return { auspice: 'galliard', name: 'Galliard', moon: 'Gibbous Moon', icon: '🌔' };
+                } else {
+                    return { auspice: 'ahroun', name: 'Ahroun', moon: 'Full Moon', icon: '🌕' };
+                }
+            }
+
+            // Handle birth date input
+            birthdateInput.addEventListener('change', function() {
+                if (this.value) {
+                    const birthDate = new Date(this.value);
+                    const phase = getMoonPhase(birthDate);
+                    const auspiceData = getAuspiceFromPhase(phase);
+                    
+                    auspiceInput.value = auspiceData.auspice;
+                    auspiceResult.innerHTML = `${auspiceData.icon} Luna reveals your path: <strong>${auspiceData.name}</strong> (${auspiceData.moon})`;
+                    auspiceResult.classList.add('show');
+                    submitBtn.disabled = false;
+                } else {
+                    auspiceInput.value = '';
+                    auspiceResult.innerHTML = '';
+                    auspiceResult.classList.remove('show');
+                    submitBtn.disabled = true;
+                }
+            });
+
+            // Toggle to manual selection
+            toggleManualBtn.addEventListener('click', function() {
+                birthdateGroup.classList.add('hidden');
+                manualAuspiceGroup.classList.remove('hidden');
+                // Clear any auto-selected auspice
+                if (!auspiceInput.value || birthdateInput.value) {
+                    auspiceInput.value = '';
+                    submitBtn.disabled = true;
+                }
+            });
+
+            // Back to birthdate selection
+            backToBirthdateBtn.addEventListener('click', function() {
+                manualAuspiceGroup.classList.add('hidden');
+                birthdateGroup.classList.remove('hidden');
+                // Clear manual selections
+                auspiceChoices.forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
+                // Re-check if birthdate has a value
+                if (birthdateInput.value) {
+                    const birthDate = new Date(birthdateInput.value);
+                    const phase = getMoonPhase(birthDate);
+                    const auspiceData = getAuspiceFromPhase(phase);
+                    auspiceInput.value = auspiceData.auspice;
+                    submitBtn.disabled = false;
+                } else {
+                    auspiceInput.value = '';
+                    submitBtn.disabled = true;
+                }
+            });
+
+            // Manual auspice selection
+            auspiceChoices.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    auspiceChoices.forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
+                    // Add selected class to clicked button
+                    btn.classList.add('selected');
+                    // Update hidden input
+                    auspiceInput.value = btn.dataset.auspice;
+                    // Enable submit button
+                    submitBtn.disabled = false;
+                });
+            });
+
+            // Character data storage
+            const characterData = {
+                name: '',
+                gender: '',
+                tribe: '',
+                auspice: '',
+                birthdate: ''
+            };
+
+            // Update character data on form submission
+            document.getElementById('character-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                characterData.name = characterNameInput.value;
+                characterData.gender = genderInput.value;
+                characterData.tribe = document.getElementById('tribe').value;
+                characterData.auspice = auspiceInput.value;
+                characterData.birthdate = birthdateInput.value;
+                
+                // Store in localStorage for later use
+                localStorage.setItem('werewolfCharacter', JSON.stringify(characterData));
+                
+                console.log('Character created:', characterData);
+                alert('Character created successfully! Your journey begins...');
             });
         });
     </script>

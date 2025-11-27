@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+/* Utility class for hiding elements */
+.hidden {
+  display: none !important;
+}
+
 /* Apply dark charcoal background to body */
 body {
   background-color: #1a1a1a;
@@ -467,4 +472,118 @@ button.ttrpg-button {
     opacity: 0;
     transform: translateY(-20px);
   }
+}
+
+/* Birthdate Input Wrapper */
+.birthdate-input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.birthdate-input-wrapper input[type="date"] {
+  flex: 1;
+}
+
+.btn-manual-select {
+  padding: 10px 12px;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(107, 142, 35, 0.6);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-manual-select:hover {
+  background-color: rgba(107, 142, 35, 0.3);
+  border-color: #6b8e23;
+  box-shadow: 0 0 10px rgba(107, 142, 35, 0.4);
+}
+
+.btn-manual-select svg {
+  stroke: #ffffff;
+}
+
+/* Auspice Result Display */
+.auspice-result {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: rgba(107, 142, 35, 0.2);
+  border: 1px solid rgba(107, 142, 35, 0.5);
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Special Elite', cursive;
+  font-size: 18px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.auspice-result.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Auspice Choice Buttons */
+.auspice-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.auspice-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 20px;
+  min-width: 120px;
+}
+
+.auspice-choice .moon-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.auspice-choice .auspice-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.auspice-choice .moon-phase {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* Back to Birthdate Button */
+.btn-back-to-birthdate {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.3s ease;
+}
+
+.btn-back-to-birthdate:hover {
+  color: #ffffff;
+}
+
+/* Date Input Styling */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
