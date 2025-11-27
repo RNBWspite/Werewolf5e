@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Character - Werewolf 5e</title>
+    <link rel="stylesheet" href="src/styles/styles.css">
+</head>
+<body>
+    <!-- Embers Background Video -->
+    <video class="embers-background" autoplay muted loop playsinline>
+        <source src="Embers Background.mov" type="video/quicktime">
+    </video>
+
+    <header class="sticky-header">
+        <nav>
+            <a href="account.html">Account</a>
+            <a href="characters.html">Characters</a>
+            <a href="sessions.html">Sessions</a>
+            <a href="about.html">About Us</a>
+        </nav>
+        <img src="https://github.com/user-attachments/assets/aaa6e10d-a24c-4711-8da7-2683d2028d7b" alt="RNBW Logo" class="header-logo">
+    </header>
+    
+    <main class="create-character-main">
+        <h1>Create Your Character</h1>
+        <p>Build your werewolf character for the apocalypse.</p>
+        
+        <section class="character-form-container">
+            <form class="character-form">
+                <div class="form-group">
+                    <label for="character-name">Character Name</label>
+                    <input type="text" id="character-name" name="character-name" placeholder="Enter character name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tribe">Tribe</label>
+                    <select id="tribe" name="tribe">
+                        <option value="">Select a tribe</option>
+                        <option value="black-furies">Black Furies</option>
+                        <option value="bone-gnawers">Bone Gnawers</option>
+                        <option value="children-of-gaia">Children of Gaia</option>
+                        <option value="fianna">Fianna</option>
+                        <option value="get-of-fenris">Get of Fenris</option>
+                        <option value="glass-walkers">Glass Walkers</option>
+                        <option value="red-talons">Red Talons</option>
+                        <option value="shadow-lords">Shadow Lords</option>
+                        <option value="silent-striders">Silent Striders</option>
+                        <option value="silver-fangs">Silver Fangs</option>
+                        <option value="stargazers">Stargazers</option>
+                        <option value="uktena">Uktena</option>
+                        <option value="wendigo">Wendigo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="auspice">Auspice</label>
+                    <select id="auspice" name="auspice">
+                        <option value="">Select an auspice</option>
+                        <option value="ragabash">Ragabash (New Moon)</option>
+                        <option value="theurge">Theurge (Crescent Moon)</option>
+                        <option value="philodox">Philodox (Half Moon)</option>
+                        <option value="galliard">Galliard (Gibbous Moon)</option>
+                        <option value="ahroun">Ahroun (Full Moon)</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="index.html" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-primary">Create Character</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

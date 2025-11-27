@@ -38,10 +38,17 @@
             <h2>Werewolf The Apocalypse</h2>
             <div class="modal-buttons">
                 <a href="join-game.html" class="modal-btn">Join Game</a>
-                <a href="create-character.html" class="modal-btn">Create Character</a>
+                <button type="button" class="modal-btn" id="create-character-btn" style="border: none; cursor: pointer;">Create Character</button>
             </div>
             <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
         </div>
+    </div>
+
+    <!-- Burn Transition Overlay -->
+    <div id="burn-transition" class="burn-transition-overlay">
+        <video id="burn-video" muted playsinline>
+            <source src="Burn transition.mov" type="video/quicktime">
+        </video>
     </div>
 
     <script>
@@ -49,6 +56,9 @@
             const werewolfBtn = document.getElementById('werewolf-apocalypse-btn');
             const modal = document.getElementById('werewolf-modal');
             const closeBtn = document.getElementById('modal-close-btn');
+            const createCharacterBtn = document.getElementById('create-character-btn');
+            const burnTransition = document.getElementById('burn-transition');
+            const burnVideo = document.getElementById('burn-video');
 
             werewolfBtn.addEventListener('click', function() {
                 modal.classList.add('active');
@@ -62,6 +72,24 @@
                 if (e.target === modal) {
                     modal.classList.remove('active');
                 }
+            });
+
+            // Handle Create Character button with burn transition
+            createCharacterBtn.addEventListener('click', function() {
+                // Show the burn transition overlay
+                burnTransition.classList.add('active');
+                burnVideo.currentTime = 0;
+                burnVideo.play();
+
+                // Navigate to create-character page when video ends or after timeout
+                burnVideo.addEventListener('ended', function() {
+                    window.location.href = 'create-character.html';
+                }, { once: true });
+
+                // Fallback timeout in case video doesn't play
+                setTimeout(function() {
+                    window.location.href = 'create-character.html';
+                }, 3000);
             });
         });
     </script>
