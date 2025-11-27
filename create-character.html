@@ -178,21 +178,21 @@
 
                 <!-- Step 5: Primary Attribute Category -->
                 <div class="adventure-step hidden" id="step-attr-category" data-step="5">
-                    <p class="adventure-prompt">The ancient one studies you more intently now, their gaze piercing through to your very essence.</p>
-                    <p class="adventure-question">"When faced with a difficult situation, your greatest strength lies in..."</p>
+                    <p class="adventure-prompt">The elder's weathered hand reaches toward you, then pauses. Their nostrils flare, drinking in your scent as a wolf might assess prey—or pack. "I would know what manner of creature stands before me," they murmur, voice like gravel scraping stone. "When the world burns and the Wyrm's corruption seeps into everything you love, what will you trust to see you through?"</p>
+                    <p class="adventure-question">In the darkest moment, when all seems lost, you have always relied upon...</p>
                     <div class="form-group">
                         <div class="attribute-choices">
                             <button type="button" class="choice-btn attribute-category-choice" data-category="physical">
-                                <span class="choice-title">The Body</span>
-                                <span class="choice-desc">Using your physical prowess to adapt to whatever comes your way</span>
+                                <span class="choice-title">The flesh that carries you</span>
+                                <span class="choice-desc">Your body has never failed you. When words ring hollow and clever plans crumble, it is sinew and bone that have carried you through. You trust in the vessel you were born with—its strength, its quickness, its stubborn refusal to fall.</span>
                             </button>
                             <button type="button" class="choice-btn attribute-category-choice" data-category="social">
-                                <span class="choice-title">The Pack</span>
-                                <span class="choice-desc">Relying on those around you and your ability to influence others</span>
+                                <span class="choice-title">Those who stand beside you</span>
+                                <span class="choice-desc">No wolf survives alone. You have learned this truth in blood and tears. Your greatest victories have come not from your own prowess, but from the bonds you forge, the hearts you move, the pack that answers when you howl.</span>
                             </button>
                             <button type="button" class="choice-btn attribute-category-choice" data-category="mental">
-                                <span class="choice-title">The Mind</span>
-                                <span class="choice-desc">Thinking several steps ahead to find the best solution</span>
+                                <span class="choice-title">The thoughts within your skull</span>
+                                <span class="choice-desc">While others charge blindly forward, you have always seen the patterns others miss. Your mind is your weapon—sharp, patient, cutting through chaos to find the path that others cannot perceive.</span>
                             </button>
                         </div>
                         <input type="hidden" id="primary-category" name="primary-category">
@@ -205,8 +205,8 @@
 
                 <!-- Step 6: Primary Attribute Selection -->
                 <div class="adventure-step hidden" id="step-primary-attr" data-step="6">
-                    <p class="adventure-prompt" id="primary-attr-prompt">The figure nods approvingly, sensing your inner nature.</p>
-                    <p class="adventure-question" id="primary-attr-question">"Your strength manifests in many forms. Which speaks truest to your spirit?"</p>
+                    <p class="adventure-prompt" id="primary-attr-prompt">The elder's lips curl into something that might be a smile. "Yes," they breathe. "I see it in you now. But even the mightiest oak has a taproot that runs deepest. Tell me of the core that defines you."</p>
+                    <p class="adventure-question" id="primary-attr-question">When you strip away everything else, what truth remains at your center?</p>
                     <div class="form-group">
                         <div class="attribute-choices" id="primary-attr-choices">
                             <!-- Dynamically populated based on category choice -->
@@ -221,8 +221,8 @@
 
                 <!-- Step 7: Secondary Attribute Category -->
                 <div class="adventure-step hidden" id="step-secondary-category" data-step="7">
-                    <p class="adventure-prompt">The wind picks up around you, carrying whispers of ancient wisdom.</p>
-                    <p class="adventure-question">"Beyond your primary strength, where does your second nature lie?"</p>
+                    <p class="adventure-prompt">A cold wind cuts through the clearing, carrying the distant howl of wolves—or perhaps something worse. The elder tilts their head, listening to sounds you cannot hear. "We are not creatures of single purpose," they say at last. "The Garou who survives is the one who can adapt. Beyond your greatest gift, what else sustains you?"</p>
+                    <p class="adventure-question">When your primary nature fails you, what do you fall back upon?</p>
                     <div class="form-group">
                         <div class="attribute-choices" id="secondary-category-choices">
                             <!-- Dynamically populated excluding primary category -->
@@ -237,10 +237,10 @@
 
                 <!-- Step 8: Secondary Attributes Selection -->
                 <div class="adventure-step hidden" id="step-secondary-attrs" data-step="8">
-                    <p class="adventure-prompt" id="secondary-attrs-prompt">The ancient one's eyes gleam with recognition.</p>
-                    <p class="adventure-question">"Within this realm, which aspects define you? Choose three that resonate most."</p>
+                    <p class="adventure-prompt" id="secondary-attrs-prompt">The elder begins to circle you slowly, like a predator assessing its prey—or perhaps a teacher measuring a student. "You carry many gifts," they observe, "some sharper than others. Of the talents that have served you well, which three would you trust with your life?"</p>
+                    <p class="adventure-question">Select the three aspects that have proven most reliable in your past struggles.</p>
                     <div class="form-group">
-                        <p class="selection-counter" id="secondary-counter">Selected: 0/3</p>
+                        <p class="selection-counter" id="secondary-counter">Chosen: 0 of 3</p>
                         <div class="attribute-choices multi-select" id="secondary-attr-choices">
                             <!-- Dynamically populated -->
                         </div>
@@ -254,11 +254,11 @@
 
                 <!-- Step 9: Tertiary Attributes -->
                 <div class="adventure-step hidden" id="step-tertiary-attrs" data-step="9">
-                    <p class="adventure-prompt">The clearing grows still as the figure considers you one final time.</p>
-                    <p class="adventure-question">"The remaining aspects of your being... which four shall carry modest strength, and which one lies dormant?"</p>
+                    <p class="adventure-prompt">The elder stops before you, their ancient eyes holding yours with an intensity that makes your heart stutter. "No creature is perfect," they whisper. "We all carry weakness alongside strength. The wise warrior knows where they falter." They gesture to the remaining paths before you. "Choose four more aspects that serve you adequately. The one you leave behind... that is where your enemies will strike."</p>
+                    <p class="adventure-question">Of these remaining qualities, which four can you still rely upon? The fifth will be your vulnerability.</p>
                     <div class="form-group">
-                        <p class="selection-info">Select 4 attributes for moderate strength (2 points). The remaining attribute will have minimal strength (1 point).</p>
-                        <p class="selection-counter" id="tertiary-counter">Selected: 0/4</p>
+                        <p class="selection-info">The aspects you choose will serve you adequately. What remains will be your weakness—the gap in your armor that your foes may one day exploit.</p>
+                        <p class="selection-counter" id="tertiary-counter">Chosen: 0 of 4</p>
                         <div class="attribute-choices multi-select" id="tertiary-attr-choices">
                             <!-- Dynamically populated with remaining attributes -->
                         </div>
@@ -273,8 +273,8 @@
 
                 <!-- Step 10: Character Summary -->
                 <div class="adventure-step hidden" id="step-summary" data-step="10">
-                    <p class="adventure-prompt">The ancient one steps back, a profound respect in their eyes. The mist swirls around you both as your true nature is revealed.</p>
-                    <p class="adventure-question">"Your spirit has spoken. Behold who you truly are..."</p>
+                    <p class="adventure-prompt">The elder falls silent at last. For a long moment, they simply regard you, and in their ancient eyes you see something that might be respect—or perhaps recognition. "The spirits have whispered your truth to me," they say finally, their voice soft as falling ash. "I know now what manner of Garou stands before me."</p>
+                    <p class="adventure-question">Your nature has been revealed. This is who you are.</p>
                     <div class="character-summary" id="character-summary">
                         <!-- Dynamically populated -->
                     </div>
@@ -579,10 +579,10 @@
                     stamina: 1,
                     charisma: 1,
                     manipulation: 1,
-                    appearance: 1,
-                    perception: 1,
+                    composure: 1,
                     intelligence: 1,
-                    wits: 1
+                    wits: 1,
+                    resolve: 1
                 }
             };
 
@@ -590,55 +590,64 @@
             const attributeCategories = {
                 physical: {
                     name: 'Physical',
-                    prompt: 'Your body is a finely tuned instrument. In moments of crisis, you find that...',
+                    prompt: 'Your body tells a story of survival. Every scar, every callus speaks of trials overcome.',
                     attributes: {
                         strength: {
                             name: 'Strength',
-                            desc: 'Raw physical power courses through your muscles, letting you crush obstacles in your path'
+                            title: 'The power that breaks barriers',
+                            desc: 'You have always been the one to shoulder burdens others could not bear. Doors that would not open, stones that would not move, enemies that would not yield—all have fallen before the raw power that lives in your muscles. When force is needed, you have never been found wanting.'
                         },
                         dexterity: {
-                            name: 'Dexterity', 
-                            desc: 'Your reflexes are lightning quick, allowing you to dodge, weave, and strike with precision'
+                            name: 'Dexterity',
+                            title: 'The grace that dances with death',
+                            desc: 'Quick as thought, graceful as running water. Your hands move before your mind can catch up, catching the falling cup, threading the impossible needle, striking before your enemy can blink. Precision and speed have always been your birthright.'
                         },
                         stamina: {
                             name: 'Stamina',
-                            desc: 'Your endurance knows no bounds - you can outlast any foe through sheer resilience'
+                            title: 'The spirit that refuses to fall',
+                            desc: 'You endure. When others collapse from exhaustion, you remain standing. When fever burns through your body, you fight on. Pain is an old companion, and weariness a challenge you have never lost to. Your body simply refuses to surrender.'
                         }
                     }
                 },
                 social: {
                     name: 'Social',
-                    prompt: 'Your connection with others defines your strength. You find that...',
+                    prompt: 'You have walked among others all your life, learning the subtle dance of connection and influence.',
                     attributes: {
                         charisma: {
                             name: 'Charisma',
-                            desc: 'Others are naturally drawn to you, inspired by your presence and conviction'
+                            title: 'The fire that draws others near',
+                            desc: 'There is a fire in you that draws others like moths to flame. When you speak, heads turn. When you believe, others find themselves believing too. You have led without meaning to, inspired without trying. People want to follow you—they always have.'
                         },
                         manipulation: {
                             name: 'Manipulation',
-                            desc: 'You understand the subtle art of influence, guiding others to see things your way'
+                            title: 'The hand that guides unseen',
+                            desc: 'You see the strings that move people—their fears, their desires, their secret shames. A word here, a suggestion there, and events unfold as you intend. Some call it cunning. Some call it cruelty. You know it simply as understanding how the world truly works.'
                         },
-                        appearance: {
-                            name: 'Appearance',
-                            desc: 'Your striking presence commands attention and leaves lasting impressions'
+                        composure: {
+                            name: 'Composure',
+                            title: 'The stillness within the storm',
+                            desc: 'The storm rages around you, but within, you are still water. Others panic; you assess. Others break; you bend. Your face reveals nothing you do not wish it to reveal. In a world of chaos, your calm is both shield and weapon.'
                         }
                     }
                 },
                 mental: {
                     name: 'Mental',
-                    prompt: 'Your mind is your greatest weapon. In challenging moments, you rely on...',
+                    prompt: 'Your mind has always been your sanctuary and your weapon, processing the world in ways others cannot fathom.',
                     attributes: {
-                        perception: {
-                            name: 'Perception',
-                            desc: 'Nothing escapes your notice - you see what others miss and sense danger before it arrives'
-                        },
                         intelligence: {
                             name: 'Intelligence',
-                            desc: 'Your vast knowledge and analytical mind help you unravel any mystery'
+                            title: 'The library that holds all secrets',
+                            desc: 'Knowledge has always come easily to you—patterns revealing themselves, connections forming where others see only chaos. Books open their secrets willingly, and mysteries unravel at your touch. Your mind is a vast library, and you know exactly where everything is shelved.'
                         },
                         wits: {
                             name: 'Wits',
-                            desc: 'Quick thinking and sharp intuition guide your snap decisions in critical moments'
+                            title: 'The blade that strikes first',
+                            desc: 'While others are still processing what happened, you have already reacted. Your instincts are razor-sharp, your snap judgments almost always correct. In the space between heartbeats, you see the danger, find the solution, and act. Hesitation is a stranger to you.'
+                        },
+                        resolve: {
+                            name: 'Resolve',
+                            title: 'The will that cannot be broken',
+                            desc: 'Your will is iron wrapped in silk. When you set your mind to something, mountains might as well step aside. Fear whispers, but you do not listen. Doubt knocks, but you do not answer. Once committed, you are as unstoppable as the tide.'
                         }
                     }
                 }
@@ -720,7 +729,7 @@
                 const category = attributeCategories[selectedPrimaryCategory];
                 
                 document.getElementById('primary-attr-prompt').textContent = category.prompt;
-                document.getElementById('primary-attr-question').textContent = '"Which aspect defines your very core?"';
+                document.getElementById('primary-attr-question').textContent = 'When you strip away everything else, what truth remains at your center?';
                 
                 container.innerHTML = '';
                 Object.entries(category.attributes).forEach(function([key, attr]) {
@@ -729,7 +738,7 @@
                     btn.className = 'choice-btn attribute-choice';
                     btn.dataset.attribute = key;
                     btn.innerHTML = `
-                        <span class="choice-title">${attr.name}</span>
+                        <span class="choice-title">${attr.title}</span>
                         <span class="choice-desc">${attr.desc}</span>
                     `;
                     btn.addEventListener('click', function() {
@@ -842,7 +851,7 @@
                 btn.className = 'choice-btn attribute-choice';
                 btn.dataset.attribute = key;
                 btn.innerHTML = `
-                    <span class="choice-title">${attr.name}</span>
+                    <span class="choice-title">${attr.title}</span>
                     <span class="choice-desc">${attr.desc}</span>
                 `;
                 btn.addEventListener('click', function() {
@@ -860,7 +869,7 @@
             }
 
             function updateSecondaryCounter() {
-                document.getElementById('secondary-counter').textContent = `Selected: ${selectedSecondaryAttributes.length}/3`;
+                document.getElementById('secondary-counter').textContent = `Chosen: ${selectedSecondaryAttributes.length} of 3`;
             }
 
             // Back to Secondary Category
@@ -928,7 +937,7 @@
                 btn.className = 'choice-btn attribute-choice';
                 btn.dataset.attribute = key;
                 btn.innerHTML = `
-                    <span class="choice-title">${attr.name}</span>
+                    <span class="choice-title">${attr.title}</span>
                     <span class="choice-desc">${attr.desc}</span>
                 `;
                 btn.addEventListener('click', function() {
@@ -984,7 +993,7 @@
             }
 
             function updateTertiaryCounter() {
-                document.getElementById('tertiary-counter').textContent = `Selected: ${selectedTertiaryAttributes.length}/4`;
+                document.getElementById('tertiary-counter').textContent = `Chosen: ${selectedTertiaryAttributes.length} of 4`;
             }
 
             // Back to Secondary Attrs
@@ -1060,20 +1069,20 @@
                                 <div class="attr-item ${characterData.attributes.manipulation === 4 ? 'primary' : characterData.attributes.manipulation === 3 ? 'secondary' : characterData.attributes.manipulation === 2 ? 'tertiary' : 'weak'}">
                                     Manipulation: ${getDotsDisplay(characterData.attributes.manipulation)}
                                 </div>
-                                <div class="attr-item ${characterData.attributes.appearance === 4 ? 'primary' : characterData.attributes.appearance === 3 ? 'secondary' : characterData.attributes.appearance === 2 ? 'tertiary' : 'weak'}">
-                                    Appearance: ${getDotsDisplay(characterData.attributes.appearance)}
+                                <div class="attr-item ${characterData.attributes.composure === 4 ? 'primary' : characterData.attributes.composure === 3 ? 'secondary' : characterData.attributes.composure === 2 ? 'tertiary' : 'weak'}">
+                                    Composure: ${getDotsDisplay(characterData.attributes.composure)}
                                 </div>
                             </div>
                             <div class="attr-category">
                                 <h5>Mental</h5>
-                                <div class="attr-item ${characterData.attributes.perception === 4 ? 'primary' : characterData.attributes.perception === 3 ? 'secondary' : characterData.attributes.perception === 2 ? 'tertiary' : 'weak'}">
-                                    Perception: ${getDotsDisplay(characterData.attributes.perception)}
-                                </div>
                                 <div class="attr-item ${characterData.attributes.intelligence === 4 ? 'primary' : characterData.attributes.intelligence === 3 ? 'secondary' : characterData.attributes.intelligence === 2 ? 'tertiary' : 'weak'}">
                                     Intelligence: ${getDotsDisplay(characterData.attributes.intelligence)}
                                 </div>
                                 <div class="attr-item ${characterData.attributes.wits === 4 ? 'primary' : characterData.attributes.wits === 3 ? 'secondary' : characterData.attributes.wits === 2 ? 'tertiary' : 'weak'}">
                                     Wits: ${getDotsDisplay(characterData.attributes.wits)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.resolve === 4 ? 'primary' : characterData.attributes.resolve === 3 ? 'secondary' : characterData.attributes.resolve === 2 ? 'tertiary' : 'weak'}">
+                                    Resolve: ${getDotsDisplay(characterData.attributes.resolve)}
                                 </div>
                             </div>
                         </div>
