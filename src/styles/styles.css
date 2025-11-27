@@ -423,10 +423,16 @@ button.ttrpg-button {
 
 /* Gender Choice Buttons - Apocalypse Theme */
 .gender-choices {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
   gap: 12px;
   justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .gender-choices {
+    grid-template-columns: repeat(2, auto);
+  }
 }
 
 .choice-btn {
@@ -597,6 +603,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   flex-direction: column;
   gap: 15px;
   margin-bottom: 15px;
+}
+
+.attribute-choices.multi-select {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .attribute-choices.multi-select {
+    grid-template-columns: 1fr;
+  }
 }
 
 .attribute-choices .choice-btn {
