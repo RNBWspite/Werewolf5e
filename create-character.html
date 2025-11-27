@@ -51,8 +51,10 @@
             <form class="character-form" id="character-form">
                 <!-- Step 1: Character Name -->
                 <div class="adventure-step" id="step-name" data-step="1">
-                    <p class="adventure-prompt">The mist parts before you, revealing a moonlit clearing. A figure emerges from the shadows, ancient eyes studying you carefully.</p>
-                    <p class="adventure-question">"Traveler... what name do you carry?"</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The mist parts before you, revealing a moonlit clearing. A figure emerges from the shadows, ancient eyes studying you carefully.</p>
+                        <p class="adventure-question">"Traveler... what name do you carry?"</p>
+                    </div>
                     <div class="form-group">
                         <label for="character-name">Your Name</label>
                         <input type="text" id="character-name" name="character-name" placeholder="Enter your name" required>
@@ -65,8 +67,10 @@
 
                 <!-- Step 2: Gender -->
                 <div class="adventure-step hidden" id="step-gender" data-step="2">
-                    <p class="adventure-prompt">The ancient one nods slowly, a knowing smile crossing their weathered face.</p>
-                    <p class="adventure-question">"<span id="spoken-name">Traveler</span>... and how do you walk through this world?"</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The ancient one nods slowly, a knowing smile crossing their weathered face.</p>
+                        <p class="adventure-question">"<span id="spoken-name">Traveler</span>... and how do you walk through this world?"</p>
+                    </div>
                     <div class="form-group">
                         <label for="gender">Your Identity</label>
                         <div class="gender-choices">
@@ -86,8 +90,10 @@
 
                 <!-- Step 3: Tribe -->
                 <div class="adventure-step hidden" id="step-tribe" data-step="3">
-                    <p class="adventure-prompt">The figure's eyes gleam with an otherworldly light as the wind carries whispers of ancient packs.</p>
-                    <p class="adventure-question">"The blood of many tribes flows through Gaia's children. Which lineage calls to your spirit?"</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The figure's eyes gleam with an otherworldly light as the wind carries whispers of ancient packs.</p>
+                        <p class="adventure-question">"The blood of many tribes flows through Gaia's children. Which lineage calls to your spirit?"</p>
+                    </div>
                     <div class="form-group">
                         <label for="tribe">Your Tribe</label>
                         <select id="tribe" name="tribe" required>
@@ -115,8 +121,10 @@
 
                 <!-- Step 4: Auspice -->
                 <div class="adventure-step hidden" id="step-auspice" data-step="4">
-                    <p class="adventure-prompt">Above, Luna reveals herself through the parting clouds, her silver light bathing the clearing.</p>
-                    <p class="adventure-question">"Under which phase of Luna were you born? What role does she bestow upon you?"</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">Above, Luna reveals herself through the parting clouds, her silver light bathing the clearing.</p>
+                        <p class="adventure-question">"Under which phase of Luna were you born? What role does she bestow upon you?"</p>
+                    </div>
                     
                     <!-- Birth Date Selection (Auto-calculate Auspice) -->
                     <div class="form-group" id="birthdate-group">
@@ -178,8 +186,10 @@
 
                 <!-- Step 5: Primary Attribute Category -->
                 <div class="adventure-step hidden" id="step-attr-category" data-step="5">
-                    <p class="adventure-prompt">The elder's weathered hand reaches toward you, then pauses. Their nostrils flare, drinking in your scent as a wolf might assess prey—or pack. "I would know what manner of creature stands before me," they murmur, voice like gravel scraping stone. "When the world burns and the Wyrm's corruption seeps into everything you love, what will you trust to see you through?"</p>
-                    <p class="adventure-question">In the darkest moment, when all seems lost, you have always relied upon...</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder's weathered hand reaches toward you, then pauses. Their nostrils flare, drinking in your scent as a wolf might assess prey—or pack. "I would know what manner of creature stands before me," they murmur, voice like gravel scraping stone. "When the world burns and the Wyrm's corruption seeps into everything you love, what will you trust to see you through?"</p>
+                        <p class="adventure-question">In the darkest moment, when all seems lost, you have always relied upon...</p>
+                    </div>
                     <div class="form-group">
                         <div class="attribute-choices">
                             <button type="button" class="choice-btn attribute-category-choice" data-category="physical">
@@ -205,8 +215,10 @@
 
                 <!-- Step 6: Primary Attribute Selection -->
                 <div class="adventure-step hidden" id="step-primary-attr" data-step="6">
-                    <p class="adventure-prompt" id="primary-attr-prompt">The elder's lips curl into something that might be a smile. "Yes," they breathe. "I see it in you now. But even the mightiest oak has a taproot that runs deepest. Tell me of the core that defines you."</p>
-                    <p class="adventure-question" id="primary-attr-question">When you strip away everything else, what truth remains at your center?</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt" id="primary-attr-prompt">The elder's lips curl into something that might be a smile. "Yes," they breathe. "I see it in you now. But even the mightiest oak has a taproot that runs deepest. Tell me of the core that defines you."</p>
+                        <p class="adventure-question" id="primary-attr-question">When you strip away everything else, what truth remains at your center?</p>
+                    </div>
                     <div class="form-group">
                         <div class="attribute-choices" id="primary-attr-choices">
                             <!-- Dynamically populated based on category choice -->
@@ -221,8 +233,10 @@
 
                 <!-- Step 7: Secondary Attribute Category -->
                 <div class="adventure-step hidden" id="step-secondary-category" data-step="7">
-                    <p class="adventure-prompt">A cold wind cuts through the clearing, carrying the distant howl of wolves—or perhaps something worse. The elder tilts their head, listening to sounds you cannot hear. "We are not creatures of single purpose," they say at last. "The Garou who survives is the one who can adapt. Beyond your greatest gift, what else sustains you?"</p>
-                    <p class="adventure-question">When your primary nature fails you, what do you fall back upon?</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">A cold wind cuts through the clearing, carrying the distant howl of wolves—or perhaps something worse. The elder tilts their head, listening to sounds you cannot hear. "We are not creatures of single purpose," they say at last. "The Garou who survives is the one who can adapt. Beyond your greatest gift, what else sustains you?"</p>
+                        <p class="adventure-question">When your primary nature fails you, what do you fall back upon?</p>
+                    </div>
                     <div class="form-group">
                         <div class="attribute-choices" id="secondary-category-choices">
                             <!-- Dynamically populated excluding primary category -->
@@ -237,8 +251,10 @@
 
                 <!-- Step 8: Secondary Attributes Selection -->
                 <div class="adventure-step hidden" id="step-secondary-attrs" data-step="8">
-                    <p class="adventure-prompt" id="secondary-attrs-prompt">The elder begins to circle you slowly, like a predator assessing its prey—or perhaps a teacher measuring a student. "You carry many gifts," they observe, "some sharper than others. Of the talents that have served you well, which three would you trust with your life?"</p>
-                    <p class="adventure-question">Select the three aspects that have proven most reliable in your past struggles.</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt" id="secondary-attrs-prompt">The elder begins to circle you slowly, like a predator assessing its prey—or perhaps a teacher measuring a student. "You carry many gifts," they observe, "some sharper than others. Of the talents that have served you well, which three would you trust with your life?"</p>
+                        <p class="adventure-question">Select the three aspects that have proven most reliable in your past struggles.</p>
+                    </div>
                     <div class="form-group">
                         <p class="selection-counter" id="secondary-counter">Chosen: 0 of 3</p>
                         <div class="attribute-choices multi-select" id="secondary-attr-choices">
@@ -254,8 +270,10 @@
 
                 <!-- Step 9: Tertiary Attributes -->
                 <div class="adventure-step hidden" id="step-tertiary-attrs" data-step="9">
-                    <p class="adventure-prompt">The elder stops before you, their ancient eyes holding yours with an intensity that makes your heart stutter. "No creature is perfect," they whisper. "We all carry weakness alongside strength. The wise warrior knows where they falter." They gesture to the remaining paths before you. "Choose four more aspects that serve you adequately. The one you leave behind... that is where your enemies will strike."</p>
-                    <p class="adventure-question">Of these remaining qualities, which four can you still rely upon? The fifth will be your vulnerability.</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder stops before you, their ancient eyes holding yours with an intensity that makes your heart stutter. "No creature is perfect," they whisper. "We all carry weakness alongside strength. The wise warrior knows where they falter." They gesture to the remaining paths before you. "Choose four more aspects that serve you adequately. The one you leave behind... that is where your enemies will strike."</p>
+                        <p class="adventure-question">Of these remaining qualities, which four can you still rely upon? The fifth will be your vulnerability.</p>
+                    </div>
                     <div class="form-group">
                         <p class="selection-info">The aspects you choose will serve you adequately. What remains will be your weakness—the gap in your armor that your foes may one day exploit.</p>
                         <p class="selection-counter" id="tertiary-counter">Chosen: 0 of 4</p>
@@ -273,8 +291,10 @@
 
                 <!-- Step 10: Character Summary -->
                 <div class="adventure-step hidden" id="step-summary" data-step="10">
-                    <p class="adventure-prompt">The elder falls silent at last. For a long moment, they simply regard you, and in their ancient eyes you see something that might be respect—or perhaps recognition. "The spirits have whispered your truth to me," they say finally, their voice soft as falling ash. "I know now what manner of Garou stands before me."</p>
-                    <p class="adventure-question">Your nature has been revealed. This is who you are.</p>
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder falls silent at last. For a long moment, they simply regard you, and in their ancient eyes you see something that might be respect—or perhaps recognition. "The spirits have whispered your truth to me," they say finally, their voice soft as falling ash. "I know now what manner of Garou stands before me."</p>
+                        <p class="adventure-question">Your nature has been revealed. This is who you are.</p>
+                    </div>
                     <div class="character-summary" id="character-summary">
                         <!-- Dynamically populated -->
                     </div>

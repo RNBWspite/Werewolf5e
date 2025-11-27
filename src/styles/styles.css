@@ -400,36 +400,35 @@ button.ttrpg-button {
   animation: fadeOut 0.5s ease-in-out forwards;
 }
 
+/* Sticky container for both prompt and question */
+.sticky-question-container {
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  background: linear-gradient(to bottom, transparent 0%, rgba(20, 10, 5, 1) 100%);
+  padding: 15px 0 20px 0;
+  margin-bottom: 20px;
+}
+
 .adventure-prompt {
   font-style: italic;
   color: #ffffff;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   line-height: 1.8;
   font-size: 18px;
   font-family: 'Special Elite', cursive;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   opacity: 0.9;
-  position: sticky;
-  top: 70px;
-  z-index: 10;
-  background: linear-gradient(to bottom, transparent 0%, rgba(20, 10, 5, 1) 100%);
-  padding: 15px 0 25px 0;
-  margin-top: 0;
 }
 
 .adventure-question {
   color: #ffffff;
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 0;
   line-height: 1.5;
   font-family: 'Special Elite', cursive;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  position: sticky;
-  top: 160px;
-  z-index: 9;
-  background: linear-gradient(to bottom, transparent 0%, rgba(20, 10, 5, 1) 100%);
-  padding: 10px 0 20px 0;
 }
 
 /* Gender Choice Buttons - Apocalypse Theme */
