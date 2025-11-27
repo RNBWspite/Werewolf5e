@@ -12,6 +12,24 @@
         <source src="Embers Background.mov" type="video/mp4">
     </video>
 
+    <!-- Background Audio -->
+    <audio id="background-audio" loop>
+        <source src="High-Tech-Lab---Loop_AdobeStock_676139658.wav" type="audio/wav">
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button type="button" id="sound-toggle" class="sound-toggle" aria-label="Toggle sound">
+        <svg id="sound-on-icon" class="sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg id="sound-off-icon" class="sound-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+    </button>
+
     <header class="sticky-header">
         <nav>
             <a href="account.html">Account</a>
@@ -72,5 +90,45 @@
             </form>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('background-audio');
+            const soundToggle = document.getElementById('sound-toggle');
+            const soundOnIcon = document.getElementById('sound-on-icon');
+            const soundOffIcon = document.getElementById('sound-off-icon');
+            
+            let isMuted = true; // Start muted by default
+            
+            // Update icon display
+            function updateSoundIcon() {
+                if (isMuted) {
+                    soundOnIcon.classList.add('hidden');
+                    soundOffIcon.classList.remove('hidden');
+                } else {
+                    soundOnIcon.classList.remove('hidden');
+                    soundOffIcon.classList.add('hidden');
+                }
+            }
+            
+            // Toggle sound on/off
+            soundToggle.addEventListener('click', function() {
+                isMuted = !isMuted;
+                audio.muted = isMuted;
+                
+                if (!isMuted) {
+                    audio.play().catch(function(error) {
+                        console.log('Audio play failed:', error);
+                    });
+                }
+                
+                updateSoundIcon();
+            });
+            
+            // Initialize audio state
+            audio.muted = isMuted;
+            updateSoundIcon();
+        });
+    </script>
 </body>
 </html>
