@@ -4,3 +4,40 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Apply dark charcoal background to body */
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Sticky navigation header container */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: #1a1a1a;
+  padding: 15px 20px;
+  z-index: 1000;
+  border-bottom: 1px solid #333;
+}
+
+.sticky-header nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.sticky-header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.sticky-header nav a:hover {
+  background-color: #333;
+}
