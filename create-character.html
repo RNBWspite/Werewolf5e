@@ -45,47 +45,90 @@
         <p>Build your werewolf character for the apocalypse.</p>
         
         <section class="character-form-container">
-            <form class="character-form">
-                <div class="form-group">
-                    <label for="character-name">Character Name</label>
-                    <input type="text" id="character-name" name="character-name" placeholder="Enter character name">
+            <form class="character-form" id="character-form">
+                <!-- Step 1: Character Name -->
+                <div class="adventure-step" id="step-name" data-step="1">
+                    <p class="adventure-prompt">The mist parts before you, revealing a moonlit clearing. A figure emerges from the shadows, ancient eyes studying you carefully.</p>
+                    <p class="adventure-question">"Traveler... what name do you carry?"</p>
+                    <div class="form-group">
+                        <label for="character-name">Your Name</label>
+                        <input type="text" id="character-name" name="character-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-actions">
+                        <a href="index.html" class="btn btn-secondary">Back</a>
+                        <button type="button" class="btn btn-primary" id="next-to-gender">Continue</button>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="tribe">Tribe</label>
-                    <select id="tribe" name="tribe">
-                        <option value="">Select a tribe</option>
-                        <option value="black-furies">Black Furies</option>
-                        <option value="bone-gnawers">Bone Gnawers</option>
-                        <option value="children-of-gaia">Children of Gaia</option>
-                        <option value="fianna">Fianna</option>
-                        <option value="get-of-fenris">Get of Fenris</option>
-                        <option value="glass-walkers">Glass Walkers</option>
-                        <option value="red-talons">Red Talons</option>
-                        <option value="shadow-lords">Shadow Lords</option>
-                        <option value="silent-striders">Silent Striders</option>
-                        <option value="silver-fangs">Silver Fangs</option>
-                        <option value="stargazers">Stargazers</option>
-                        <option value="uktena">Uktena</option>
-                        <option value="wendigo">Wendigo</option>
-                    </select>
+
+                <!-- Step 2: Gender -->
+                <div class="adventure-step hidden" id="step-gender" data-step="2">
+                    <p class="adventure-prompt">The ancient one nods slowly, a knowing smile crossing their weathered face.</p>
+                    <p class="adventure-question">"<span id="spoken-name">Traveler</span>... and how do you walk through this world?"</p>
+                    <div class="form-group">
+                        <label for="gender">Your Identity</label>
+                        <div class="gender-choices">
+                            <button type="button" class="choice-btn" data-gender="male">Male</button>
+                            <button type="button" class="choice-btn" data-gender="female">Female</button>
+                            <button type="button" class="choice-btn" data-gender="non-binary">Non-Binary</button>
+                            <button type="button" class="choice-btn" data-gender="genderfluid">Genderfluid</button>
+                            <button type="button" class="choice-btn" data-gender="agender">Agender</button>
+                        </div>
+                        <input type="hidden" id="gender" name="gender">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-name">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-tribe" disabled>Continue</button>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="auspice">Auspice</label>
-                    <select id="auspice" name="auspice">
-                        <option value="">Select an auspice</option>
-                        <option value="ragabash">Ragabash (New Moon)</option>
-                        <option value="theurge">Theurge (Crescent Moon)</option>
-                        <option value="philodox">Philodox (Half Moon)</option>
-                        <option value="galliard">Galliard (Gibbous Moon)</option>
-                        <option value="ahroun">Ahroun (Full Moon)</option>
-                    </select>
+
+                <!-- Step 3: Tribe -->
+                <div class="adventure-step hidden" id="step-tribe" data-step="3">
+                    <p class="adventure-prompt">The figure's eyes gleam with an otherworldly light as the wind carries whispers of ancient packs.</p>
+                    <p class="adventure-question">"The blood of many tribes flows through Gaia's children. Which lineage calls to your spirit?"</p>
+                    <div class="form-group">
+                        <label for="tribe">Your Tribe</label>
+                        <select id="tribe" name="tribe" required>
+                            <option value="">Select a tribe</option>
+                            <option value="black-furies">Black Furies</option>
+                            <option value="bone-gnawers">Bone Gnawers</option>
+                            <option value="children-of-gaia">Children of Gaia</option>
+                            <option value="fianna">Fianna</option>
+                            <option value="get-of-fenris">Get of Fenris</option>
+                            <option value="glass-walkers">Glass Walkers</option>
+                            <option value="red-talons">Red Talons</option>
+                            <option value="shadow-lords">Shadow Lords</option>
+                            <option value="silent-striders">Silent Striders</option>
+                            <option value="silver-fangs">Silver Fangs</option>
+                            <option value="stargazers">Stargazers</option>
+                            <option value="uktena">Uktena</option>
+                            <option value="wendigo">Wendigo</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-gender">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-auspice">Continue</button>
+                    </div>
                 </div>
-                
-                <div class="form-actions">
-                    <a href="index.html" class="btn btn-secondary">Back</a>
-                    <button type="submit" class="btn btn-primary">Create Character</button>
+
+                <!-- Step 4: Auspice -->
+                <div class="adventure-step hidden" id="step-auspice" data-step="4">
+                    <p class="adventure-prompt">Above, Luna reveals herself through the parting clouds, her silver light bathing the clearing.</p>
+                    <p class="adventure-question">"Under which phase of Luna were you born? What role does she bestow upon you?"</p>
+                    <div class="form-group">
+                        <label for="auspice">Your Auspice</label>
+                        <select id="auspice" name="auspice" required>
+                            <option value="">Select an auspice</option>
+                            <option value="ragabash">Ragabash (New Moon)</option>
+                            <option value="theurge">Theurge (Crescent Moon)</option>
+                            <option value="philodox">Philodox (Half Moon)</option>
+                            <option value="galliard">Galliard (Gibbous Moon)</option>
+                            <option value="ahroun">Ahroun (Full Moon)</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-tribe">Back</button>
+                        <button type="submit" class="btn btn-primary">Begin Your Journey</button>
+                    </div>
                 </div>
             </form>
         </section>
@@ -128,6 +171,94 @@
             // Initialize audio state
             audio.muted = isMuted;
             updateSoundIcon();
+
+            // Adventure Step Navigation
+            const steps = {
+                name: document.getElementById('step-name'),
+                gender: document.getElementById('step-gender'),
+                tribe: document.getElementById('step-tribe'),
+                auspice: document.getElementById('step-auspice')
+            };
+
+            const characterNameInput = document.getElementById('character-name');
+            const genderInput = document.getElementById('gender');
+            const spokenName = document.getElementById('spoken-name');
+            const genderChoices = document.querySelectorAll('.choice-btn[data-gender]');
+            const nextToGenderBtn = document.getElementById('next-to-gender');
+            const nextToAuspiceBtn = document.getElementById('next-to-auspice');
+
+            // Show step function
+            function showStep(stepToShow) {
+                Object.values(steps).forEach(function(step) {
+                    step.classList.add('hidden');
+                });
+                stepToShow.classList.remove('hidden');
+            }
+
+            // Step 1 -> Step 2 (Name to Gender)
+            nextToGenderBtn.addEventListener('click', function() {
+                const name = characterNameInput.value.trim();
+                if (name) {
+                    spokenName.textContent = name;
+                    showStep(steps.gender);
+                } else {
+                    characterNameInput.focus();
+                }
+            });
+
+            // Allow Enter key to proceed from name input
+            characterNameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    nextToGenderBtn.click();
+                }
+            });
+
+            // Step 2: Gender selection
+            genderChoices.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    genderChoices.forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
+                    // Add selected class to clicked button
+                    btn.classList.add('selected');
+                    // Update hidden input
+                    genderInput.value = btn.dataset.gender;
+                    // Enable continue button
+                    document.getElementById('next-to-tribe').disabled = false;
+                });
+            });
+
+            // Step 2 -> Step 3 (Gender to Tribe)
+            document.getElementById('next-to-tribe').addEventListener('click', function() {
+                if (genderInput.value) {
+                    showStep(steps.tribe);
+                }
+            });
+
+            // Step 3 -> Step 4 (Tribe to Auspice)
+            nextToAuspiceBtn.addEventListener('click', function() {
+                const tribe = document.getElementById('tribe').value;
+                if (tribe) {
+                    showStep(steps.auspice);
+                } else {
+                    document.getElementById('tribe').focus();
+                }
+            });
+
+            // Back buttons
+            document.getElementById('back-to-name').addEventListener('click', function() {
+                showStep(steps.name);
+            });
+
+            document.getElementById('back-to-gender').addEventListener('click', function() {
+                showStep(steps.gender);
+            });
+
+            document.getElementById('back-to-tribe').addEventListener('click', function() {
+                showStep(steps.tribe);
+            });
         });
     </script>
 </body>

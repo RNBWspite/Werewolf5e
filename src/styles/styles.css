@@ -351,3 +351,70 @@ button.ttrpg-button {
 .sound-icon.hidden {
   display: none;
 }
+
+/* Adventure Step Styles */
+.adventure-step {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.adventure-step.hidden {
+  display: none;
+}
+
+.adventure-prompt {
+  font-style: italic;
+  color: #c9a33a;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.adventure-question {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  line-height: 1.4;
+}
+
+/* Gender Choice Buttons */
+.gender-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.choice-btn {
+  padding: 12px 24px;
+  background-color: #333;
+  color: #ffffff;
+  border: 2px solid #555;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.choice-btn:hover {
+  background-color: #444;
+  border-color: #8b0000;
+  transform: scale(1.05);
+}
+
+.choice-btn.selected {
+  background-color: #8b0000;
+  border-color: #c9a33a;
+  box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
