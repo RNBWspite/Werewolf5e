@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Character - Werewolf 5e</title>
+    <link rel="stylesheet" href="src/styles/styles.css">
+</head>
+<body>
+    <!-- Embers Background Video -->
+    <video class="embers-background" autoplay muted loop playsinline>
+        <source src="Embers Background.mov" type="video/mp4">
+    </video>
+
+    <!-- Background Audio -->
+    <audio id="background-audio" loop>
+        <source src="High-Tech-Lab---Loop_AdobeStock_676139658.wav" type="audio/wav">
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button type="button" id="sound-toggle" class="sound-toggle" aria-label="Toggle sound">
+        <svg id="sound-on-icon" class="sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg id="sound-off-icon" class="sound-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+    </button>
+
+    <header class="sticky-header">
+        <nav>
+            <a href="account.html">Account</a>
+            <a href="characters.html">Characters</a>
+            <a href="sessions.html">Sessions</a>
+            <a href="about.html">About Us</a>
+        </nav>
+        <img src="https://github.com/user-attachments/assets/aaa6e10d-a24c-4711-8da7-2683d2028d7b" alt="RNBW Logo" class="header-logo">
+    </header>
+    
+    <main class="create-character-main">
+        <h1>Create Your Character</h1>
+        <p>Build your werewolf character for the apocalypse.</p>
+        
+        <section class="character-form-container">
+            <form class="character-form">
+                <div class="form-group">
+                    <label for="character-name">Character Name</label>
+                    <input type="text" id="character-name" name="character-name" placeholder="Enter character name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tribe">Tribe</label>
+                    <select id="tribe" name="tribe">
+                        <option value="">Select a tribe</option>
+                        <option value="black-furies">Black Furies</option>
+                        <option value="bone-gnawers">Bone Gnawers</option>
+                        <option value="children-of-gaia">Children of Gaia</option>
+                        <option value="fianna">Fianna</option>
+                        <option value="get-of-fenris">Get of Fenris</option>
+                        <option value="glass-walkers">Glass Walkers</option>
+                        <option value="red-talons">Red Talons</option>
+                        <option value="shadow-lords">Shadow Lords</option>
+                        <option value="silent-striders">Silent Striders</option>
+                        <option value="silver-fangs">Silver Fangs</option>
+                        <option value="stargazers">Stargazers</option>
+                        <option value="uktena">Uktena</option>
+                        <option value="wendigo">Wendigo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="auspice">Auspice</label>
+                    <select id="auspice" name="auspice">
+                        <option value="">Select an auspice</option>
+                        <option value="ragabash">Ragabash (New Moon)</option>
+                        <option value="theurge">Theurge (Crescent Moon)</option>
+                        <option value="philodox">Philodox (Half Moon)</option>
+                        <option value="galliard">Galliard (Gibbous Moon)</option>
+                        <option value="ahroun">Ahroun (Full Moon)</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="index.html" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-primary">Create Character</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('background-audio');
+            const soundToggle = document.getElementById('sound-toggle');
+            const soundOnIcon = document.getElementById('sound-on-icon');
+            const soundOffIcon = document.getElementById('sound-off-icon');
+            
+            let isMuted = true; // Start muted by default
+            
+            // Update icon display
+            function updateSoundIcon() {
+                if (isMuted) {
+                    soundOnIcon.classList.add('hidden');
+                    soundOffIcon.classList.remove('hidden');
+                } else {
+                    soundOnIcon.classList.remove('hidden');
+                    soundOffIcon.classList.add('hidden');
+                }
+            }
+            
+            // Toggle sound on/off
+            soundToggle.addEventListener('click', function() {
+                isMuted = !isMuted;
+                audio.muted = isMuted;
+                
+                if (!isMuted) {
+                    audio.play().catch(function(error) {
+                        console.log('Audio play failed:', error);
+                    });
+                }
+                
+                updateSoundIcon();
+            });
+            
+            // Initialize audio state
+            audio.muted = isMuted;
+            updateSoundIcon();
+        });
+    </script>
+</body>
+</html>

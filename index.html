@@ -21,15 +21,77 @@
         <p>This is the main webpage entry point.</p>
         
         <section class="ttrpg-buttons">
-            <a href="werewolf-apocalypse.html" class="ttrpg-button">
+            <button type="button" class="ttrpg-button" id="werewolf-apocalypse-btn">
                 <img src="https://images.ctfassets.net/u73tyf0fa8v1/7eGd2ySJrdTcq49x2ZsYv0/0386b64c6502b0672c150769a68ca546/werewolf-the-masquerade-product_werewolf_corebook.jpg" alt="Werewolf The Apocalypse">
                 <span>Werewolf The Apocalypse</span>
-            </a>
+            </button>
             <a href="dnd5e.html" class="ttrpg-button">
                 <img src="https://static.wikia.nocookie.net/allthetropes/images/a/ad/Dungeons_And_Dragons_Official_Poster.jpg/revision/latest?cb=20200625044141" alt="Dungeons &amp; Dragons 5e">
                 <span>Dungeons &amp; Dragons 5e</span>
             </a>
         </section>
     </main>
+
+    <!-- Werewolf Apocalypse Modal -->
+    <div id="werewolf-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Werewolf The Apocalypse</h2>
+            <div class="modal-buttons">
+                <a href="join-game.html" class="modal-btn">Join Game</a>
+                <button type="button" class="modal-btn" id="create-character-btn" style="border: none; cursor: pointer;">Create Character</button>
+            </div>
+            <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
+        </div>
+    </div>
+
+    <!-- Burn Transition Overlay -->
+    <div id="burn-transition" class="burn-transition-overlay">
+        <video id="burn-video" muted playsinline>
+            <source src="Burn transition.mov" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const werewolfBtn = document.getElementById('werewolf-apocalypse-btn');
+            const modal = document.getElementById('werewolf-modal');
+            const closeBtn = document.getElementById('modal-close-btn');
+            const createCharacterBtn = document.getElementById('create-character-btn');
+            const burnTransition = document.getElementById('burn-transition');
+            const burnVideo = document.getElementById('burn-video');
+
+            werewolfBtn.addEventListener('click', function() {
+                modal.classList.add('active');
+            });
+
+            closeBtn.addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+
+            // Handle Create Character button with burn transition
+            createCharacterBtn.addEventListener('click', function() {
+                // Show the burn transition overlay
+                burnTransition.classList.add('active');
+                burnVideo.currentTime = 0;
+                burnVideo.play();
+
+                // Navigate to create-character page when video ends or after timeout
+                burnVideo.addEventListener('ended', function() {
+                    window.location.href = 'create-character.html';
+                }, { once: true });
+
+                // Fallback timeout in case video doesn't play
+                setTimeout(function() {
+                    window.location.href = 'create-character.html';
+                }, 3000);
+            });
+        });
+    </script>
 </body>
 </html>
