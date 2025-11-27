@@ -4,3 +4,90 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Apply dark charcoal background to body */
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Sticky navigation header container */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: #1a1a1a;
+  padding: 15px 20px;
+  z-index: 1000;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sticky-header nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.sticky-header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.sticky-header nav a:hover {
+  background-color: #333;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+}
+
+/* TTRPG Button Section */
+.ttrpg-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.ttrpg-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #ffffff;
+  transition: transform 0.3s ease;
+}
+
+.ttrpg-button:hover {
+  transform: scale(1.05);
+}
+
+.ttrpg-button img {
+  width: 300px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #333;
+  transition: border-color 0.3s ease;
+}
+
+.ttrpg-button:hover img {
+  border-color: #666;
+}
+
+.ttrpg-button span {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
