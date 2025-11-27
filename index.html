@@ -21,15 +21,49 @@
         <p>This is the main webpage entry point.</p>
         
         <section class="ttrpg-buttons">
-            <a href="werewolf-apocalypse.html" class="ttrpg-button">
+            <button type="button" class="ttrpg-button" id="werewolf-apocalypse-btn">
                 <img src="https://images.ctfassets.net/u73tyf0fa8v1/7eGd2ySJrdTcq49x2ZsYv0/0386b64c6502b0672c150769a68ca546/werewolf-the-masquerade-product_werewolf_corebook.jpg" alt="Werewolf The Apocalypse">
                 <span>Werewolf The Apocalypse</span>
-            </a>
+            </button>
             <a href="dnd5e.html" class="ttrpg-button">
                 <img src="https://static.wikia.nocookie.net/allthetropes/images/a/ad/Dungeons_And_Dragons_Official_Poster.jpg/revision/latest?cb=20200625044141" alt="Dungeons &amp; Dragons 5e">
                 <span>Dungeons &amp; Dragons 5e</span>
             </a>
         </section>
     </main>
+
+    <!-- Werewolf Apocalypse Modal -->
+    <div id="werewolf-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Werewolf The Apocalypse</h2>
+            <div class="modal-buttons">
+                <a href="join-game.html" class="modal-btn">Join Game</a>
+                <a href="create-character.html" class="modal-btn">Create Character</a>
+            </div>
+            <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const werewolfBtn = document.getElementById('werewolf-apocalypse-btn');
+            const modal = document.getElementById('werewolf-modal');
+            const closeBtn = document.getElementById('modal-close-btn');
+
+            werewolfBtn.addEventListener('click', function() {
+                modal.classList.add('active');
+            });
+
+            closeBtn.addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
