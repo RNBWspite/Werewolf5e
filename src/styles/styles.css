@@ -5,6 +5,14 @@
   box-sizing: border-box;
 }
 
+/* Utility class for hiding elements */
+.form-group.hidden,
+.adventure-step.hidden,
+.sound-icon.hidden,
+div.hidden {
+  display: none;
+}
+
 /* Apply dark charcoal background to body */
 body {
   background-color: #1a1a1a;
@@ -223,26 +231,32 @@ button.ttrpg-button {
   z-index: 1;
   padding: 20px;
   min-height: calc(100vh - 80px);
+  font-family: 'Special Elite', cursive;
 }
 
 .create-character-main h1 {
   text-align: center;
   margin-bottom: 10px;
+  font-family: 'Special Elite', cursive;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .create-character-main > p {
   text-align: center;
-  color: #aaa;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 40px;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .character-form-container {
-  max-width: 500px;
+  max-width: 1000px;
   margin: 0 auto;
-  background-color: rgba(42, 42, 42, 0.9);
+  background-color: transparent;
   padding: 40px;
-  border-radius: 12px;
-  backdrop-filter: blur(5px);
+  border-radius: 0;
+  backdrop-filter: none;
 }
 
 .character-form {
@@ -260,22 +274,31 @@ button.ttrpg-button {
 .form-group label {
   font-weight: bold;
   color: #ffffff;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .form-group input,
 .form-group select {
   padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #444;
-  background-color: #1a1a1a;
+  border-radius: 4px;
+  border: 1px solid rgba(74, 93, 35, 0.6);
+  background-color: rgba(0, 0, 0, 0.3);
   color: #ffffff;
   font-size: 16px;
+  font-family: 'Special Elite', cursive;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #8b0000;
+  border-color: #6b8e23;
+  box-shadow: 0 0 10px rgba(107, 142, 35, 0.4);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Special Elite', cursive;
 }
 
 .form-actions {
@@ -287,34 +310,46 @@ button.ttrpg-button {
 
 .btn {
   padding: 12px 30px;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 16px;
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
   border: none;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .btn-primary {
-  background-color: #8b0000;
+  background-color: rgba(85, 107, 47, 0.8);
   color: #ffffff;
-  border: none;
+  border: 1px solid #6b8e23;
+  box-shadow: 0 0 15px rgba(107, 142, 35, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: #a50000;
+  background-color: rgba(107, 142, 35, 0.9);
+  box-shadow: 0 0 20px rgba(107, 142, 35, 0.5);
   transform: scale(1.05);
 }
 
+.btn-primary:disabled {
+  background-color: rgba(85, 107, 47, 0.3);
+  border-color: rgba(107, 142, 35, 0.3);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-secondary {
-  background-color: #444;
+  background-color: rgba(139, 69, 19, 0.6);
   color: #ffffff;
-  border: none;
+  border: 1px solid rgba(160, 82, 45, 0.8);
 }
 
 .btn-secondary:hover {
-  background-color: #555;
+  background-color: rgba(160, 82, 45, 0.8);
   transform: scale(1.05);
 }
 
@@ -350,4 +385,371 @@ button.ttrpg-button {
 
 .sound-icon.hidden {
   display: none;
+}
+
+/* Adventure Step Styles */
+.adventure-step {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.adventure-step.hidden {
+  display: none;
+}
+
+.adventure-step.fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+/* Sticky container for both prompt and question */
+.sticky-question-container {
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  background: linear-gradient(to bottom, transparent 0%, rgba(20, 10, 5, 1) 100%);
+  padding: 15px 0 20px 0;
+  margin-bottom: 20px;
+}
+
+.adventure-prompt {
+  font-style: italic;
+  color: #ffffff;
+  margin-bottom: 15px;
+  line-height: 1.8;
+  font-size: 18px;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0.9;
+}
+
+.adventure-question {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 0;
+  line-height: 1.5;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Gender Choice Buttons - Apocalypse Theme */
+.gender-choices {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 12px;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .gender-choices {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+.choice-btn {
+  padding: 12px 24px;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(107, 142, 35, 0.6);
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: 'Special Elite', cursive;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.choice-btn:hover {
+  background-color: rgba(107, 142, 35, 0.3);
+  border-color: #6b8e23;
+  box-shadow: 0 0 15px rgba(107, 142, 35, 0.4);
+  transform: scale(1.05);
+}
+
+.choice-btn.selected {
+  background-color: rgba(85, 107, 47, 0.7);
+  border-color: #9acd32;
+  box-shadow: 0 0 20px rgba(154, 205, 50, 0.5);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* Birthdate Input Wrapper */
+.birthdate-input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.birthdate-input-wrapper input[type="date"] {
+  flex: 1;
+}
+
+.btn-manual-select {
+  padding: 10px 12px;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(107, 142, 35, 0.6);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-manual-select:hover {
+  background-color: rgba(107, 142, 35, 0.3);
+  border-color: #6b8e23;
+  box-shadow: 0 0 10px rgba(107, 142, 35, 0.4);
+}
+
+.btn-manual-select svg {
+  stroke: #ffffff;
+}
+
+/* Auspice Result Display */
+.auspice-result {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: rgba(107, 142, 35, 0.2);
+  border: 1px solid rgba(107, 142, 35, 0.5);
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Special Elite', cursive;
+  font-size: 18px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.auspice-result.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Auspice Choice Buttons */
+.auspice-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.auspice-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 20px;
+  min-width: 120px;
+}
+
+.auspice-choice .moon-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.auspice-choice .auspice-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.auspice-choice .moon-phase {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* Back to Birthdate Button */
+.btn-back-to-birthdate {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.3s ease;
+}
+
+.btn-back-to-birthdate:hover {
+  color: #ffffff;
+}
+
+/* Date Input Styling */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Attribute Choice Buttons */
+.attribute-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.attribute-choices.multi-select {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .attribute-choices.multi-select {
+    grid-template-columns: 1fr;
+  }
+}
+
+.attribute-choices .choice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  text-align: left;
+}
+
+.attribute-choices .choice-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #9acd32;
+}
+
+.attribute-choices .choice-desc {
+  font-size: 14px;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+.attribute-choices.multi-select .choice-btn.selected {
+  background-color: rgba(85, 107, 47, 0.7);
+  border-color: #9acd32;
+}
+
+/* Selection Counter */
+.selection-counter {
+  text-align: center;
+  font-size: 16px;
+  color: #9acd32;
+  margin-bottom: 15px;
+  font-family: 'Special Elite', cursive;
+}
+
+.selection-info {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 10px;
+  font-family: 'Special Elite', cursive;
+  font-style: italic;
+}
+
+/* Character Summary */
+.character-summary {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(107, 142, 35, 0.5);
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.summary-section {
+  margin-bottom: 25px;
+}
+
+.summary-section:last-child {
+  margin-bottom: 0;
+}
+
+.summary-section h3 {
+  font-size: 28px;
+  color: #9acd32;
+  margin: 0 0 5px 0;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.summary-section h4 {
+  font-size: 20px;
+  color: #ffffff;
+  margin: 0 0 15px 0;
+  font-family: 'Special Elite', cursive;
+  border-bottom: 1px solid rgba(107, 142, 35, 0.5);
+  padding-bottom: 10px;
+}
+
+.summary-section h5 {
+  font-size: 16px;
+  color: #9acd32;
+  margin: 0 0 10px 0;
+  font-family: 'Special Elite', cursive;
+}
+
+.summary-subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-family: 'Special Elite', cursive;
+}
+
+.attribute-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.attr-category {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.attr-item {
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  margin-bottom: 8px;
+  padding: 5px 0;
+}
+
+.attr-item.primary {
+  color: #ffd700;
+}
+
+.attr-item.secondary {
+  color: #9acd32;
+}
+
+.attr-item.tertiary {
+  color: #ffffff;
+}
+
+.attr-item.weak {
+  color: rgba(255, 255, 255, 0.5);
 }

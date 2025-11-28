@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Character - Werewolf 5e</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/styles/styles.css">
 </head>
 <body>
@@ -45,47 +48,260 @@
         <p>Build your werewolf character for the apocalypse.</p>
         
         <section class="character-form-container">
-            <form class="character-form">
-                <div class="form-group">
-                    <label for="character-name">Character Name</label>
-                    <input type="text" id="character-name" name="character-name" placeholder="Enter character name">
+            <form class="character-form" id="character-form">
+                <!-- Step 1: Character Name -->
+                <div class="adventure-step" id="step-name" data-step="1">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The mist parts before you, revealing a moonlit clearing. A figure emerges from the shadows, ancient eyes studying you carefully.</p>
+                        <p class="adventure-question">"Traveler... what name do you carry?"</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="character-name">Your Name</label>
+                        <input type="text" id="character-name" name="character-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-actions">
+                        <a href="index.html" class="btn btn-secondary">Back</a>
+                        <button type="button" class="btn btn-primary" id="next-to-gender">Continue</button>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="tribe">Tribe</label>
-                    <select id="tribe" name="tribe">
-                        <option value="">Select a tribe</option>
-                        <option value="black-furies">Black Furies</option>
-                        <option value="bone-gnawers">Bone Gnawers</option>
-                        <option value="children-of-gaia">Children of Gaia</option>
-                        <option value="fianna">Fianna</option>
-                        <option value="get-of-fenris">Get of Fenris</option>
-                        <option value="glass-walkers">Glass Walkers</option>
-                        <option value="red-talons">Red Talons</option>
-                        <option value="shadow-lords">Shadow Lords</option>
-                        <option value="silent-striders">Silent Striders</option>
-                        <option value="silver-fangs">Silver Fangs</option>
-                        <option value="stargazers">Stargazers</option>
-                        <option value="uktena">Uktena</option>
-                        <option value="wendigo">Wendigo</option>
-                    </select>
+
+                <!-- Step 2: Gender -->
+                <div class="adventure-step hidden" id="step-gender" data-step="2">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The ancient one nods slowly, a knowing smile crossing their weathered face.</p>
+                        <p class="adventure-question">"<span id="spoken-name">Traveler</span>... and how do you walk through this world?"</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Your Identity</label>
+                        <div class="gender-choices">
+                            <button type="button" class="choice-btn" data-gender="male">Male</button>
+                            <button type="button" class="choice-btn" data-gender="female">Female</button>
+                            <button type="button" class="choice-btn" data-gender="non-binary">Non-Binary</button>
+                            <button type="button" class="choice-btn" data-gender="genderfluid">Genderfluid</button>
+                            <button type="button" class="choice-btn" data-gender="agender">Agender</button>
+                        </div>
+                        <input type="hidden" id="gender" name="gender">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-name">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-tribe" disabled>Continue</button>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="auspice">Auspice</label>
-                    <select id="auspice" name="auspice">
-                        <option value="">Select an auspice</option>
-                        <option value="ragabash">Ragabash (New Moon)</option>
-                        <option value="theurge">Theurge (Crescent Moon)</option>
-                        <option value="philodox">Philodox (Half Moon)</option>
-                        <option value="galliard">Galliard (Gibbous Moon)</option>
-                        <option value="ahroun">Ahroun (Full Moon)</option>
-                    </select>
+
+                <!-- Step 3: Tribe -->
+                <div class="adventure-step hidden" id="step-tribe" data-step="3">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The figure's eyes gleam with an otherworldly light as the wind carries whispers of ancient packs.</p>
+                        <p class="adventure-question">"The blood of many tribes flows through Gaia's children. Which lineage calls to your spirit?"</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="tribe">Your Tribe</label>
+                        <select id="tribe" name="tribe" required>
+                            <option value="">Select a tribe</option>
+                            <option value="black-furies">Black Furies</option>
+                            <option value="bone-gnawers">Bone Gnawers</option>
+                            <option value="children-of-gaia">Children of Gaia</option>
+                            <option value="fianna">Fianna</option>
+                            <option value="get-of-fenris">Get of Fenris</option>
+                            <option value="glass-walkers">Glass Walkers</option>
+                            <option value="red-talons">Red Talons</option>
+                            <option value="shadow-lords">Shadow Lords</option>
+                            <option value="silent-striders">Silent Striders</option>
+                            <option value="silver-fangs">Silver Fangs</option>
+                            <option value="stargazers">Stargazers</option>
+                            <option value="uktena">Uktena</option>
+                            <option value="wendigo">Wendigo</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-gender">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-auspice">Continue</button>
+                    </div>
                 </div>
-                
-                <div class="form-actions">
-                    <a href="index.html" class="btn btn-secondary">Back</a>
-                    <button type="submit" class="btn btn-primary">Create Character</button>
+
+                <!-- Step 4: Auspice -->
+                <div class="adventure-step hidden" id="step-auspice" data-step="4">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">Above, Luna reveals herself through the parting clouds, her silver light bathing the clearing.</p>
+                        <p class="adventure-question">"Under which phase of Luna were you born? What role does she bestow upon you?"</p>
+                    </div>
+                    
+                    <!-- Birth Date Selection (Auto-calculate Auspice) -->
+                    <div class="form-group" id="birthdate-group">
+                        <label for="birthdate">Your Birth Date</label>
+                        <div class="birthdate-input-wrapper">
+                            <input type="date" id="birthdate" name="birthdate" placeholder="Enter your birth date">
+                            <button type="button" class="btn-manual-select" id="toggle-manual-auspice" title="Choose manually instead">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="auspice-result" id="auspice-result"></p>
+                    </div>
+                    
+                    <!-- Manual Auspice Selection (Hidden by default) -->
+                    <div class="form-group hidden" id="manual-auspice-group">
+                        <label for="auspice-select">Choose Your Auspice</label>
+                        <div class="auspice-choices">
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="ragabash">
+                                <span class="moon-icon">🌑</span>
+                                <span class="auspice-name">Ragabash</span>
+                                <span class="moon-phase">New Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="theurge">
+                                <span class="moon-icon">🌒</span>
+                                <span class="auspice-name">Theurge</span>
+                                <span class="moon-phase">Crescent Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="philodox">
+                                <span class="moon-icon">🌓</span>
+                                <span class="auspice-name">Philodox</span>
+                                <span class="moon-phase">Half Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="galliard">
+                                <span class="moon-icon">🌔</span>
+                                <span class="auspice-name">Galliard</span>
+                                <span class="moon-phase">Gibbous Moon</span>
+                            </button>
+                            <button type="button" class="choice-btn auspice-choice" data-auspice="ahroun">
+                                <span class="moon-icon">🌕</span>
+                                <span class="auspice-name">Ahroun</span>
+                                <span class="moon-phase">Full Moon</span>
+                            </button>
+                        </div>
+                        <button type="button" class="btn-back-to-birthdate" id="back-to-birthdate">
+                            ← Use birth date instead
+                        </button>
+                    </div>
+                    
+                    <input type="hidden" id="auspice" name="auspice">
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-tribe">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-attributes" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Primary Attribute Category -->
+                <div class="adventure-step hidden" id="step-attr-category" data-step="5">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder's weathered hand reaches toward you, then pauses. Their nostrils flare, drinking in your scent as a wolf might assess prey—or pack. "I would know what manner of creature stands before me," they murmur, voice like gravel scraping stone. "When the world burns and the Wyrm's corruption seeps into everything you love, what will you trust to see you through?"</p>
+                        <p class="adventure-question">In the darkest moment, when all seems lost, you have always relied upon...</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="attribute-choices">
+                            <button type="button" class="choice-btn attribute-category-choice" data-category="physical">
+                                <span class="choice-title">The flesh that carries you</span>
+                                <span class="choice-desc">Your body has never failed you. When words ring hollow and clever plans crumble, it is sinew and bone that have carried you through. You trust in the vessel you were born with—its strength, its quickness, its stubborn refusal to fall.</span>
+                            </button>
+                            <button type="button" class="choice-btn attribute-category-choice" data-category="social">
+                                <span class="choice-title">Those who stand beside you</span>
+                                <span class="choice-desc">No wolf survives alone. You have learned this truth in blood and tears. Your greatest victories have come not from your own prowess, but from the bonds you forge, the hearts you move, the pack that answers when you howl.</span>
+                            </button>
+                            <button type="button" class="choice-btn attribute-category-choice" data-category="mental">
+                                <span class="choice-title">The thoughts within your skull</span>
+                                <span class="choice-desc">While others charge blindly forward, you have always seen the patterns others miss. Your mind is your weapon—sharp, patient, cutting through chaos to find the path that others cannot perceive.</span>
+                            </button>
+                        </div>
+                        <input type="hidden" id="primary-category" name="primary-category">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-auspice">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-primary-attr" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Primary Attribute Selection -->
+                <div class="adventure-step hidden" id="step-primary-attr" data-step="6">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt" id="primary-attr-prompt">The elder's lips curl into something that might be a smile. "Yes," they breathe. "I see it in you now. But even the mightiest oak has a taproot that runs deepest. Tell me of the core that defines you."</p>
+                        <p class="adventure-question" id="primary-attr-question">When you strip away everything else, what truth remains at your center?</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="attribute-choices" id="primary-attr-choices">
+                            <!-- Dynamically populated based on category choice -->
+                        </div>
+                        <input type="hidden" id="primary-attribute" name="primary-attribute">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-category">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-secondary-category" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 7: Secondary Attribute Category -->
+                <div class="adventure-step hidden" id="step-secondary-category" data-step="7">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">A cold wind cuts through the clearing, carrying the distant howl of wolves—or perhaps something worse. The elder tilts their head, listening to sounds you cannot hear. "We are not creatures of single purpose," they say at last. "The Garou who survives is the one who can adapt. Beyond your greatest gift, what else sustains you?"</p>
+                        <p class="adventure-question">When your primary nature fails you, what do you fall back upon?</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="attribute-choices" id="secondary-category-choices">
+                            <!-- Dynamically populated excluding primary category -->
+                        </div>
+                        <input type="hidden" id="secondary-category" name="secondary-category">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-primary-attr">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-secondary-attrs" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 8: Secondary Attributes Selection -->
+                <div class="adventure-step hidden" id="step-secondary-attrs" data-step="8">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt" id="secondary-attrs-prompt">The elder begins to circle you slowly, like a predator assessing its prey—or perhaps a teacher measuring a student. "You carry many gifts," they observe, "some sharper than others. Of the talents that have served you well, which three would you trust with your life?"</p>
+                        <p class="adventure-question">Select the three aspects that have proven most reliable in your past struggles.</p>
+                    </div>
+                    <div class="form-group">
+                        <p class="selection-counter" id="secondary-counter">Chosen: 0 of 3</p>
+                        <div class="attribute-choices multi-select" id="secondary-attr-choices">
+                            <!-- Dynamically populated -->
+                        </div>
+                        <input type="hidden" id="secondary-attributes" name="secondary-attributes">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-secondary-category">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-tertiary-attrs" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 9: Tertiary Attributes -->
+                <div class="adventure-step hidden" id="step-tertiary-attrs" data-step="9">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder stops before you, their ancient eyes holding yours with an intensity that makes your heart stutter. "No creature is perfect," they whisper. "We all carry weakness alongside strength. The wise warrior knows where they falter." They gesture to the remaining paths before you. "Choose four more aspects that serve you adequately. The one you leave behind... that is where your enemies will strike."</p>
+                        <p class="adventure-question">Of these remaining qualities, which four can you still rely upon? The fifth will be your vulnerability.</p>
+                    </div>
+                    <div class="form-group">
+                        <p class="selection-info">The aspects you choose will serve you adequately. What remains will be your weakness—the gap in your armor that your foes may one day exploit.</p>
+                        <p class="selection-counter" id="tertiary-counter">Chosen: 0 of 4</p>
+                        <div class="attribute-choices multi-select" id="tertiary-attr-choices">
+                            <!-- Dynamically populated with remaining attributes -->
+                        </div>
+                        <input type="hidden" id="tertiary-attributes" name="tertiary-attributes">
+                        <input type="hidden" id="weakest-attribute" name="weakest-attribute">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-secondary-attrs">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-summary" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 10: Character Summary -->
+                <div class="adventure-step hidden" id="step-summary" data-step="10">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder falls silent at last. For a long moment, they simply regard you, and in their ancient eyes you see something that might be respect—or perhaps recognition. "The spirits have whispered your truth to me," they say finally, their voice soft as falling ash. "I know now what manner of Garou stands before me."</p>
+                        <p class="adventure-question">Your nature has been revealed. This is who you are.</p>
+                    </div>
+                    <div class="character-summary" id="character-summary">
+                        <!-- Dynamically populated -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-tertiary">Back</button>
+                        <button type="submit" class="btn btn-primary" id="submit-character">Begin Your Journey</button>
+                    </div>
                 </div>
             </form>
         </section>
@@ -98,7 +314,7 @@
             const soundOnIcon = document.getElementById('sound-on-icon');
             const soundOffIcon = document.getElementById('sound-off-icon');
             
-            let isMuted = true; // Start muted by default
+            let isMuted = false; // Start with audio on by default
             
             // Update icon display
             function updateSoundIcon() {
@@ -125,9 +341,841 @@
                 updateSoundIcon();
             });
             
-            // Initialize audio state
+            // Initialize audio state - auto-play on page load
             audio.muted = isMuted;
             updateSoundIcon();
+            
+            // Auto-play audio on page load
+            audio.play().catch(function(error) {
+                console.log('Auto-play failed (browser may require user interaction):', error);
+                // If auto-play fails, set to muted state
+                isMuted = true;
+                audio.muted = true;
+                updateSoundIcon();
+            });
+
+            // Adventure Step Navigation
+            const steps = {
+                name: document.getElementById('step-name'),
+                gender: document.getElementById('step-gender'),
+                tribe: document.getElementById('step-tribe'),
+                auspice: document.getElementById('step-auspice')
+            };
+
+            const characterNameInput = document.getElementById('character-name');
+            const genderInput = document.getElementById('gender');
+            const spokenName = document.getElementById('spoken-name');
+            const genderChoices = document.querySelectorAll('.choice-btn[data-gender]');
+            const nextToGenderBtn = document.getElementById('next-to-gender');
+            const nextToAuspiceBtn = document.getElementById('next-to-auspice');
+
+            // Show step function with fade transition
+            function showStep(currentStep, stepToShow) {
+                if (currentStep) {
+                    currentStep.classList.add('fade-out');
+                    setTimeout(function() {
+                        Object.values(steps).forEach(function(step) {
+                            step.classList.add('hidden');
+                            step.classList.remove('fade-out');
+                        });
+                        stepToShow.classList.remove('hidden');
+                    }, 500);
+                } else {
+                    Object.values(steps).forEach(function(step) {
+                        step.classList.add('hidden');
+                    });
+                    stepToShow.classList.remove('hidden');
+                }
+            }
+
+            // Step 1 -> Step 2 (Name to Gender)
+            nextToGenderBtn.addEventListener('click', function() {
+                const name = characterNameInput.value.trim();
+                if (name) {
+                    spokenName.textContent = name;
+                    showStep(steps.name, steps.gender);
+                } else {
+                    characterNameInput.focus();
+                }
+            });
+
+            // Allow Enter key to proceed from name input
+            characterNameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    nextToGenderBtn.click();
+                }
+            });
+
+            // Step 2: Gender selection
+            genderChoices.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    genderChoices.forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
+                    // Add selected class to clicked button
+                    btn.classList.add('selected');
+                    // Update hidden input
+                    genderInput.value = btn.dataset.gender;
+                    // Enable continue button
+                    document.getElementById('next-to-tribe').disabled = false;
+                });
+            });
+
+            // Step 2 -> Step 3 (Gender to Tribe)
+            document.getElementById('next-to-tribe').addEventListener('click', function() {
+                if (genderInput.value) {
+                    showStep(steps.gender, steps.tribe);
+                }
+            });
+
+            // Step 3 -> Step 4 (Tribe to Auspice)
+            nextToAuspiceBtn.addEventListener('click', function() {
+                const tribe = document.getElementById('tribe').value;
+                if (tribe) {
+                    showStep(steps.tribe, steps.auspice);
+                } else {
+                    document.getElementById('tribe').focus();
+                }
+            });
+
+            // Back buttons
+            document.getElementById('back-to-name').addEventListener('click', function() {
+                showStep(steps.gender, steps.name);
+            });
+
+            document.getElementById('back-to-gender').addEventListener('click', function() {
+                showStep(steps.tribe, steps.gender);
+            });
+
+            document.getElementById('back-to-tribe').addEventListener('click', function() {
+                showStep(steps.auspice, steps.tribe);
+            });
+
+            // Auspice Selection Logic
+            const birthdateInput = document.getElementById('birthdate');
+            const auspiceInput = document.getElementById('auspice');
+            const auspiceResult = document.getElementById('auspice-result');
+            const birthdateGroup = document.getElementById('birthdate-group');
+            const manualAuspiceGroup = document.getElementById('manual-auspice-group');
+            const toggleManualBtn = document.getElementById('toggle-manual-auspice');
+            const backToBirthdateBtn = document.getElementById('back-to-birthdate');
+            const auspiceChoices = document.querySelectorAll('.auspice-choice');
+            const submitBtn = document.getElementById('submit-character');
+
+            // Moon phase calculation based on date
+            function getMoonPhase(date) {
+                // Calculate days since known new moon (Jan 6, 2000)
+                const knownNewMoon = new Date(2000, 0, 6, 18, 14, 0);
+                const lunarCycle = 29.53058867; // days
+                const daysSinceNewMoon = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+                const currentCycle = daysSinceNewMoon / lunarCycle;
+                const phase = (currentCycle - Math.floor(currentCycle)) * lunarCycle;
+                return phase;
+            }
+
+            // Determine auspice from moon phase
+            function getAuspiceFromPhase(phase) {
+                // Moon phases and corresponding auspices (29.53 day cycle)
+                // New Moon: 0-1.85 days AND 27.69-29.53 days (Ragabash)
+                // Crescent: 1.85-7.38 days AND 25.84-27.69 days (Theurge)
+                // Half Moon: 7.38-11.07 days AND 22.15-25.84 days (Philodox)
+                // Gibbous: 11.07-14.77 days AND 18.46-22.15 days (Galliard)
+                // Full Moon: 14.77-18.46 days (Ahroun)
+                
+                // New Moon (Ragabash)
+                if (phase < 1.85 || phase >= 27.69) {
+                    return { auspice: 'ragabash', name: 'Ragabash', moon: 'New Moon', icon: '🌑' };
+                }
+                // Waxing Crescent (Theurge)
+                if (phase >= 1.85 && phase < 7.38) {
+                    return { auspice: 'theurge', name: 'Theurge', moon: 'Crescent Moon', icon: '🌒' };
+                }
+                // Waning Crescent (Theurge)
+                if (phase >= 25.84 && phase < 27.69) {
+                    return { auspice: 'theurge', name: 'Theurge', moon: 'Crescent Moon', icon: '🌘' };
+                }
+                // First Quarter (Philodox)
+                if (phase >= 7.38 && phase < 11.07) {
+                    return { auspice: 'philodox', name: 'Philodox', moon: 'Half Moon', icon: '🌓' };
+                }
+                // Last Quarter (Philodox)
+                if (phase >= 22.15 && phase < 25.84) {
+                    return { auspice: 'philodox', name: 'Philodox', moon: 'Half Moon', icon: '🌗' };
+                }
+                // Waxing Gibbous (Galliard)
+                if (phase >= 11.07 && phase < 14.77) {
+                    return { auspice: 'galliard', name: 'Galliard', moon: 'Gibbous Moon', icon: '🌔' };
+                }
+                // Waning Gibbous (Galliard)
+                if (phase >= 18.46 && phase < 22.15) {
+                    return { auspice: 'galliard', name: 'Galliard', moon: 'Gibbous Moon', icon: '🌖' };
+                }
+                // Full Moon (Ahroun) - default for 14.77-18.46
+                return { auspice: 'ahroun', name: 'Ahroun', moon: 'Full Moon', icon: '🌕' };
+            }
+
+            // Handle birth date input
+            birthdateInput.addEventListener('change', function() {
+                if (this.value) {
+                    const birthDate = new Date(this.value);
+                    const phase = getMoonPhase(birthDate);
+                    const auspiceData = getAuspiceFromPhase(phase);
+                    
+                    auspiceInput.value = auspiceData.auspice;
+                    auspiceResult.innerHTML = `${auspiceData.icon} Luna reveals your path: <strong>${auspiceData.name}</strong> (${auspiceData.moon})`;
+                    auspiceResult.classList.add('show');
+                    submitBtn.disabled = false;
+                } else {
+                    auspiceInput.value = '';
+                    auspiceResult.innerHTML = '';
+                    auspiceResult.classList.remove('show');
+                    submitBtn.disabled = true;
+                }
+            });
+
+            // Toggle to manual selection
+            toggleManualBtn.addEventListener('click', function() {
+                birthdateGroup.classList.add('hidden');
+                manualAuspiceGroup.classList.remove('hidden');
+                // Always clear the auspice when switching to manual mode
+                // User must make a new selection
+                auspiceInput.value = '';
+                submitBtn.disabled = true;
+                // Clear any previous manual selections
+                auspiceChoices.forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
+            });
+
+            // Back to birthdate selection
+            backToBirthdateBtn.addEventListener('click', function() {
+                manualAuspiceGroup.classList.add('hidden');
+                birthdateGroup.classList.remove('hidden');
+                // Clear manual selections
+                auspiceChoices.forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
+                // Re-check if birthdate has a value
+                if (birthdateInput.value) {
+                    const birthDate = new Date(birthdateInput.value);
+                    const phase = getMoonPhase(birthDate);
+                    const auspiceData = getAuspiceFromPhase(phase);
+                    auspiceInput.value = auspiceData.auspice;
+                    submitBtn.disabled = false;
+                } else {
+                    auspiceInput.value = '';
+                    submitBtn.disabled = true;
+                }
+            });
+
+            // Manual auspice selection
+            auspiceChoices.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    auspiceChoices.forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
+                    // Add selected class to clicked button
+                    btn.classList.add('selected');
+                    // Update hidden input
+                    auspiceInput.value = btn.dataset.auspice;
+                    // Enable next button (changed from submit)
+                    document.getElementById('next-to-attributes').disabled = false;
+                });
+            });
+
+            // Character data storage with attributes
+            const characterData = {
+                name: '',
+                gender: '',
+                tribe: '',
+                auspice: '',
+                birthdate: '',
+                attributes: {
+                    strength: 1,
+                    dexterity: 1,
+                    stamina: 1,
+                    charisma: 1,
+                    manipulation: 1,
+                    composure: 1,
+                    intelligence: 1,
+                    wits: 1,
+                    resolve: 1
+                }
+            };
+
+            // Attribute definitions
+            const attributeCategories = {
+                physical: {
+                    name: 'Physical',
+                    prompt: 'Your body tells a story of survival. Every scar, every callus speaks of trials overcome.',
+                    attributes: {
+                        strength: {
+                            name: 'Strength',
+                            title: 'The power that breaks barriers',
+                            desc: 'You have always been the one to shoulder burdens others could not bear. Doors that would not open, stones that would not move, enemies that would not yield—all have fallen before the raw power that lives in your muscles. When force is needed, you have never been found wanting.'
+                        },
+                        dexterity: {
+                            name: 'Dexterity',
+                            title: 'The grace that dances with death',
+                            desc: 'Quick as thought, graceful as running water. Your hands move before your mind can catch up, catching the falling cup, threading the impossible needle, striking before your enemy can blink. Precision and speed have always been your birthright.'
+                        },
+                        stamina: {
+                            name: 'Stamina',
+                            title: 'The spirit that refuses to fall',
+                            desc: 'You endure. When others collapse from exhaustion, you remain standing. When fever burns through your body, you fight on. Pain is an old companion, and weariness a challenge you have never lost to. Your body simply refuses to surrender.'
+                        }
+                    }
+                },
+                social: {
+                    name: 'Social',
+                    prompt: 'You have walked among others all your life, learning the subtle dance of connection and influence.',
+                    attributes: {
+                        charisma: {
+                            name: 'Charisma',
+                            title: 'The fire that draws others near',
+                            desc: 'There is a fire in you that draws others like moths to flame. When you speak, heads turn. When you believe, others find themselves believing too. You have led without meaning to, inspired without trying. People want to follow you—they always have.'
+                        },
+                        manipulation: {
+                            name: 'Manipulation',
+                            title: 'The hand that guides unseen',
+                            desc: 'You see the strings that move people—their fears, their desires, their secret shames. A word here, a suggestion there, and events unfold as you intend. Some call it cunning. Some call it cruelty. You know it simply as understanding how the world truly works.'
+                        },
+                        composure: {
+                            name: 'Composure',
+                            title: 'The stillness within the storm',
+                            desc: 'The storm rages around you, but within, you are still water. Others panic; you assess. Others break; you bend. Your face reveals nothing you do not wish it to reveal. In a world of chaos, your calm is both shield and weapon.'
+                        }
+                    }
+                },
+                mental: {
+                    name: 'Mental',
+                    prompt: 'Your mind has always been your sanctuary and your weapon, processing the world in ways others cannot fathom.',
+                    attributes: {
+                        intelligence: {
+                            name: 'Intelligence',
+                            title: 'The library that holds all secrets',
+                            desc: 'Knowledge has always come easily to you—patterns revealing themselves, connections forming where others see only chaos. Books open their secrets willingly, and mysteries unravel at your touch. Your mind is a vast library, and you know exactly where everything is shelved.'
+                        },
+                        wits: {
+                            name: 'Wits',
+                            title: 'The blade that strikes first',
+                            desc: 'While others are still processing what happened, you have already reacted. Your instincts are razor-sharp, your snap judgments almost always correct. In the space between heartbeats, you see the danger, find the solution, and act. Hesitation is a stranger to you.'
+                        },
+                        resolve: {
+                            name: 'Resolve',
+                            title: 'The will that cannot be broken',
+                            desc: 'Your will is iron wrapped in silk. When you set your mind to something, mountains might as well step aside. Fear whispers, but you do not listen. Doubt knocks, but you do not answer. Once committed, you are as unstoppable as the tide.'
+                        }
+                    }
+                }
+            };
+
+            // Track attribute selections
+            let selectedPrimaryCategory = null;
+            let selectedPrimaryAttribute = null;
+            let selectedSecondaryCategory = null;
+            let selectedSecondaryAttributes = [];
+            let selectedTertiaryAttributes = [];
+            let weakestAttribute = null;
+
+            // Add new steps to the steps object
+            steps.attrCategory = document.getElementById('step-attr-category');
+            steps.primaryAttr = document.getElementById('step-primary-attr');
+            steps.secondaryCategory = document.getElementById('step-secondary-category');
+            steps.secondaryAttrs = document.getElementById('step-secondary-attrs');
+            steps.tertiaryAttrs = document.getElementById('step-tertiary-attrs');
+            steps.summary = document.getElementById('step-summary');
+
+            // Update birthdate change handler to use new button
+            birthdateInput.removeEventListener('change', function(){});
+            birthdateInput.addEventListener('change', function() {
+                if (this.value) {
+                    const birthDate = new Date(this.value);
+                    const phase = getMoonPhase(birthDate);
+                    const auspiceData = getAuspiceFromPhase(phase);
+                    
+                    auspiceInput.value = auspiceData.auspice;
+                    auspiceResult.innerHTML = `${auspiceData.icon} Luna reveals your path: <strong>${auspiceData.name}</strong> (${auspiceData.moon})`;
+                    auspiceResult.classList.add('show');
+                    document.getElementById('next-to-attributes').disabled = false;
+                } else {
+                    auspiceInput.value = '';
+                    auspiceResult.innerHTML = '';
+                    auspiceResult.classList.remove('show');
+                    document.getElementById('next-to-attributes').disabled = true;
+                }
+            });
+
+            // Step 4 -> Step 5 (Auspice to Attribute Category)
+            document.getElementById('next-to-attributes').addEventListener('click', function() {
+                if (auspiceInput.value) {
+                    showStep(steps.auspice, steps.attrCategory);
+                }
+            });
+
+            // Back to Auspice
+            document.getElementById('back-to-auspice').addEventListener('click', function() {
+                showStep(steps.attrCategory, steps.auspice);
+            });
+
+            // Primary Category Selection
+            const categoryChoices = document.querySelectorAll('.attribute-category-choice');
+            categoryChoices.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    categoryChoices.forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
+                    btn.classList.add('selected');
+                    selectedPrimaryCategory = btn.dataset.category;
+                    document.getElementById('primary-category').value = selectedPrimaryCategory;
+                    document.getElementById('next-to-primary-attr').disabled = false;
+                });
+            });
+
+            // Step 5 -> Step 6 (Category to Primary Attribute)
+            document.getElementById('next-to-primary-attr').addEventListener('click', function() {
+                if (selectedPrimaryCategory) {
+                    populatePrimaryAttributes();
+                    showStep(steps.attrCategory, steps.primaryAttr);
+                }
+            });
+
+            // Populate primary attribute choices
+            function populatePrimaryAttributes() {
+                const container = document.getElementById('primary-attr-choices');
+                const category = attributeCategories[selectedPrimaryCategory];
+                
+                document.getElementById('primary-attr-prompt').textContent = category.prompt;
+                document.getElementById('primary-attr-question').textContent = 'When you strip away everything else, what truth remains at your center?';
+                
+                container.innerHTML = '';
+                Object.entries(category.attributes).forEach(function([key, attr]) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn attribute-choice';
+                    btn.dataset.attribute = key;
+                    btn.innerHTML = `
+                        <span class="choice-title">${attr.title}</span>
+                        <span class="choice-desc">${attr.desc}</span>
+                    `;
+                    btn.addEventListener('click', function() {
+                        container.querySelectorAll('.attribute-choice').forEach(function(b) {
+                            b.classList.remove('selected');
+                        });
+                        btn.classList.add('selected');
+                        selectedPrimaryAttribute = key;
+                        document.getElementById('primary-attribute').value = key;
+                        document.getElementById('next-to-secondary-category').disabled = false;
+                    });
+                    container.appendChild(btn);
+                });
+            }
+
+            // Back to Category
+            document.getElementById('back-to-category').addEventListener('click', function() {
+                showStep(steps.primaryAttr, steps.attrCategory);
+            });
+
+            // Step 6 -> Step 7 (Primary Attr to Secondary Category)
+            document.getElementById('next-to-secondary-category').addEventListener('click', function() {
+                if (selectedPrimaryAttribute) {
+                    populateSecondaryCategories();
+                    showStep(steps.primaryAttr, steps.secondaryCategory);
+                }
+            });
+
+            // Populate secondary category choices
+            function populateSecondaryCategories() {
+                const container = document.getElementById('secondary-category-choices');
+                container.innerHTML = '';
+                
+                Object.entries(attributeCategories).forEach(function([key, cat]) {
+                    if (key !== selectedPrimaryCategory) {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'choice-btn attribute-category-choice';
+                        btn.dataset.category = key;
+                        
+                        let title, desc;
+                        if (key === 'physical') {
+                            title = 'The Body';
+                            desc = 'Physical prowess and endurance';
+                        } else if (key === 'social') {
+                            title = 'The Pack';
+                            desc = 'Social influence and connection';
+                        } else {
+                            title = 'The Mind';
+                            desc = 'Mental acuity and awareness';
+                        }
+                        
+                        btn.innerHTML = `
+                            <span class="choice-title">${title}</span>
+                            <span class="choice-desc">${desc}</span>
+                        `;
+                        btn.addEventListener('click', function() {
+                            container.querySelectorAll('.attribute-category-choice').forEach(function(b) {
+                                b.classList.remove('selected');
+                            });
+                            btn.classList.add('selected');
+                            selectedSecondaryCategory = key;
+                            document.getElementById('secondary-category').value = key;
+                            document.getElementById('next-to-secondary-attrs').disabled = false;
+                        });
+                        container.appendChild(btn);
+                    }
+                });
+            }
+
+            // Back to Primary Attr
+            document.getElementById('back-to-primary-attr').addEventListener('click', function() {
+                showStep(steps.secondaryCategory, steps.primaryAttr);
+            });
+
+            // Step 7 -> Step 8 (Secondary Category to Secondary Attrs)
+            document.getElementById('next-to-secondary-attrs').addEventListener('click', function() {
+                if (selectedSecondaryCategory) {
+                    populateSecondaryAttributes();
+                    showStep(steps.secondaryCategory, steps.secondaryAttrs);
+                }
+            });
+
+            // Populate secondary attribute choices (multi-select 3)
+            function populateSecondaryAttributes() {
+                const container = document.getElementById('secondary-attr-choices');
+                const primaryCat = attributeCategories[selectedPrimaryCategory];
+                const secondaryCat = attributeCategories[selectedSecondaryCategory];
+                
+                container.innerHTML = '';
+                selectedSecondaryAttributes = [];
+                updateSecondaryCounter();
+                
+                // Add remaining attributes from primary category (excluding the primary one)
+                Object.entries(primaryCat.attributes).forEach(function([key, attr]) {
+                    if (key !== selectedPrimaryAttribute) {
+                        addSecondaryAttrButton(container, key, attr);
+                    }
+                });
+                
+                // Add all attributes from secondary category
+                Object.entries(secondaryCat.attributes).forEach(function([key, attr]) {
+                    addSecondaryAttrButton(container, key, attr);
+                });
+            }
+
+            function addSecondaryAttrButton(container, key, attr) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'choice-btn attribute-choice';
+                btn.dataset.attribute = key;
+                btn.innerHTML = `
+                    <span class="choice-title">${attr.title}</span>
+                    <span class="choice-desc">${attr.desc}</span>
+                `;
+                btn.addEventListener('click', function() {
+                    if (btn.classList.contains('selected')) {
+                        btn.classList.remove('selected');
+                        selectedSecondaryAttributes = selectedSecondaryAttributes.filter(a => a !== key);
+                    } else if (selectedSecondaryAttributes.length < 3) {
+                        btn.classList.add('selected');
+                        selectedSecondaryAttributes.push(key);
+                    }
+                    updateSecondaryCounter();
+                    document.getElementById('next-to-tertiary-attrs').disabled = selectedSecondaryAttributes.length !== 3;
+                });
+                container.appendChild(btn);
+            }
+
+            function updateSecondaryCounter() {
+                document.getElementById('secondary-counter').textContent = `Chosen: ${selectedSecondaryAttributes.length} of 3`;
+            }
+
+            // Back to Secondary Category
+            document.getElementById('back-to-secondary-category').addEventListener('click', function() {
+                showStep(steps.secondaryAttrs, steps.secondaryCategory);
+            });
+
+            // Step 8 -> Step 9 (Secondary Attrs to Tertiary Attrs)
+            document.getElementById('next-to-tertiary-attrs').addEventListener('click', function() {
+                if (selectedSecondaryAttributes.length === 3) {
+                    populateTertiaryAttributes();
+                    showStep(steps.secondaryAttrs, steps.tertiaryAttrs);
+                }
+            });
+
+            // Get tertiary category (the one not selected)
+            function getTertiaryCategory() {
+                const categories = ['physical', 'social', 'mental'];
+                return categories.find(c => c !== selectedPrimaryCategory && c !== selectedSecondaryCategory);
+            }
+
+            // Populate tertiary attribute choices (multi-select 4, leaving 1 at lowest)
+            function populateTertiaryAttributes() {
+                const container = document.getElementById('tertiary-attr-choices');
+                const tertiaryCatKey = getTertiaryCategory();
+                const tertiaryCat = attributeCategories[tertiaryCatKey];
+                const primaryCat = attributeCategories[selectedPrimaryCategory];
+                const secondaryCat = attributeCategories[selectedSecondaryCategory];
+                
+                container.innerHTML = '';
+                selectedTertiaryAttributes = [];
+                updateTertiaryCounter();
+                
+                // Collect all remaining attributes not yet assigned
+                const remainingAttrs = [];
+                
+                // Add all attributes from tertiary category (none assigned yet)
+                Object.entries(tertiaryCat.attributes).forEach(function([key, attr]) {
+                    remainingAttrs.push({ key, attr });
+                });
+                
+                // Add remaining from primary category (not the primary attribute and not selected as secondary)
+                Object.entries(primaryCat.attributes).forEach(function([key, attr]) {
+                    if (key !== selectedPrimaryAttribute && !selectedSecondaryAttributes.includes(key)) {
+                        remainingAttrs.push({ key, attr });
+                    }
+                });
+                
+                // Add remaining from secondary category (not selected as secondary)
+                Object.entries(secondaryCat.attributes).forEach(function([key, attr]) {
+                    if (!selectedSecondaryAttributes.includes(key)) {
+                        remainingAttrs.push({ key, attr });
+                    }
+                });
+                
+                // Add buttons for all remaining attributes
+                remainingAttrs.forEach(function(item) {
+                    addTertiaryAttrButton(container, item.key, item.attr);
+                });
+            }
+
+            function addTertiaryAttrButton(container, key, attr) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'choice-btn attribute-choice';
+                btn.dataset.attribute = key;
+                btn.innerHTML = `
+                    <span class="choice-title">${attr.title}</span>
+                    <span class="choice-desc">${attr.desc}</span>
+                `;
+                btn.addEventListener('click', function() {
+                    if (btn.classList.contains('selected')) {
+                        btn.classList.remove('selected');
+                        selectedTertiaryAttributes = selectedTertiaryAttributes.filter(a => a !== key);
+                    } else if (selectedTertiaryAttributes.length < 4) {
+                        btn.classList.add('selected');
+                        selectedTertiaryAttributes.push(key);
+                    }
+                    updateTertiaryCounter();
+                    
+                    // Calculate weakest attribute (the one not selected from all remaining)
+                    if (selectedTertiaryAttributes.length === 4) {
+                        // Get all remaining attributes
+                        const allRemainingAttrs = getAllRemainingAttributes();
+                        weakestAttribute = allRemainingAttrs.find(a => !selectedTertiaryAttributes.includes(a));
+                    }
+                    
+                    document.getElementById('next-to-summary').disabled = selectedTertiaryAttributes.length !== 4;
+                });
+                container.appendChild(btn);
+            }
+            
+            // Helper function to get all remaining attributes
+            function getAllRemainingAttributes() {
+                const remaining = [];
+                const tertiaryCatKey = getTertiaryCategory();
+                const tertiaryCat = attributeCategories[tertiaryCatKey];
+                const primaryCat = attributeCategories[selectedPrimaryCategory];
+                const secondaryCat = attributeCategories[selectedSecondaryCategory];
+                
+                // Tertiary category attrs
+                Object.keys(tertiaryCat.attributes).forEach(function(key) {
+                    remaining.push(key);
+                });
+                
+                // Remaining from primary
+                Object.keys(primaryCat.attributes).forEach(function(key) {
+                    if (key !== selectedPrimaryAttribute && !selectedSecondaryAttributes.includes(key)) {
+                        remaining.push(key);
+                    }
+                });
+                
+                // Remaining from secondary
+                Object.keys(secondaryCat.attributes).forEach(function(key) {
+                    if (!selectedSecondaryAttributes.includes(key)) {
+                        remaining.push(key);
+                    }
+                });
+                
+                return remaining;
+            }
+
+            function updateTertiaryCounter() {
+                document.getElementById('tertiary-counter').textContent = `Chosen: ${selectedTertiaryAttributes.length} of 4`;
+            }
+
+            // Back to Secondary Attrs
+            document.getElementById('back-to-secondary-attrs').addEventListener('click', function() {
+                showStep(steps.tertiaryAttrs, steps.secondaryAttrs);
+            });
+
+            // Step 9 -> Step 10 (Tertiary to Summary)
+            document.getElementById('next-to-summary').addEventListener('click', function() {
+                if (selectedTertiaryAttributes.length === 4) {
+                    calculateFinalAttributes();
+                    populateSummary();
+                    showStep(steps.tertiaryAttrs, steps.summary);
+                }
+            });
+
+            // Calculate final attribute values
+            function calculateFinalAttributes() {
+                // Reset all to base 1
+                Object.keys(characterData.attributes).forEach(function(attr) {
+                    characterData.attributes[attr] = 1;
+                });
+                
+                // Primary attribute: 4 points
+                characterData.attributes[selectedPrimaryAttribute] = 4;
+                
+                // Secondary attributes (3 selected): 3 points each
+                selectedSecondaryAttributes.forEach(function(attr) {
+                    characterData.attributes[attr] = 3;
+                });
+                
+                // Tertiary attributes (4 selected from tertiary category): 2 points each
+                selectedTertiaryAttributes.forEach(function(attr) {
+                    characterData.attributes[attr] = 2;
+                });
+                
+                // Weakest attribute stays at 1
+                if (weakestAttribute) {
+                    characterData.attributes[weakestAttribute] = 1;
+                }
+            }
+
+            // Populate summary
+            function populateSummary() {
+                const container = document.getElementById('character-summary');
+                const name = characterNameInput.value;
+                
+                container.innerHTML = `
+                    <div class="summary-section">
+                        <h3>${name}</h3>
+                        <p class="summary-subtitle">${getGenderLabel(genderInput.value)} ${getTribeLabel(document.getElementById('tribe').value)} ${getAuspiceLabel(auspiceInput.value)}</p>
+                    </div>
+                    <div class="summary-section">
+                        <h4>Attributes</h4>
+                        <div class="attribute-grid">
+                            <div class="attr-category">
+                                <h5>Physical</h5>
+                                <div class="attr-item ${characterData.attributes.strength === 4 ? 'primary' : characterData.attributes.strength === 3 ? 'secondary' : characterData.attributes.strength === 2 ? 'tertiary' : 'weak'}">
+                                    Strength: ${getDotsDisplay(characterData.attributes.strength)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.dexterity === 4 ? 'primary' : characterData.attributes.dexterity === 3 ? 'secondary' : characterData.attributes.dexterity === 2 ? 'tertiary' : 'weak'}">
+                                    Dexterity: ${getDotsDisplay(characterData.attributes.dexterity)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.stamina === 4 ? 'primary' : characterData.attributes.stamina === 3 ? 'secondary' : characterData.attributes.stamina === 2 ? 'tertiary' : 'weak'}">
+                                    Stamina: ${getDotsDisplay(characterData.attributes.stamina)}
+                                </div>
+                            </div>
+                            <div class="attr-category">
+                                <h5>Social</h5>
+                                <div class="attr-item ${characterData.attributes.charisma === 4 ? 'primary' : characterData.attributes.charisma === 3 ? 'secondary' : characterData.attributes.charisma === 2 ? 'tertiary' : 'weak'}">
+                                    Charisma: ${getDotsDisplay(characterData.attributes.charisma)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.manipulation === 4 ? 'primary' : characterData.attributes.manipulation === 3 ? 'secondary' : characterData.attributes.manipulation === 2 ? 'tertiary' : 'weak'}">
+                                    Manipulation: ${getDotsDisplay(characterData.attributes.manipulation)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.composure === 4 ? 'primary' : characterData.attributes.composure === 3 ? 'secondary' : characterData.attributes.composure === 2 ? 'tertiary' : 'weak'}">
+                                    Composure: ${getDotsDisplay(characterData.attributes.composure)}
+                                </div>
+                            </div>
+                            <div class="attr-category">
+                                <h5>Mental</h5>
+                                <div class="attr-item ${characterData.attributes.intelligence === 4 ? 'primary' : characterData.attributes.intelligence === 3 ? 'secondary' : characterData.attributes.intelligence === 2 ? 'tertiary' : 'weak'}">
+                                    Intelligence: ${getDotsDisplay(characterData.attributes.intelligence)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.wits === 4 ? 'primary' : characterData.attributes.wits === 3 ? 'secondary' : characterData.attributes.wits === 2 ? 'tertiary' : 'weak'}">
+                                    Wits: ${getDotsDisplay(characterData.attributes.wits)}
+                                </div>
+                                <div class="attr-item ${characterData.attributes.resolve === 4 ? 'primary' : characterData.attributes.resolve === 3 ? 'secondary' : characterData.attributes.resolve === 2 ? 'tertiary' : 'weak'}">
+                                    Resolve: ${getDotsDisplay(characterData.attributes.resolve)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function getDotsDisplay(value) {
+                return '●'.repeat(value) + '○'.repeat(5 - value);
+            }
+
+            function getGenderLabel(gender) {
+                const labels = {
+                    'male': 'Male',
+                    'female': 'Female',
+                    'non-binary': 'Non-Binary',
+                    'genderfluid': 'Genderfluid',
+                    'agender': 'Agender'
+                };
+                return labels[gender] || gender;
+            }
+
+            function getTribeLabel(tribe) {
+                const labels = {
+                    'black-furies': 'Black Fury',
+                    'bone-gnawers': 'Bone Gnawer',
+                    'children-of-gaia': 'Child of Gaia',
+                    'fianna': 'Fianna',
+                    'get-of-fenris': 'Get of Fenris',
+                    'glass-walkers': 'Glass Walker',
+                    'red-talons': 'Red Talon',
+                    'shadow-lords': 'Shadow Lord',
+                    'silent-striders': 'Silent Strider',
+                    'silver-fangs': 'Silver Fang',
+                    'stargazers': 'Stargazer',
+                    'uktena': 'Uktena',
+                    'wendigo': 'Wendigo'
+                };
+                return labels[tribe] || tribe;
+            }
+
+            function getAuspiceLabel(auspice) {
+                const labels = {
+                    'ragabash': 'Ragabash',
+                    'theurge': 'Theurge',
+                    'philodox': 'Philodox',
+                    'galliard': 'Galliard',
+                    'ahroun': 'Ahroun'
+                };
+                return labels[auspice] || auspice;
+            }
+
+            // Back to Tertiary
+            document.getElementById('back-to-tertiary').addEventListener('click', function() {
+                showStep(steps.summary, steps.tertiaryAttrs);
+            });
+
+            // Update character data on form submission
+            document.getElementById('character-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                characterData.name = characterNameInput.value;
+                characterData.gender = genderInput.value;
+                characterData.tribe = document.getElementById('tribe').value;
+                characterData.auspice = auspiceInput.value;
+                characterData.birthdate = birthdateInput.value;
+                
+                // Store in localStorage for later use
+                localStorage.setItem('werewolfCharacter', JSON.stringify(characterData));
+                
+                console.log('Character created:', characterData);
+                alert('Character created successfully! Your journey begins...');
+            });
         });
     </script>
 </body>
