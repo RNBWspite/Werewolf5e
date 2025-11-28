@@ -753,3 +753,122 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .attr-item.weak {
   color: rgba(255, 255, 255, 0.5);
 }
+
+/* Tribe Questionnaire Styles */
+.tribe-progress {
+  text-align: center;
+  font-size: 14px;
+  color: #9acd32;
+  margin-bottom: 20px;
+  font-family: 'Special Elite', cursive;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.tribe-question-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tribe-answer-btn {
+  padding: 15px 20px;
+  text-align: left;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.tribe-answer-btn:hover {
+  transform: translateX(5px);
+}
+
+.tribe-answer-btn.selected {
+  background-color: rgba(85, 107, 47, 0.7);
+  border-color: #9acd32;
+  box-shadow: 0 0 20px rgba(154, 205, 50, 0.5);
+}
+
+/* Tribe Result Styles */
+.tribe-result-single,
+.tribe-result-tie {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(107, 142, 35, 0.5);
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+}
+
+.tribe-result-single .tribe-name,
+.tribe-result-tie h3 {
+  font-size: 28px;
+  color: #9acd32;
+  margin: 0 0 15px 0;
+  font-family: 'Special Elite', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.tribe-result-single .tribe-score {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.tribe-result-single .tribe-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.tribe-result-single .tribe-values {
+  font-size: 14px;
+  color: #9acd32;
+  text-align: left;
+}
+
+.tribe-tie-intro {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.tribe-tie-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tribe-tie-choice {
+  padding: 20px;
+  text-align: left;
+}
+
+.tribe-tie-choice .choice-title {
+  font-size: 20px;
+  color: #9acd32;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.tribe-tie-choice .choice-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.tribe-tie-choice .tribe-values-small {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  display: block;
+}
+
+.tribe-tie-choice.selected {
+  background-color: rgba(85, 107, 47, 0.7);
+  border-color: #9acd32;
+  box-shadow: 0 0 20px rgba(154, 205, 50, 0.5);
+}
