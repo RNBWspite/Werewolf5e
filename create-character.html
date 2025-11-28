@@ -548,7 +548,7 @@
                         { text: "Meditate to find the right questions and approach with respect.", tribe: "stargazers" },
                         { text: "Research ancient texts and consult with spirit talkers.", tribe: "silver-fangs" },
                         { text: "Approach with offerings and humble words, seeking mutual benefit.", tribe: "children-of-gaia" },
-                        { text: "Track down others who've dealt with this spirit and learn from their experiences.", tribe: "silent-striders" }
+                        { text: "Confront the spirit with strength—show it you won't be intimidated.", tribe: "black-furies" }
                     ]
                 },
                 {
@@ -845,10 +845,16 @@
                     if (score > maxScore) {
                         maxScore = score;
                         topTribes = [tribe];
-                    } else if (score === maxScore) {
+                    } else if (score === maxScore && score > 0) {
+                        // Only add ties if score is greater than 0
                         topTribes.push(tribe);
                     }
                 });
+                
+                // If no answers were given, default to allowing user to pick any tribe
+                if (maxScore === 0) {
+                    topTribes = Object.keys(tribeScores);
+                }
                 
                 return { maxScore, topTribes };
             }
