@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Characters - Werewolf 5e</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/styles.css">
+</head>
+<body>
+    <header class="sticky-header">
+        <nav>
+            <a href="index.html" class="nav-home" aria-label="Home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+            <a href="account.html">Account</a>
+            <a href="characters.html" class="active">Characters</a>
+            <a href="sessions.html">Sessions</a>
+            <a href="about.html">About Us</a>
+        </nav>
+        <a href="index.html" class="header-logo-link">
+            <img src="https://github.com/user-attachments/assets/aaa6e10d-a24c-4711-8da7-2683d2028d7b" alt="RNBW Logo" class="header-logo">
+        </a>
+    </header>
+    
+    <main class="characters-main">
+        <div class="characters-header">
+            <h1>Your Characters</h1>
+            <p class="subtitle">View and manage your characters across all gaming systems.</p>
+        </div>
+        
+        <!-- Not Logged In Message -->
+        <div id="login-prompt" class="login-prompt hidden">
+            <div class="prompt-content">
+                <h2>Sign In Required</h2>
+                <p>Please sign in to view your saved characters.</p>
+                <a href="account.html" class="btn btn-primary">Go to Account</a>
+            </div>
+        </div>
+        
+        <!-- Characters List -->
+        <div id="characters-content" class="characters-content hidden">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="system-filter">Gaming System:</label>
+                    <select id="system-filter">
+                        <option value="all">All Systems</option>
+                        <option value="werewolf-apocalypse">Werewolf: The Apocalypse</option>
+                        <option value="dnd5e">Dungeons & Dragons 5e</option>
+                        <option value="vampire-masquerade">Vampire: The Masquerade</option>
+                        <option value="call-of-cthulhu">Call of Cthulhu</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="campaign-filter">Campaign:</label>
+                    <select id="campaign-filter">
+                        <option value="all">All Campaigns</option>
+                        <option value="none">No Campaign</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Characters Grid -->
+            <div id="characters-grid" class="characters-grid">
+                <!-- Dynamically populated -->
+            </div>
+            
+            <!-- Empty State -->
+            <div id="empty-characters" class="empty-characters hidden">
+                <div class="empty-content">
+                    <span class="empty-icon">🐺</span>
+                    <h3>No Characters Yet</h3>
+                    <p>Your journey awaits! Create your first character to begin your adventure.</p>
+                    <a href="index.html" class="btn btn-primary">Create Character</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Character Detail Modal -->
+    <div id="character-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content character-detail-modal">
+            <button type="button" class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+            <div id="character-detail-content">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // HTML escape utility to prevent XSS
+            function escapeHtml(text) {
+                if (text === null || text === undefined) return '';
+                const div = document.createElement('div');
+                div.textContent = String(text);
+                return div.innerHTML;
+            }
+            
+            // DOM Elements
+            const loginPrompt = document.getElementById('login-prompt');
+            const charactersContent = document.getElementById('characters-content');
+            const charactersGrid = document.getElementById('characters-grid');
+            const emptyCharacters = document.getElementById('empty-characters');
+            const systemFilter = document.getElementById('system-filter');
+            const campaignFilter = document.getElementById('campaign-filter');
+            const characterModal = document.getElementById('character-modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const characterDetailContent = document.getElementById('character-detail-content');
+            
+            // Gaming systems configuration
+            const gamingSystems = {
+                'werewolf-apocalypse': {
+                    name: 'Werewolf: The Apocalypse',
+                    icon: '🐺',
+                    color: '#6b8e23'
+                },
+                'dnd5e': {
+                    name: 'Dungeons & Dragons 5e',
+                    icon: '🐉',
+                    color: '#8b0000'
+                },
+                'vampire-masquerade': {
+                    name: 'Vampire: The Masquerade',
+                    icon: '🧛',
+                    color: '#4a0000'
+                },
+                'call-of-cthulhu': {
+                    name: 'Call of Cthulhu',
+                    icon: '🐙',
+                    color: '#1a3a1a'
+                }
+            };
+            
+            let currentUser = null;
+            let userCharacters = [];
+            
+            // Check auth state
+            function checkAuthState() {
+                const user = localStorage.getItem('currentUser');
+                if (user) {
+                    currentUser = JSON.parse(user);
+                    loginPrompt.classList.add('hidden');
+                    charactersContent.classList.remove('hidden');
+                    loadCharacters();
+                    loadCampaignsFilter();
+                } else {
+                    loginPrompt.classList.remove('hidden');
+                    charactersContent.classList.add('hidden');
+                }
+            }
+            
+            // Load user's characters
+            function loadCharacters() {
+                const allCharacters = JSON.parse(localStorage.getItem('characters') || '[]');
+                userCharacters = allCharacters.filter(char => char.userEmail === currentUser.email);
+                renderCharacters(userCharacters);
+            }
+            
+            // Load campaigns for filter
+            function loadCampaignsFilter() {
+                const allCampaigns = JSON.parse(localStorage.getItem('campaigns') || '[]');
+                const userCampaigns = allCampaigns.filter(campaign => 
+                    campaign.gmEmail === currentUser.email || 
+                    (campaign.players && campaign.players.includes(currentUser.email))
+                );
+                
+                // Add campaigns to filter dropdown
+                userCampaigns.forEach(campaign => {
+                    const option = document.createElement('option');
+                    option.value = campaign.id;
+                    option.textContent = campaign.name;
+                    campaignFilter.appendChild(option);
+                });
+            }
+            
+            // Render characters grid
+            function renderCharacters(characters) {
+                if (characters.length === 0) {
+                    charactersGrid.classList.add('hidden');
+                    emptyCharacters.classList.remove('hidden');
+                    return;
+                }
+                
+                charactersGrid.classList.remove('hidden');
+                emptyCharacters.classList.add('hidden');
+                
+                let html = '';
+                characters.forEach((char, index) => {
+                    const system = gamingSystems[char.system] || gamingSystems['werewolf-apocalypse'];
+                    const campaignName = char.campaignId ? escapeHtml(getCampaignName(char.campaignId)) : 'No Campaign';
+                    
+                    html += `
+                        <div class="character-card" data-character-index="${index}" style="--system-color: ${escapeHtml(system.color)}">
+                            <div class="card-header">
+                                <span class="system-badge">${escapeHtml(system.icon)} ${escapeHtml(system.name)}</span>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="character-name">${escapeHtml(char.name) || 'Unnamed Character'}</h3>
+                                <div class="character-details">
+                                    ${char.tribe ? `<span class="detail-item">Tribe: ${escapeHtml(formatTribe(char.tribe))}</span>` : ''}
+                                    ${char.auspice ? `<span class="detail-item">Auspice: ${escapeHtml(formatAuspice(char.auspice))}</span>` : ''}
+                                    ${char.gender ? `<span class="detail-item">Gender: ${escapeHtml(formatGender(char.gender))}</span>` : ''}
+                                </div>
+                                <div class="campaign-badge">
+                                    <span class="campaign-label">Campaign:</span>
+                                    <span class="campaign-name">${campaignName}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-primary view-character-btn" data-index="${index}">View Details</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                charactersGrid.innerHTML = html;
+                
+                // Add click handlers
+                document.querySelectorAll('.view-character-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        showCharacterDetail(userCharacters[index]);
+                    });
+                });
+            }
+            
+            // Get campaign name by ID
+            function getCampaignName(campaignId) {
+                const allCampaigns = JSON.parse(localStorage.getItem('campaigns') || '[]');
+                const campaign = allCampaigns.find(c => c.id === campaignId);
+                return campaign ? campaign.name : 'Unknown Campaign';
+            }
+            
+            // Format tribe name
+            function formatTribe(tribe) {
+                const tribes = {
+                    'black-furies': 'Black Furies',
+                    'bone-gnawers': 'Bone Gnawers',
+                    'children-of-gaia': 'Children of Gaia',
+                    'fianna': 'Fianna',
+                    'ghost-council': 'Ghost Council',
+                    'glass-walkers': 'Glass Walkers',
+                    'red-talons': 'Red Talons',
+                    'shadow-lords': 'Shadow Lords',
+                    'silent-striders': 'Silent Striders',
+                    'silver-fangs': 'Silver Fangs',
+                    'stargazers': 'Stargazers'
+                };
+                return tribes[tribe] || tribe;
+            }
+            
+            // Format auspice name
+            function formatAuspice(auspice) {
+                const auspices = {
+                    'ragabash': 'Ragabash',
+                    'theurge': 'Theurge',
+                    'philodox': 'Philodox',
+                    'galliard': 'Galliard',
+                    'ahroun': 'Ahroun'
+                };
+                return auspices[auspice] || auspice;
+            }
+            
+            // Format gender
+            function formatGender(gender) {
+                const genders = {
+                    'male': 'Male',
+                    'female': 'Female',
+                    'non-binary': 'Non-Binary',
+                    'genderfluid': 'Genderfluid',
+                    'agender': 'Agender'
+                };
+                return genders[gender] || gender;
+            }
+            
+            // Get dots display
+            function getDotsDisplay(value) {
+                return '●'.repeat(value) + '○'.repeat(5 - value);
+            }
+            
+            // Show character detail modal
+            function showCharacterDetail(character) {
+                const system = gamingSystems[character.system] || gamingSystems['werewolf-apocalypse'];
+                
+                let attributesHtml = '';
+                if (character.attributes) {
+                    attributesHtml = `
+                        <div class="detail-section">
+                            <h4>Attributes</h4>
+                            <div class="attributes-grid">
+                                <div class="attr-category">
+                                    <h5>Physical</h5>
+                                    <div class="attr-item">Strength: ${getDotsDisplay(character.attributes.strength || 1)}</div>
+                                    <div class="attr-item">Dexterity: ${getDotsDisplay(character.attributes.dexterity || 1)}</div>
+                                    <div class="attr-item">Stamina: ${getDotsDisplay(character.attributes.stamina || 1)}</div>
+                                </div>
+                                <div class="attr-category">
+                                    <h5>Social</h5>
+                                    <div class="attr-item">Charisma: ${getDotsDisplay(character.attributes.charisma || 1)}</div>
+                                    <div class="attr-item">Manipulation: ${getDotsDisplay(character.attributes.manipulation || 1)}</div>
+                                    <div class="attr-item">Composure: ${getDotsDisplay(character.attributes.composure || 1)}</div>
+                                </div>
+                                <div class="attr-category">
+                                    <h5>Mental</h5>
+                                    <div class="attr-item">Intelligence: ${getDotsDisplay(character.attributes.intelligence || 1)}</div>
+                                    <div class="attr-item">Wits: ${getDotsDisplay(character.attributes.wits || 1)}</div>
+                                    <div class="attr-item">Resolve: ${getDotsDisplay(character.attributes.resolve || 1)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                let skillsHtml = '';
+                if (character.skills) {
+                    const skillsByCategory = { physical: [], social: [], mental: [] };
+                    const skillCategories = {
+                        athletics: 'physical', brawl: 'physical', firearms: 'physical',
+                        larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
+                        empathy: 'social', etiquette: 'social', intimidation: 'social',
+                        leadership: 'social', performance: 'social', persuasion: 'social',
+                        streetwise: 'social', subterfuge: 'social',
+                        academics: 'mental', awareness: 'mental', craft: 'mental',
+                        insight: 'mental', investigation: 'mental', medicine: 'mental',
+                        occult: 'mental', science: 'mental', technology: 'mental'
+                    };
+                    
+                    Object.entries(character.skills).forEach(([skill, value]) => {
+                        if (value > 0) {
+                            const category = skillCategories[skill] || 'mental';
+                            skillsByCategory[category].push({ name: skill, value: value });
+                        }
+                    });
+                    
+                    // Sort each category by value
+                    Object.keys(skillsByCategory).forEach(cat => {
+                        skillsByCategory[cat].sort((a, b) => b.value - a.value);
+                    });
+                    
+                    skillsHtml = `
+                        <div class="detail-section">
+                            <h4>Skills</h4>
+                            <div class="skills-grid">
+                                <div class="skill-category">
+                                    <h5>Physical</h5>
+                                    ${skillsByCategory.physical.map(s => `<div class="skill-item">${escapeHtml(s.name)}: ${getDotsDisplay(s.value)}</div>`).join('')}
+                                </div>
+                                <div class="skill-category">
+                                    <h5>Social</h5>
+                                    ${skillsByCategory.social.map(s => `<div class="skill-item">${escapeHtml(s.name)}: ${getDotsDisplay(s.value)}</div>`).join('')}
+                                </div>
+                                <div class="skill-category">
+                                    <h5>Mental</h5>
+                                    ${skillsByCategory.mental.map(s => `<div class="skill-item">${escapeHtml(s.name)}: ${getDotsDisplay(s.value)}</div>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                let backstoryHtml = '';
+                if (character.backstory) {
+                    backstoryHtml = `
+                        <div class="detail-section">
+                            <h4>Backstory</h4>
+                            <div class="backstory-content">
+                                ${character.backstory.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                characterDetailContent.innerHTML = `
+                    <div class="character-detail-header" style="--system-color: ${escapeHtml(system.color)}">
+                        <span class="system-badge">${escapeHtml(system.icon)} ${escapeHtml(system.name)}</span>
+                        <h2 id="modal-title">${escapeHtml(character.name) || 'Unnamed Character'}</h2>
+                        <p class="character-subtitle">
+                            ${character.gender ? escapeHtml(formatGender(character.gender)) : ''} 
+                            ${character.tribe ? escapeHtml(formatTribe(character.tribe)) : ''} 
+                            ${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : ''}
+                        </p>
+                    </div>
+                    <div class="character-detail-body">
+                        ${attributesHtml}
+                        ${skillsHtml}
+                        ${backstoryHtml}
+                        <div class="detail-section">
+                            <h4>Campaign</h4>
+                            <p>${character.campaignId ? escapeHtml(getCampaignName(character.campaignId)) : 'Not assigned to any campaign'}</p>
+                        </div>
+                        <div class="detail-section">
+                            <p class="created-date">Created: ${new Date(character.createdAt).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                `;
+                
+                characterModal.classList.add('active');
+            }
+            
+            // Close modal
+            modalCloseBtn.addEventListener('click', function() {
+                characterModal.classList.remove('active');
+            });
+            
+            characterModal.addEventListener('click', function(e) {
+                if (e.target === characterModal) {
+                    characterModal.classList.remove('active');
+                }
+            });
+            
+            // Filter handlers
+            systemFilter.addEventListener('change', filterCharacters);
+            campaignFilter.addEventListener('change', filterCharacters);
+            
+            function filterCharacters() {
+                const systemValue = systemFilter.value;
+                const campaignValue = campaignFilter.value;
+                
+                let filtered = userCharacters;
+                
+                if (systemValue !== 'all') {
+                    filtered = filtered.filter(char => char.system === systemValue);
+                }
+                
+                if (campaignValue === 'none') {
+                    filtered = filtered.filter(char => !char.campaignId);
+                } else if (campaignValue !== 'all') {
+                    filtered = filtered.filter(char => char.campaignId === campaignValue);
+                }
+                
+                renderCharacters(filtered);
+            }
+            
+            // Initialize
+            checkAuthState();
+        });
+    </script>
+</body>
+</html>
