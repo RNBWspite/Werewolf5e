@@ -153,8 +153,11 @@
                     primaryColor: '#8b7355',
                     secondaryColor: '#3d2e1f',
                     accentColor: '#d4a574',
-                    symbol: '🦴',
-                    backgroundPattern: 'linear-gradient(135deg, #3d2e1f 0%, #2a1f14 50%, #4d3e2f 100%)'
+                    symbol: '🐀',
+                    backgroundPattern: 'linear-gradient(135deg, #3d2e1f 0%, #2a1f14 50%, #4d3e2f 100%)',
+                    customClass: 'bone-gnawer-theme',
+                    borderColor: '#8b4513',
+                    textureOverlay: true
                 },
                 'children-of-gaia': {
                     name: 'Children of Gaia',
@@ -714,12 +717,24 @@
                 
                 // Character sheet styled like the PDF
                 characterDetailContent.innerHTML = `
-                    <div class="character-sheet" style="
+                    <div class="character-sheet ${tribeTheme.customClass || ''}" style="
                         --tribe-primary: ${tribeTheme.primaryColor};
                         --tribe-secondary: ${tribeTheme.secondaryColor};
                         --tribe-accent: ${tribeTheme.accentColor};
                         --tribe-bg: ${tribeTheme.backgroundPattern};
+                        --tribe-border: ${tribeTheme.borderColor || tribeTheme.accentColor};
                     ">
+                        ${tribeTheme.customClass === 'bone-gnawer-theme' ? `
+                        <div class="bone-gnawer-decor">
+                            <div class="torn-edge torn-edge-top"></div>
+                            <div class="skull-decor"></div>
+                            <div class="rat-silhouettes"></div>
+                            <div class="sticker-decor">DON'T TRUST<br>SUITS</div>
+                            <div class="paw-prints"></div>
+                            <div class="tribe-nameplate">BONE<br>GNAWERS</div>
+                            <div class="torn-edge torn-edge-bottom"></div>
+                        </div>
+                        ` : ''}
                         <div class="sheet-header" style="background: ${tribeTheme.backgroundPattern};">
                             <div class="sheet-title-section">
                                 <div class="tribe-symbol">${tribeTheme.symbol}</div>
