@@ -88,33 +88,39 @@
                     </div>
                 </div>
 
-                <!-- Step 3: Tribe -->
+                <!-- Step 3: Tribe Questionnaire -->
                 <div class="adventure-step hidden" id="step-tribe" data-step="3">
                     <div class="sticky-question-container">
-                        <p class="adventure-prompt">The figure's eyes gleam with an otherworldly light as the wind carries whispers of ancient packs.</p>
-                        <p class="adventure-question">"The blood of many tribes flows through Gaia's children. Which lineage calls to your spirit?"</p>
+                        <p class="adventure-prompt" id="tribe-quest-prompt">The figure's eyes gleam with an otherworldly light as the wind carries whispers of ancient packs.</p>
+                        <p class="adventure-question" id="tribe-quest-question">"Before I can tell you which tribe's blood runs strongest in your veins, I must understand who you truly are. Let me peer into the moments that shaped your spirit..."</p>
                     </div>
                     <div class="form-group">
-                        <label for="tribe">Your Tribe</label>
-                        <select id="tribe" name="tribe" required>
-                            <option value="">Select a tribe</option>
-                            <option value="black-furies">Black Furies</option>
-                            <option value="bone-gnawers">Bone Gnawers</option>
-                            <option value="children-of-gaia">Children of Gaia</option>
-                            <option value="fianna">Fianna</option>
-                            <option value="get-of-fenris">Get of Fenris</option>
-                            <option value="glass-walkers">Glass Walkers</option>
-                            <option value="red-talons">Red Talons</option>
-                            <option value="shadow-lords">Shadow Lords</option>
-                            <option value="silent-striders">Silent Striders</option>
-                            <option value="silver-fangs">Silver Fangs</option>
-                            <option value="stargazers">Stargazers</option>
-                            <option value="uktena">Uktena</option>
-                            <option value="wendigo">Wendigo</option>
-                        </select>
+                        <p class="tribe-progress" id="tribe-progress">Question 1 of 25</p>
+                        <div class="tribe-question-container" id="tribe-question-container">
+                            <!-- Questions will be dynamically populated -->
+                        </div>
+                        <input type="hidden" id="tribe" name="tribe">
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="back-to-gender">Back</button>
+                        <button type="button" class="btn btn-primary" id="prev-tribe-question" style="display: none;">Previous</button>
+                        <button type="button" class="btn btn-primary" id="next-tribe-question" disabled>Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 3b: Tribe Result -->
+                <div class="adventure-step hidden" id="step-tribe-result" data-step="3b">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder's eyes close for a long moment. When they open again, they shine with ancient wisdom.</p>
+                        <p class="adventure-question" id="tribe-result-question">"The spirits have spoken. Your true tribe has been revealed..."</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="tribe-result-container" id="tribe-result-container">
+                            <!-- Result will be dynamically populated -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-tribe-questions">Retake Questionnaire</button>
                         <button type="button" class="btn btn-primary" id="next-to-auspice">Continue</button>
                     </div>
                 </div>
@@ -285,12 +291,88 @@
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="back-to-secondary-attrs">Back</button>
-                        <button type="button" class="btn btn-primary" id="next-to-summary" disabled>Continue</button>
+                        <button type="button" class="btn btn-primary" id="next-to-skill-type" disabled>Continue</button>
                     </div>
                 </div>
 
-                <!-- Step 10: Character Summary -->
-                <div class="adventure-step hidden" id="step-summary" data-step="10">
+                <!-- Step 10: Skill Distribution Type -->
+                <div class="adventure-step hidden" id="step-skill-type" data-step="10">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder's gaze softens slightly, and they gesture to a weathered stone nearby. "Sit, young one. The attributes of your soul are set, but what of the skills you have honed through your mortal years? Tell me... how have you spent your time before the Change?"</p>
+                        <p class="adventure-question">"What manner of learner are you?"</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="attribute-choices" id="skill-type-choices">
+                            <button type="button" class="choice-btn skill-type-choice" data-skill-type="jack">
+                                <span class="choice-title">A Jack of All Trades</span>
+                                <span class="choice-desc">You've dabbled in everything, never staying too long in one place or one pursuit. You know a little about a lot—enough to get by in almost any situation, though mastery has always eluded you. Your breadth of experience makes you adaptable.</span>
+                                <span class="skill-type-details">One skill at 3, eight at 2, ten at 1 (29 points)</span>
+                            </button>
+                            <button type="button" class="choice-btn skill-type-choice" data-skill-type="balanced">
+                                <span class="choice-title">Balanced</span>
+                                <span class="choice-desc">You've found harmony between focus and flexibility. You've developed a handful of stronger skills while maintaining competence in others. You're neither a master nor a dilettante—you're practical.</span>
+                                <span class="skill-type-details">Three skills at 3, five at 2, seven at 1 (26 points)</span>
+                            </button>
+                            <button type="button" class="choice-btn skill-type-choice" data-skill-type="specialist">
+                                <span class="choice-title">A Specialist</span>
+                                <span class="choice-desc">You've poured yourself into your passions with single-minded dedication. Where others spread themselves thin, you dove deep. You may lack breadth, but in your chosen fields, few can match you.</span>
+                                <span class="skill-type-details">One skill at 4, three at 3, three at 2, three at 1 (22 points)</span>
+                            </button>
+                        </div>
+                        <input type="hidden" id="skill-type" name="skill-type">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-tertiary-attrs">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-to-skills-quest" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 11: Skills Questionnaire -->
+                <div class="adventure-step hidden" id="step-skills-quest" data-step="11">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt" id="skills-quest-prompt">The elder leans forward, eyes gleaming with curiosity. "Now let me see what life has taught you..."</p>
+                        <p class="adventure-question" id="skills-quest-question">"Tell me of a moment that shaped you."</p>
+                    </div>
+                    <div class="form-group">
+                        <p class="skill-progress" id="skill-progress">Scenario 1</p>
+                        <p class="skill-points-remaining" id="skill-points-remaining">Points remaining: 29</p>
+                        <div class="skill-question-container" id="skill-question-container">
+                            <!-- Questions will be dynamically populated -->
+                        </div>
+                        <input type="hidden" id="skills-data" name="skills-data">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-skill-type">Back</button>
+                        <button type="button" class="btn btn-primary" id="next-skill-question" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 12: Skills Result -->
+                <div class="adventure-step hidden" id="step-skills-result" data-step="12">
+                    <div class="sticky-question-container">
+                        <p class="adventure-prompt">The elder nods slowly, a knowing smile crossing their ancient features. "I see now the shape of your past, the skills forged through trial and experience."</p>
+                        <p class="adventure-question">"These are the abilities you carry into your new life."</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="skills-result-container" id="skills-result-container">
+                            <!-- Skills will be dynamically populated -->
+                        </div>
+                        <div class="backstory-container" id="backstory-container">
+                            <h4>Your Story So Far</h4>
+                            <div class="backstory-text" id="backstory-text" contenteditable="true">
+                                <!-- Backstory will be dynamically populated -->
+                            </div>
+                            <p class="backstory-hint">You may edit your backstory above.</p>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="back-to-skills-quest">Retake Questionnaire</button>
+                        <button type="button" class="btn btn-primary" id="next-to-summary">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 13: Character Summary -->
+                <div class="adventure-step hidden" id="step-summary" data-step="13">
                     <div class="sticky-question-container">
                         <p class="adventure-prompt">The elder falls silent at last. For a long moment, they simply regard you, and in their ancient eyes you see something that might be respect—or perhaps recognition. "The spirits have whispered your truth to me," they say finally, their voice soft as falling ash. "I know now what manner of Garou stands before me."</p>
                         <p class="adventure-question">Your nature has been revealed. This is who you are.</p>
@@ -426,17 +508,530 @@
             // Step 2 -> Step 3 (Gender to Tribe)
             document.getElementById('next-to-tribe').addEventListener('click', function() {
                 if (genderInput.value) {
+                    initializeTribeQuestionnaire();
                     showStep(steps.gender, steps.tribe);
                 }
             });
 
-            // Step 3 -> Step 4 (Tribe to Auspice)
+            // ===== TRIBE QUESTIONNAIRE SYSTEM =====
+            
+            // Tribe descriptions for tie-breaker and result display
+            const tribeDescriptions = {
+                'black-furies': {
+                    name: 'Black Furies',
+                    description: 'Fierce defenders of the wild and the wronged, the Black Furies channel righteous fury against those who would harm the innocent or despoil Gaia. They are warriors of vengeance, protectors of sacred places, and champions of those who cannot fight for themselves. Their rage burns cold and precise, and their justice is absolute.',
+                    values: 'Justice, Protection, Feminine Power, Sacred Rage, Defense of the Innocent'
+                },
+                'bone-gnawers': {
+                    name: 'Bone Gnawers',
+                    description: 'Survivors of the margins, the Bone Gnawers thrive where others would perish. They know the streets, the forgotten places, and the desperate wisdom of those who have nothing. They are resourceful, adaptable, and fiercely loyal to their pack and the downtrodden. What others discard, they transform into strength.',
+                    values: 'Survival, Resourcefulness, Community, Street Wisdom, Humility'
+                },
+                'children-of-gaia': {
+                    name: 'Children of Gaia',
+                    description: 'Healers and peacemakers, the Children of Gaia seek unity where others find division. They believe that compassion is strength, and that the war against the Wyrm cannot be won through rage alone. They are mediators between tribes, menders of spiritual wounds, and voices of hope in desperate times.',
+                    values: 'Peace, Healing, Unity, Compassion, Mediation'
+                },
+                'fianna': {
+                    name: 'Fianna',
+                    description: 'Passionate keepers of stories and songs, the Fianna carry the living memory of the Garou. They celebrate life with fierce joy, mourn death with profound sorrow, and face battle with a warrior\'s heart and a poet\'s soul. Their tales inspire courage, and their songs carry power.',
+                    values: 'Passion, Storytelling, Honor, Celebration, Artistic Expression'
+                },
+                'ghost-council': {
+                    name: 'Ghost Council',
+                    description: 'Once known as the Get of Fenris, the Ghost Council has emerged from tragedy transformed. They carry the weight of past mistakes and the determination to forge a new path. They value strength tempered by wisdom, courage balanced by reflection, and honor that serves the greater good.',
+                    values: 'Redemption, Strength, Honor, Self-Improvement, Warrior Spirit'
+                },
+                'glass-walkers': {
+                    name: 'Glass Walkers',
+                    description: 'Adapters and innovators, the Glass Walkers have embraced the human world\'s technology and urban sprawl. They see opportunity where others see corruption, and they work to turn humanity\'s tools against the Wyrm. They are hackers, corporate infiltrators, and masters of the modern age.',
+                    values: 'Innovation, Adaptation, Technology, Progress, Urban Wisdom'
+                },
+                'red-talons': {
+                    name: 'Red Talons',
+                    description: 'Voices of the wild, the Red Talons remember what others have forgotten—that Garou are wolves first. They reject human weakness and embrace the primal truth of fang and claw. They are fierce defenders of wild places and the creatures that dwell within them.',
+                    values: 'Nature, Primal Instinct, Wilderness Protection, Wolf Heritage, Simplicity'
+                },
+                'shadow-lords': {
+                    name: 'Shadow Lords',
+                    description: 'Masters of politics and power, the Shadow Lords understand that victory often comes through cunning rather than claws. They lead from the shadows, manipulate events to serve the greater good, and make the hard decisions others cannot. Authority is their birthright, and they wield it without apology.',
+                    values: 'Leadership, Strategy, Ambition, Political Cunning, Decisive Action'
+                },
+                'silent-striders': {
+                    name: 'Silent Striders',
+                    description: 'Wanderers cursed to never find home, the Silent Striders walk between worlds and places. They carry messages across vast distances, commune with the dead, and know secrets hidden in forgotten corners of the world. Their loneliness is profound, but their wisdom is vast.',
+                    values: 'Travel, Mystery, Communication, Spiritual Connection, Seeking'
+                },
+                'silver-fangs': {
+                    name: 'Silver Fangs',
+                    description: 'Noble leaders of the Garou Nation, the Silver Fangs bear the weight of royal blood and ancient duty. They are bred to command, trained to inspire, and burdened with the expectation of greatness. Their lineage is glorious, though some say the glory fades.',
+                    values: 'Nobility, Leadership, Tradition, Honor, Royal Duty'
+                },
+                'stargazers': {
+                    name: 'Stargazers',
+                    description: 'Seekers of inner truth, the Stargazers pursue enlightenment through meditation and self-mastery. They see the war against the Wyrm as first a war within—against one\'s own rage and weakness. They are philosophers, mystics, and masters of balance.',
+                    values: 'Wisdom, Balance, Inner Peace, Self-Control, Enlightenment'
+                }
+            };
+
+            // 25 Tribe Questions - each answer maps to a tribe
+            // Distribution: Each tribe has at least 5 answers across all questions
+            const tribeQuestions = [
+                {
+                    prompt: "You witness a powerful figure publicly humiliating someone weaker. What do you do?",
+                    answers: [
+                        { text: "Confront them directly—no one should abuse power like this.", tribe: "black-furies" },
+                        { text: "Help the victim slip away quietly, then plot how to humble the bully later.", tribe: "bone-gnawers" },
+                        { text: "Step between them and try to de-escalate before violence erupts.", tribe: "children-of-gaia" },
+                        { text: "Make a scene that embarrasses the bully and turns the crowd against them.", tribe: "fianna" },
+                        { text: "Challenge them openly—let them face someone their own size.", tribe: "ghost-council" }
+                    ]
+                },
+                {
+                    prompt: "You discover a sacred grove is threatened by a construction project. How do you respond?",
+                    answers: [
+                        { text: "Organize protests and bring attention to the sacred nature of the site.", tribe: "black-furies" },
+                        { text: "Hack their systems and create bureaucratic nightmares that delay them indefinitely.", tribe: "glass-walkers" },
+                        { text: "Destroy their equipment under cover of darkness—they'll learn to fear the wild.", tribe: "red-talons" },
+                        { text: "Find leverage against the project leaders and convince them to relocate.", tribe: "shadow-lords" },
+                        { text: "Seek visions to understand what spirits dwell there and how to protect them.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "Your pack faces an impossible battle. How do you prepare?",
+                    answers: [
+                        { text: "Gather every scrap of useful material and improvise weapons and traps.", tribe: "bone-gnawers" },
+                        { text: "Compose a war song to steel your hearts and record your deeds.", tribe: "fianna" },
+                        { text: "Train relentlessly—face your weakness and overcome it through effort.", tribe: "ghost-council" },
+                        { text: "Research the enemy's weaknesses and develop a precise tactical plan.", tribe: "glass-walkers" },
+                        { text: "Appeal to allied packs and spirits, building a coalition of strength.", tribe: "silver-fangs" }
+                    ]
+                },
+                {
+                    prompt: "You meet a lost young werewolf who has just undergone their First Change. What's your priority?",
+                    answers: [
+                        { text: "Protect them from those who might exploit their confusion.", tribe: "black-furies" },
+                        { text: "Share what you know about surviving on the streets and staying hidden.", tribe: "bone-gnawers" },
+                        { text: "Comfort them and help them understand they're not alone in this.", tribe: "children-of-gaia" },
+                        { text: "Take them somewhere wild where they can connect with their wolf nature.", tribe: "red-talons" },
+                        { text: "Guide them through meditation to find calm amid the chaos within.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "Your pack needs information from a dangerous spirit. How do you approach this?",
+                    answers: [
+                        { text: "Seek out the dead who might know this spirit's secrets.", tribe: "silent-striders" },
+                        { text: "Meditate to find the right questions and approach with respect.", tribe: "stargazers" },
+                        { text: "Research ancient texts and consult with spirit talkers.", tribe: "silver-fangs" },
+                        { text: "Approach with offerings and humble words, seeking mutual benefit.", tribe: "children-of-gaia" },
+                        { text: "Confront the spirit with strength—show it you won't be intimidated.", tribe: "black-furies" }
+                    ]
+                },
+                {
+                    prompt: "You discover corruption within your own pack. How do you handle it?",
+                    answers: [
+                        { text: "Expose it immediately—corruption must be purged without mercy.", tribe: "black-furies" },
+                        { text: "Work to rehabilitate the fallen member if there's any hope for them.", tribe: "children-of-gaia" },
+                        { text: "Challenge them honorably and give them a chance to redeem themselves.", tribe: "ghost-council" },
+                        { text: "Manipulate events so they expose themselves before the pack.", tribe: "shadow-lords" },
+                        { text: "Uphold the traditions of judgment—corruption disgraces us all.", tribe: "silver-fangs" }
+                    ]
+                },
+                {
+                    prompt: "A human community is suffering from an unexplained sickness. What do you investigate first?",
+                    answers: [
+                        { text: "The corporate facilities nearby—they're always hiding something.", tribe: "glass-walkers" },
+                        { text: "The wild places that have been disturbed or destroyed recently.", tribe: "red-talons" },
+                        { text: "The spirits of the land to see if they know the source.", tribe: "stargazers" },
+                        { text: "The patterns of death and illness—the dead sometimes whisper truth.", tribe: "silent-striders" },
+                        { text: "The local power structures—who benefits from this suffering?", tribe: "shadow-lords" }
+                    ]
+                },
+                {
+                    prompt: "You have a chance to gain significant power, but it would mean abandoning someone who needs you. What do you choose?",
+                    answers: [
+                        { text: "Stay with the one who needs me—power means nothing without loyalty.", tribe: "children-of-gaia" },
+                        { text: "Find a creative way to do both—there's always another angle.", tribe: "bone-gnawers" },
+                        { text: "Take the power—with it, I can help many more than just one.", tribe: "shadow-lords" },
+                        { text: "Power is fleeting; honor and the stories told of us last forever.", tribe: "fianna" },
+                        { text: "True power comes from within, not from external sources.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "Your pack must choose a new alpha. How do you think this should be decided?",
+                    answers: [
+                        { text: "Through fair combat—let the strongest lead.", tribe: "ghost-council" },
+                        { text: "The one with the best strategic mind should lead us to victory.", tribe: "shadow-lords" },
+                        { text: "Whoever can unite us and bring out our best should lead.", tribe: "children-of-gaia" },
+                        { text: "The one with the purest bloodline and greatest honor.", tribe: "silver-fangs" },
+                        { text: "Let the spirits and ancestors guide us to the right choice.", tribe: "fianna" }
+                    ]
+                },
+                {
+                    prompt: "You find evidence of a major Wyrm threat, but sharing it would expose a fellow Garou's secret shame. What do you do?",
+                    answers: [
+                        { text: "The threat to Gaia comes first—share the information.", tribe: "red-talons" },
+                        { text: "Find a way to reveal the threat while protecting my kinsman's honor.", tribe: "silver-fangs" },
+                        { text: "Confront the Garou privately first and give them a chance to come forward.", tribe: "ghost-council" },
+                        { text: "Use the information carefully—knowledge is power when wielded right.", tribe: "shadow-lords" },
+                        { text: "Seek guidance through meditation on the right path forward.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "You're offered a place of comfort and safety, but it means abandoning the road. What do you do?",
+                    answers: [
+                        { text: "Keep moving—there's always another message to carry, another place to see.", tribe: "silent-striders" },
+                        { text: "Accept for now, but know that roads call to those who must walk them.", tribe: "silent-striders" },
+                        { text: "Safety is an illusion—the wild offers truer shelter than any building.", tribe: "red-talons" },
+                        { text: "Build something there—make it a haven for others like you.", tribe: "bone-gnawers" },
+                        { text: "Use it as a base of operations while you plan your next move.", tribe: "glass-walkers" }
+                    ]
+                },
+                {
+                    prompt: "A rival pack insults your pack's honor publicly. How do you respond?",
+                    answers: [
+                        { text: "Challenge their strongest to single combat to settle this.", tribe: "ghost-council" },
+                        { text: "Respond with an even more devastating public humiliation.", tribe: "fianna" },
+                        { text: "Seek to understand why they feel this way and find common ground.", tribe: "children-of-gaia" },
+                        { text: "Ignore the words and let your deeds speak louder.", tribe: "stargazers" },
+                        { text: "Remember this insult and ensure they regret it when the time is right.", tribe: "shadow-lords" }
+                    ]
+                },
+                {
+                    prompt: "You discover an ancient artifact of power. What do you do with it?",
+                    answers: [
+                        { text: "Study it thoroughly before deciding—knowledge prevents mistakes.", tribe: "glass-walkers" },
+                        { text: "Take it to the elders and let tradition guide its use.", tribe: "silver-fangs" },
+                        { text: "Destroy it if there's any chance the Wyrm could claim it.", tribe: "red-talons" },
+                        { text: "Sing its story so that its power can inspire others.", tribe: "fianna" },
+                        { text: "Seek visions of its history to understand its true purpose.", tribe: "silent-striders" }
+                    ]
+                },
+                {
+                    prompt: "Your packmate is overwhelmed by Rage and might hurt innocents. What do you do?",
+                    answers: [
+                        { text: "Restrain them physically—their Rage cannot be allowed to harm the innocent.", tribe: "black-furies" },
+                        { text: "Help them channel it toward a worthy target instead.", tribe: "ghost-council" },
+                        { text: "Speak calmly and help them find their center again.", tribe: "children-of-gaia" },
+                        { text: "Lead them away from people to somewhere they can rage safely.", tribe: "red-talons" },
+                        { text: "Guide them through breathing techniques to regain control.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "You must deliver urgent news across a vast distance. How do you travel?",
+                    answers: [
+                        { text: "Run through the spirit world—the Umbra knows shortcuts.", tribe: "silent-striders" },
+                        { text: "Use every modern convenience—planes, cars, networks.", tribe: "glass-walkers" },
+                        { text: "Run as a wolf across the wild places, where no roads slow you.", tribe: "red-talons" },
+                        { text: "Reach out to contacts along the way who can relay the message faster.", tribe: "bone-gnawers" },
+                        { text: "Call upon allies and favors owed to speed your journey.", tribe: "shadow-lords" }
+                    ]
+                },
+                {
+                    prompt: "A human you care about discovers what you truly are. How do you handle this?",
+                    answers: [
+                        { text: "Be honest with them—they deserve the truth and the choice to stay or go.", tribe: "children-of-gaia" },
+                        { text: "Help them understand the importance of secrecy for everyone's safety.", tribe: "glass-walkers" },
+                        { text: "Disappear from their life—it's safer for both of you.", tribe: "silent-striders" },
+                        { text: "This is why we shouldn't get close to humans in the first place.", tribe: "red-talons" },
+                        { text: "Weave them into our world carefully—they could become a valuable ally.", tribe: "shadow-lords" }
+                    ]
+                },
+                {
+                    prompt: "You witness a great injustice but acting would reveal the Garou to humans. What do you do?",
+                    answers: [
+                        { text: "Act anyway—some things are more important than secrecy.", tribe: "black-furies" },
+                        { text: "Find a way to act that won't expose us but still brings justice.", tribe: "bone-gnawers" },
+                        { text: "Humans have their own justice systems—guide them to act instead.", tribe: "children-of-gaia" },
+                        { text: "The Veil exists for a reason; we must find another way.", tribe: "silver-fangs" },
+                        { text: "Document everything and ensure justice comes eventually, even if delayed.", tribe: "glass-walkers" }
+                    ]
+                },
+                {
+                    prompt: "You're asked to lead a dangerous mission with high casualties expected. How do you lead?",
+                    answers: [
+                        { text: "From the front—I won't ask others to take risks I won't take.", tribe: "ghost-council" },
+                        { text: "With careful planning to minimize losses while achieving objectives.", tribe: "shadow-lords" },
+                        { text: "By inspiring everyone with tales of glory and the honor of sacrifice.", tribe: "fianna" },
+                        { text: "By ensuring everyone knows what we're fighting for and chooses freely.", tribe: "children-of-gaia" },
+                        { text: "With the dignity and composure expected of true leaders.", tribe: "silver-fangs" }
+                    ]
+                },
+                {
+                    prompt: "A sacred ritual requires a rare component. How do you obtain it?",
+                    answers: [
+                        { text: "Trade for it using connections in the underground economy.", tribe: "bone-gnawers" },
+                        { text: "Quest to find it in the wild places where such things still exist.", tribe: "red-talons" },
+                        { text: "Research and synthesize an alternative using modern methods.", tribe: "glass-walkers" },
+                        { text: "Consult the spirits and ancestors about where it can be found.", tribe: "fianna" },
+                        { text: "Meditate until a vision reveals the path to it.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "Your pack discovers a Garou who has committed terrible crimes but now genuinely seeks redemption. What's your vote?",
+                    answers: [
+                        { text: "Everyone deserves a chance at redemption if they truly seek it.", tribe: "children-of-gaia" },
+                        { text: "Let them prove themselves through trials—redemption must be earned.", tribe: "ghost-council" },
+                        { text: "Their crimes cannot be forgiven—justice must be served.", tribe: "black-furies" },
+                        { text: "Judge them by their bloodline and what tradition demands.", tribe: "silver-fangs" },
+                        { text: "Their past is less important than their usefulness to our cause.", tribe: "shadow-lords" }
+                    ]
+                },
+                {
+                    prompt: "You find yourself alone in an unfamiliar city with no resources. What do you do first?",
+                    answers: [
+                        { text: "Find the local street community—they know how to survive here.", tribe: "bone-gnawers" },
+                        { text: "Access the digital networks to gather information and resources.", tribe: "glass-walkers" },
+                        { text: "Seek out any wild spaces, even parks, to center yourself.", tribe: "red-talons" },
+                        { text: "Walk and observe until you understand the flow of this place.", tribe: "silent-striders" },
+                        { text: "Find quiet and meditate on your situation before acting.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "An elder asks you to preserve an important story for future generations. How do you do this?",
+                    answers: [
+                        { text: "Learn it by heart and perform it at every gathering.", tribe: "fianna" },
+                        { text: "Record it using modern technology so it can never be lost.", tribe: "glass-walkers" },
+                        { text: "Teach it to the young ones who will carry it forward.", tribe: "silver-fangs" },
+                        { text: "Encode it in the spirit world where it will exist eternally.", tribe: "stargazers" },
+                        { text: "Carry it with you as you travel, spreading it far and wide.", tribe: "silent-striders" }
+                    ]
+                },
+                {
+                    prompt: "You sense great sorrow in a packmate who won't speak of it. What do you do?",
+                    answers: [
+                        { text: "Create a safe space for them to share when they're ready.", tribe: "children-of-gaia" },
+                        { text: "Share a story of your own pain to show they're not alone.", tribe: "fianna" },
+                        { text: "Respect their silence—some burdens we must carry alone.", tribe: "silent-striders" },
+                        { text: "Help them channel their pain into purpose and action.", tribe: "ghost-council" },
+                        { text: "Sit with them in silence—sometimes presence is enough.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "You have the opportunity to strike a decisive blow against the Wyrm, but innocents might be caught in the crossfire. What do you decide?",
+                    answers: [
+                        { text: "Find another way—the innocent must be protected above all.", tribe: "black-furies" },
+                        { text: "Protect those you can, but the Wyrm must be stopped at any cost.", tribe: "red-talons" },
+                        { text: "Weigh the numbers—how many will the Wyrm kill if we don't act?", tribe: "shadow-lords" },
+                        { text: "There's always a way to minimize harm if you're clever enough.", tribe: "bone-gnawers" },
+                        { text: "Seek spiritual guidance before making such a heavy choice.", tribe: "stargazers" }
+                    ]
+                },
+                {
+                    prompt: "How do you prefer to spend the quiet moments between battles?",
+                    answers: [
+                        { text: "Running wild in the forest, reconnecting with my wolf nature.", tribe: "red-talons" },
+                        { text: "Telling stories and sharing drinks with my packmates.", tribe: "fianna" },
+                        { text: "Meditating and seeking inner peace to prepare for what comes.", tribe: "stargazers" },
+                        { text: "Training and improving my skills—there's always room to grow.", tribe: "ghost-council" },
+                        { text: "Wandering to new places and meeting new faces.", tribe: "silent-striders" }
+                    ]
+                }
+            ];
+
+            // Tribe score tracking
+            let tribeScores = {};
+            let currentTribeQuestion = 0;
+            let tribeAnswers = [];
+            
+            // Initialize tribe scores
+            function initializeTribeScores() {
+                tribeScores = {
+                    'black-furies': 0,
+                    'bone-gnawers': 0,
+                    'children-of-gaia': 0,
+                    'fianna': 0,
+                    'ghost-council': 0,
+                    'glass-walkers': 0,
+                    'red-talons': 0,
+                    'shadow-lords': 0,
+                    'silent-striders': 0,
+                    'silver-fangs': 0,
+                    'stargazers': 0
+                };
+                currentTribeQuestion = 0;
+                tribeAnswers = [];
+            }
+
+            // Render current tribe question
+            function renderTribeQuestion() {
+                const container = document.getElementById('tribe-question-container');
+                const progress = document.getElementById('tribe-progress');
+                const question = tribeQuestions[currentTribeQuestion];
+                
+                progress.textContent = `Question ${currentTribeQuestion + 1} of ${tribeQuestions.length}`;
+                
+                // Update the prompt
+                document.getElementById('tribe-quest-question').textContent = `"${question.prompt}"`;
+                
+                // Shuffle answers for this question
+                const shuffledAnswers = [...question.answers].sort(() => Math.random() - 0.5);
+                
+                container.innerHTML = '';
+                shuffledAnswers.forEach((answer, index) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn tribe-answer-btn';
+                    btn.dataset.tribe = answer.tribe;
+                    btn.textContent = answer.text;
+                    
+                    // If this question was already answered, mark the selected answer
+                    if (tribeAnswers[currentTribeQuestion] === answer.tribe) {
+                        btn.classList.add('selected');
+                    }
+                    
+                    btn.addEventListener('click', function() {
+                        // Remove selected from all
+                        container.querySelectorAll('.tribe-answer-btn').forEach(b => b.classList.remove('selected'));
+                        // Add selected to clicked
+                        btn.classList.add('selected');
+                        // Store answer
+                        tribeAnswers[currentTribeQuestion] = answer.tribe;
+                        // Enable next button
+                        document.getElementById('next-tribe-question').disabled = false;
+                    });
+                    
+                    container.appendChild(btn);
+                });
+                
+                // Update navigation buttons
+                document.getElementById('prev-tribe-question').style.display = currentTribeQuestion > 0 ? 'inline-block' : 'none';
+                document.getElementById('next-tribe-question').textContent = currentTribeQuestion === tribeQuestions.length - 1 ? 'See Results' : 'Next';
+                document.getElementById('next-tribe-question').disabled = !tribeAnswers[currentTribeQuestion];
+                document.getElementById('back-to-gender').style.display = currentTribeQuestion === 0 ? 'inline-block' : 'none';
+            }
+
+            // Calculate tribe results
+            function calculateTribeResults() {
+                // Reset scores
+                Object.keys(tribeScores).forEach(tribe => tribeScores[tribe] = 0);
+                
+                // Tally answers
+                tribeAnswers.forEach(tribe => {
+                    if (tribe) {
+                        tribeScores[tribe]++;
+                    }
+                });
+                
+                // Find highest score
+                let maxScore = 0;
+                let topTribes = [];
+                
+                Object.entries(tribeScores).forEach(([tribe, score]) => {
+                    if (score > maxScore) {
+                        maxScore = score;
+                        topTribes = [tribe];
+                    } else if (score === maxScore && score > 0) {
+                        // Only add ties if score is greater than 0
+                        topTribes.push(tribe);
+                    }
+                });
+                
+                // If no answers were given, default to allowing user to pick any tribe
+                if (maxScore === 0) {
+                    topTribes = Object.keys(tribeScores);
+                }
+                
+                return { maxScore, topTribes };
+            }
+
+            // Display tribe result
+            function displayTribeResult() {
+                const { maxScore, topTribes } = calculateTribeResults();
+                const container = document.getElementById('tribe-result-container');
+                const tribeInput = document.getElementById('tribe');
+                
+                if (topTribes.length === 1) {
+                    // Clear winner
+                    const tribe = topTribes[0];
+                    const info = tribeDescriptions[tribe];
+                    tribeInput.value = tribe;
+                    
+                    container.innerHTML = `
+                        <div class="tribe-result-single">
+                            <h3 class="tribe-name">${info.name}</h3>
+                            <p class="tribe-score">Your spirit resonated ${maxScore} times with this tribe's values.</p>
+                            <p class="tribe-description">${info.description}</p>
+                            <p class="tribe-values"><strong>Core Values:</strong> ${info.values}</p>
+                        </div>
+                    `;
+                } else {
+                    // Tie - let user choose
+                    tribeInput.value = '';
+                    
+                    let tribeOptionsHtml = topTribes.map(tribe => {
+                        const info = tribeDescriptions[tribe];
+                        return `
+                            <button type="button" class="choice-btn tribe-tie-choice" data-tribe="${tribe}">
+                                <span class="choice-title">${info.name}</span>
+                                <span class="choice-desc">${info.description}</span>
+                                <span class="tribe-values-small"><em>Values: ${info.values}</em></span>
+                            </button>
+                        `;
+                    }).join('');
+                    
+                    container.innerHTML = `
+                        <div class="tribe-result-tie">
+                            <h3>The Spirits Are Divided</h3>
+                            <p class="tribe-tie-intro">Your spirit resonated equally (${maxScore} times) with multiple tribes. The choice is yours—which path calls to you most strongly?</p>
+                            <div class="tribe-tie-options">
+                                ${tribeOptionsHtml}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click handlers for tie choices
+                    container.querySelectorAll('.tribe-tie-choice').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            container.querySelectorAll('.tribe-tie-choice').forEach(b => b.classList.remove('selected'));
+                            btn.classList.add('selected');
+                            tribeInput.value = btn.dataset.tribe;
+                        });
+                    });
+                }
+            }
+
+            // Initialize tribe questionnaire
+            function initializeTribeQuestionnaire() {
+                initializeTribeScores();
+                renderTribeQuestion();
+            }
+
+            // Add tribe result step to steps object
+            steps.tribeResult = document.getElementById('step-tribe-result');
+
+            // Navigation for tribe questionnaire
+            document.getElementById('next-tribe-question').addEventListener('click', function() {
+                if (currentTribeQuestion < tribeQuestions.length - 1) {
+                    currentTribeQuestion++;
+                    renderTribeQuestion();
+                } else {
+                    // Show results
+                    displayTribeResult();
+                    showStep(steps.tribe, steps.tribeResult);
+                }
+            });
+
+            document.getElementById('prev-tribe-question').addEventListener('click', function() {
+                if (currentTribeQuestion > 0) {
+                    currentTribeQuestion--;
+                    renderTribeQuestion();
+                }
+            });
+
+            document.getElementById('back-to-tribe-questions').addEventListener('click', function() {
+                initializeTribeScores();
+                showStep(steps.tribeResult, steps.tribe);
+            });
+
+            // Step 3 -> Step 4 (Tribe Result to Auspice)
             nextToAuspiceBtn.addEventListener('click', function() {
                 const tribe = document.getElementById('tribe').value;
                 if (tribe) {
-                    showStep(steps.tribe, steps.auspice);
+                    showStep(steps.tribeResult, steps.auspice);
                 } else {
-                    document.getElementById('tribe').focus();
+                    // If in tie scenario and no selection made
+                    alert('Please select a tribe to continue.');
                 }
             });
 
@@ -450,7 +1045,7 @@
             });
 
             document.getElementById('back-to-tribe').addEventListener('click', function() {
-                showStep(steps.auspice, steps.tribe);
+                showStep(steps.auspice, steps.tribeResult);
             });
 
             // Auspice Selection Logic
@@ -977,7 +1572,7 @@
                         weakestAttribute = allRemainingAttrs.find(a => !selectedTertiaryAttributes.includes(a));
                     }
                     
-                    document.getElementById('next-to-summary').disabled = selectedTertiaryAttributes.length !== 4;
+                    document.getElementById('next-to-skill-type').disabled = selectedTertiaryAttributes.length !== 4;
                 });
                 container.appendChild(btn);
             }
@@ -1021,13 +1616,654 @@
                 showStep(steps.tertiaryAttrs, steps.secondaryAttrs);
             });
 
-            // Step 9 -> Step 10 (Tertiary to Summary)
-            document.getElementById('next-to-summary').addEventListener('click', function() {
+            // ===== SKILLS QUESTIONNAIRE SYSTEM =====
+            
+            // Skills list with base points for certain skills
+            const allSkills = {
+                // Skills that start with 1 point (free)
+                academics: { name: 'Academics', base: 1, category: 'mental' },
+                craft: { name: 'Craft', base: 1, category: 'mental' },
+                performance: { name: 'Performance', base: 1, category: 'social' },
+                science: { name: 'Science', base: 1, category: 'mental' },
+                // All other skills
+                athletics: { name: 'Athletics', base: 0, category: 'physical' },
+                awareness: { name: 'Awareness', base: 0, category: 'mental' },
+                brawl: { name: 'Brawl', base: 0, category: 'physical' },
+                empathy: { name: 'Empathy', base: 0, category: 'social' },
+                etiquette: { name: 'Etiquette', base: 0, category: 'social' },
+                firearms: { name: 'Firearms', base: 0, category: 'physical' },
+                insight: { name: 'Insight', base: 0, category: 'mental' },
+                intimidation: { name: 'Intimidation', base: 0, category: 'social' },
+                investigation: { name: 'Investigation', base: 0, category: 'mental' },
+                leadership: { name: 'Leadership', base: 0, category: 'social' },
+                larceny: { name: 'Larceny', base: 0, category: 'physical' },
+                medicine: { name: 'Medicine', base: 0, category: 'mental' },
+                melee: { name: 'Melee', base: 0, category: 'physical' },
+                occult: { name: 'Occult', base: 0, category: 'mental' },
+                persuasion: { name: 'Persuasion', base: 0, category: 'social' },
+                stealth: { name: 'Stealth', base: 0, category: 'physical' },
+                streetwise: { name: 'Streetwise', base: 0, category: 'social' },
+                subterfuge: { name: 'Subterfuge', base: 0, category: 'social' },
+                survival: { name: 'Survival', base: 0, category: 'physical' },
+                technology: { name: 'Technology', base: 0, category: 'mental' }
+            };
+
+            // Skill distribution types
+            const skillDistributions = {
+                jack: {
+                    name: 'Jack of All Trades',
+                    totalPoints: 29,
+                    distribution: { 3: 1, 2: 8, 1: 10 }
+                },
+                balanced: {
+                    name: 'Balanced',
+                    totalPoints: 26,
+                    distribution: { 3: 3, 2: 5, 1: 7 }
+                },
+                specialist: {
+                    name: 'Specialist',
+                    totalPoints: 22,
+                    distribution: { 4: 1, 3: 3, 2: 3, 1: 3 }
+                }
+            };
+
+            // Skill questionnaire scenarios with branching
+            const skillScenarios = [
+                {
+                    id: 1,
+                    prompt: "You are standing in line at a store when a desperate-looking man approaches and demands your wallet. How do you respond?",
+                    backstoryIntro: "Once, in a convenience store, a desperate man confronted you...",
+                    initialChoices: [
+                        { 
+                            text: "Try to talk him down—it's not worth getting hurt over a wallet.",
+                            skills: ['persuasion', 'leadership', 'intimidation', 'streetwise'],
+                            backstory: "You tried to calm him with words",
+                            followUp: {
+                                prompt: "You can see this was never about the money. His fists are balled, and there's a wild look in his eyes. The fight is inevitable. How do you proceed?",
+                                choices: [
+                                    { text: "Headbutt him and get him in a sleeper hold.", skill: 'brawl', backstory: "and when words failed, you put him down with your fists." },
+                                    { text: "Grab a bottle off the rack and defend yourself.", skill: 'melee', backstory: "and when words failed, you armed yourself and fought back." },
+                                    { text: "Make yourself look bigger, growl, and tell him to back off.", skill: 'intimidation', backstory: "and your fierce presence made him think twice." },
+                                    { text: "Throw your groceries at him and vault over the counter.", skill: 'athletics', backstory: "and when he lunged, you were already gone." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Get ready to beat his ass—nobody threatens you.",
+                            skills: ['brawl', 'melee', 'intimidation', 'athletics'],
+                            backstory: "You stood your ground, ready to fight",
+                            followUp: {
+                                prompt: "He swings first. How do you end this?",
+                                choices: [
+                                    { text: "Catch his arm and take him to the ground.", skill: 'brawl', backstory: "and your grappling skills ended it quickly." },
+                                    { text: "Dodge and grab something to hit him with.", skill: 'melee', backstory: "and an improvised weapon gave you the edge." },
+                                    { text: "Step into his swing and intimidate him into backing down.", skill: 'intimidation', backstory: "and your fearless advance broke his nerve." },
+                                    { text: "Sidestep and use his momentum against him.", skill: 'athletics', backstory: "and your agility turned his aggression against him." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "You clocked him the moment he walked in—he never got the drop on you.",
+                            skills: ['stealth', 'survival', 'insight', 'awareness'],
+                            backstory: "You had spotted him the moment he entered",
+                            followUp: {
+                                prompt: "He realizes you're not an easy mark. What's your next move?",
+                                choices: [
+                                    { text: "Slip away through the back while his attention is elsewhere.", skill: 'stealth', backstory: "and you vanished before he could react." },
+                                    { text: "Position yourself near the exit with an escape route planned.", skill: 'survival', backstory: "and your survival instincts kept you safe." },
+                                    { text: "Read his body language to predict his next move.", skill: 'insight', backstory: "and you read him like an open book." },
+                                    { text: "Keep your eyes on his hands and stay ready for anything.", skill: 'awareness', backstory: "and your vigilance kept you one step ahead." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    prompt: "Your best friend has been acting strangely—withdrawn, secretive, possibly involved in something dangerous. How do you find out what's going on?",
+                    backstoryIntro: "When your closest friend started to change...",
+                    initialChoices: [
+                        { 
+                            text: "Sit them down and have an honest heart-to-heart conversation.",
+                            skills: ['empathy', 'persuasion', 'insight', 'leadership'],
+                            backstory: "you confronted them directly",
+                            followUp: {
+                                prompt: "They're defensive, clearly hiding something. How do you get through to them?",
+                                choices: [
+                                    { text: "Show them you understand their pain and create a safe space.", skill: 'empathy', backstory: "and your compassion broke through their walls." },
+                                    { text: "Convince them that whatever it is, you'll face it together.", skill: 'persuasion', backstory: "and your words reminded them they weren't alone." },
+                                    { text: "Read between the lines of what they're saying.", skill: 'insight', backstory: "and you saw the truth they couldn't speak." },
+                                    { text: "Take charge and tell them you're not leaving until they talk.", skill: 'leadership', backstory: "and your determination wouldn't let them hide." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Follow them discreetly to see where they've been going.",
+                            skills: ['stealth', 'investigation', 'streetwise', 'awareness'],
+                            backstory: "you decided to find out for yourself",
+                            followUp: {
+                                prompt: "You trail them to an abandoned building. What's your approach?",
+                                choices: [
+                                    { text: "Move silently and observe from the shadows.", skill: 'stealth', backstory: "and you watched unseen from the darkness." },
+                                    { text: "Look for clues about what they're involved in.", skill: 'investigation', backstory: "and the evidence told its own story." },
+                                    { text: "Ask around the neighborhood about this place.", skill: 'streetwise', backstory: "and the locals filled in the gaps." },
+                                    { text: "Stay alert for any sign of danger.", skill: 'awareness', backstory: "and your sharp senses kept you informed." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Research their recent activities online and through mutual friends.",
+                            skills: ['technology', 'investigation', 'subterfuge', 'academics'],
+                            backstory: "you started digging into their digital footprint",
+                            followUp: {
+                                prompt: "You find some concerning information. How do you dig deeper?",
+                                choices: [
+                                    { text: "Hack into their social media and email.", skill: 'technology', backstory: "and their digital life revealed the truth." },
+                                    { text: "Cross-reference the clues to build a complete picture.", skill: 'investigation', backstory: "and you pieced together the puzzle." },
+                                    { text: "Create a fake account to get closer to their new contacts.", skill: 'subterfuge', backstory: "and your deception uncovered their secrets." },
+                                    { text: "Research the organizations and people they're involved with.", skill: 'academics', backstory: "and your research exposed the whole operation." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    prompt: "You're at a formal event when you notice something valuable has gone missing from a display case. The host is frantic. What do you do?",
+                    backstoryIntro: "At a high-society gathering, something precious vanished...",
+                    initialChoices: [
+                        { 
+                            text: "Take charge and organize a systematic search of the premises.",
+                            skills: ['leadership', 'investigation', 'etiquette', 'awareness'],
+                            backstory: "you stepped up to handle the crisis",
+                            followUp: {
+                                prompt: "The search is underway. How do you contribute?",
+                                choices: [
+                                    { text: "Direct the staff and guests efficiently.", skill: 'leadership', backstory: "and your command brought order to chaos." },
+                                    { text: "Examine the crime scene for clues.", skill: 'investigation', backstory: "and the evidence pointed you to the culprit." },
+                                    { text: "Navigate the social dynamics to question guests tactfully.", skill: 'etiquette', backstory: "and you questioned suspects without causing offense." },
+                                    { text: "Scan the room for anyone acting suspiciously.", skill: 'awareness', backstory: "and you spotted the guilty party." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Quietly observe the guests—the thief is probably still here.",
+                            skills: ['insight', 'awareness', 'subterfuge', 'stealth'],
+                            backstory: "you watched the crowd with careful eyes",
+                            followUp: {
+                                prompt: "You notice someone acting nervous. What's your move?",
+                                choices: [
+                                    { text: "Study their behavior to confirm your suspicions.", skill: 'insight', backstory: "and their guilt was written all over them." },
+                                    { text: "Watch where their eyes keep going.", skill: 'awareness', backstory: "and they couldn't stop glancing at their hiding spot." },
+                                    { text: "Pretend to be sympathetic and get them talking.", skill: 'subterfuge', backstory: "and your false friendship made them slip up." },
+                                    { text: "Position yourself to block their escape.", skill: 'stealth', backstory: "and you cornered them without them realizing." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Check if anyone has the skills to pull off this kind of heist.",
+                            skills: ['streetwise', 'larceny', 'occult', 'technology'],
+                            backstory: "you approached it like a professional would",
+                            followUp: {
+                                prompt: "You've profiled the likely culprit. How do you catch them?",
+                                choices: [
+                                    { text: "Reach out to your contacts in the criminal world.", skill: 'streetwise', backstory: "and your underworld connections paid off." },
+                                    { text: "Set up a trap using your knowledge of thievery.", skill: 'larceny', backstory: "and it takes a thief to catch a thief." },
+                                    { text: "Consider if supernatural means were involved.", skill: 'occult', backstory: "and you found traces of something unnatural." },
+                                    { text: "Check the security cameras and electronic systems.", skill: 'technology', backstory: "and the digital evidence sealed their fate." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    prompt: "You're lost in the wilderness as night approaches and a storm is rolling in. How do you survive?",
+                    backstoryIntro: "Lost in the wild with a storm approaching...",
+                    initialChoices: [
+                        { 
+                            text: "Find or build shelter and wait out the storm.",
+                            skills: ['survival', 'craft', 'awareness', 'athletics'],
+                            backstory: "you focused on finding shelter",
+                            followUp: {
+                                prompt: "The storm is intensifying. What's your priority?",
+                                choices: [
+                                    { text: "Use natural materials to reinforce your shelter.", skill: 'survival', backstory: "and your wilderness skills kept you alive." },
+                                    { text: "Construct a proper structure from available materials.", skill: 'craft', backstory: "and your craftsmanship created a solid refuge." },
+                                    { text: "Stay alert for any dangers the storm might bring.", skill: 'awareness', backstory: "and your vigilance spotted danger before it found you." },
+                                    { text: "Gather enough resources to last the night.", skill: 'athletics', backstory: "and your endurance let you prepare before the worst hit." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Navigate by the stars before the clouds block them.",
+                            skills: ['science', 'academics', 'survival', 'awareness'],
+                            backstory: "you used the sky to find your way",
+                            followUp: {
+                                prompt: "You've got a heading. How do you make it to safety?",
+                                choices: [
+                                    { text: "Calculate the most efficient route using natural landmarks.", skill: 'science', backstory: "and your calculations led you true." },
+                                    { text: "Remember what you learned about this region.", skill: 'academics', backstory: "and your knowledge proved invaluable." },
+                                    { text: "Trust your instincts about the terrain.", skill: 'survival', backstory: "and instinct guided you home." },
+                                    { text: "Stay alert for any signs of civilization.", skill: 'awareness', backstory: "and you spotted lights in the distance." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Look for signs of other people or civilization.",
+                            skills: ['streetwise', 'investigation', 'empathy', 'persuasion'],
+                            backstory: "you searched for signs of other people",
+                            followUp: {
+                                prompt: "You find a remote cabin with a light in the window. What do you do?",
+                                choices: [
+                                    { text: "Approach carefully—you know how to read dangerous situations.", skill: 'streetwise', backstory: "and your street smarts told you it was safe." },
+                                    { text: "Look for clues about who lives here before approaching.", skill: 'investigation', backstory: "and you confirmed it was safe before knocking." },
+                                    { text: "Approach openly and appeal to their compassion.", skill: 'empathy', backstory: "and they took pity on a fellow traveler." },
+                                    { text: "Knock and convince them to let you in.", skill: 'persuasion', backstory: "and your words earned you shelter from the storm." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 5,
+                    prompt: "You discover that a local business is involved in something illegal. How do you handle it?",
+                    backstoryIntro: "When you uncovered corruption in your neighborhood...",
+                    initialChoices: [
+                        { 
+                            text: "Gather evidence and bring it to the authorities.",
+                            skills: ['investigation', 'technology', 'academics', 'subterfuge'],
+                            backstory: "you decided to build a case",
+                            followUp: {
+                                prompt: "You need more concrete proof. How do you get it?",
+                                choices: [
+                                    { text: "Dig through their records and find the smoking gun.", skill: 'investigation', backstory: "and you found the evidence that brought them down." },
+                                    { text: "Access their digital systems to find proof.", skill: 'technology', backstory: "and their own files condemned them." },
+                                    { text: "Research the legal implications and build an airtight case.", skill: 'academics', backstory: "and your meticulous preparation ensured justice." },
+                                    { text: "Go undercover to get the evidence firsthand.", skill: 'subterfuge', backstory: "and you witnessed their crimes yourself." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Confront the people involved directly.",
+                            skills: ['intimidation', 'leadership', 'brawl', 'persuasion'],
+                            backstory: "you confronted them head-on",
+                            followUp: {
+                                prompt: "They're not backing down. How do you handle this?",
+                                choices: [
+                                    { text: "Make them understand the consequences of continuing.", skill: 'intimidation', backstory: "and your threats made them reconsider." },
+                                    { text: "Rally others to stand with you against them.", skill: 'leadership', backstory: "and together, you forced them to stop." },
+                                    { text: "Be ready to back up your words with action.", skill: 'brawl', backstory: "and they learned you weren't bluffing." },
+                                    { text: "Negotiate a way for them to make things right.", skill: 'persuasion', backstory: "and you convinced them to change their ways." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Work within the community to expose them.",
+                            skills: ['streetwise', 'performance', 'empathy', 'leadership'],
+                            backstory: "you turned the community against them",
+                            followUp: {
+                                prompt: "The community is listening. How do you spread the word?",
+                                choices: [
+                                    { text: "Use your street connections to get the word out.", skill: 'streetwise', backstory: "and the word spread through the underground." },
+                                    { text: "Organize a public demonstration to draw attention.", skill: 'performance', backstory: "and your protest made headlines." },
+                                    { text: "Connect with those they've hurt and give them a voice.", skill: 'empathy', backstory: "and the victims found the courage to speak out." },
+                                    { text: "Unite neighborhood leaders to take collective action.", skill: 'leadership', backstory: "and the community stood together against corruption." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 6,
+                    prompt: "A friend asks you to help them learn something new—they're counting on you. What do you teach them?",
+                    backstoryIntro: "When asked to share your knowledge...",
+                    initialChoices: [
+                        { 
+                            text: "How to defend themselves—the world is dangerous.",
+                            skills: ['brawl', 'melee', 'firearms', 'athletics'],
+                            backstory: "you taught them to protect themselves",
+                            followUp: {
+                                prompt: "What's the most important thing for them to learn first?",
+                                choices: [
+                                    { text: "How to throw a proper punch and take a hit.", skill: 'brawl', backstory: "starting with the basics of hand-to-hand combat." },
+                                    { text: "How to use everyday objects for self-defense.", skill: 'melee', backstory: "showing them how anything can be a weapon." },
+                                    { text: "Proper gun safety and handling.", skill: 'firearms', backstory: "ensuring they could handle a firearm responsibly." },
+                                    { text: "How to run, dodge, and escape dangerous situations.", skill: 'athletics', backstory: "teaching them that the best fight is one you don't have." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "How to read people and navigate social situations.",
+                            skills: ['insight', 'empathy', 'subterfuge', 'etiquette'],
+                            backstory: "you taught them the art of understanding people",
+                            followUp: {
+                                prompt: "What skill will serve them best?",
+                                choices: [
+                                    { text: "How to tell when someone is lying.", skill: 'insight', backstory: "teaching them to see through deception." },
+                                    { text: "How to connect with people on an emotional level.", skill: 'empathy', backstory: "showing them how to truly understand others." },
+                                    { text: "How to blend in and play different roles.", skill: 'subterfuge', backstory: "teaching them the power of misdirection." },
+                                    { text: "How to behave appropriately in any social setting.", skill: 'etiquette', backstory: "ensuring they could navigate any crowd." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Practical skills they can use in everyday life.",
+                            skills: ['craft', 'medicine', 'technology', 'survival'],
+                            backstory: "you focused on practical knowledge",
+                            followUp: {
+                                prompt: "What practical skill will help them most?",
+                                choices: [
+                                    { text: "How to fix and build things with their hands.", skill: 'craft', backstory: "teaching them to create and repair." },
+                                    { text: "Basic first aid and medical knowledge.", skill: 'medicine', backstory: "ensuring they could save a life." },
+                                    { text: "How to use and troubleshoot technology.", skill: 'technology', backstory: "making them comfortable with modern tools." },
+                                    { text: "How to survive when civilization fails.", skill: 'survival', backstory: "preparing them for the worst." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 7,
+                    prompt: "You've been given a rare opportunity to learn from an expert. What field do you choose to study?",
+                    backstoryIntro: "When given the chance to learn from a master...",
+                    initialChoices: [
+                        { 
+                            text: "The mysteries of the world beyond the mundane.",
+                            skills: ['occult', 'academics', 'investigation', 'insight'],
+                            backstory: "you chose to explore the hidden world",
+                            followUp: {
+                                prompt: "What aspect of the unknown calls to you most?",
+                                choices: [
+                                    { text: "Ancient rituals and supernatural lore.", skill: 'occult', backstory: "delving into forbidden knowledge." },
+                                    { text: "Historical texts and forgotten wisdom.", skill: 'academics', backstory: "studying the lessons of the past." },
+                                    { text: "Unsolved mysteries and strange phenomena.", skill: 'investigation', backstory: "seeking answers to impossible questions." },
+                                    { text: "The psychology behind belief and perception.", skill: 'insight', backstory: "understanding how people experience the impossible." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "The healing arts and care for the wounded.",
+                            skills: ['medicine', 'empathy', 'science', 'craft'],
+                            backstory: "you chose to learn the healing arts",
+                            followUp: {
+                                prompt: "What aspect of healing speaks to you?",
+                                choices: [
+                                    { text: "Emergency medicine and trauma care.", skill: 'medicine', backstory: "learning to save lives in critical moments." },
+                                    { text: "The emotional support that aids recovery.", skill: 'empathy', backstory: "understanding that healing is more than physical." },
+                                    { text: "The science behind disease and treatment.", skill: 'science', backstory: "studying the mechanisms of the body." },
+                                    { text: "Creating medicines and medical tools.", skill: 'craft', backstory: "learning to make the tools of healing." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "The art of influence and social manipulation.",
+                            skills: ['persuasion', 'intimidation', 'subterfuge', 'leadership'],
+                            backstory: "you chose to master the art of influence",
+                            followUp: {
+                                prompt: "How do you prefer to exert influence?",
+                                choices: [
+                                    { text: "Through compelling arguments and charisma.", skill: 'persuasion', backstory: "learning to win hearts and minds." },
+                                    { text: "Through fear and commanding presence.", skill: 'intimidation', backstory: "mastering the power of fear." },
+                                    { text: "Through misdirection and manipulation.", skill: 'subterfuge', backstory: "learning to pull strings from the shadows." },
+                                    { text: "Through inspiring and directing others.", skill: 'leadership', backstory: "becoming someone others would follow." }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ];
+
+            // Skills state
+            let selectedSkillType = null;
+            let skillPoints = {};
+            let totalSkillPointsRemaining = 0;
+            let currentScenarioIndex = 0;
+            let currentScenarioPhase = 'initial'; // 'initial' or 'followUp'
+            let currentInitialChoice = null;
+            let backstoryFragments = [];
+            let generatedBackstory = '';
+
+            // Initialize skills with base values
+            function initializeSkills() {
+                skillPoints = {};
+                Object.keys(allSkills).forEach(skill => {
+                    skillPoints[skill] = allSkills[skill].base;
+                });
+            }
+
+            // Add steps to steps object
+            steps.skillType = document.getElementById('step-skill-type');
+            steps.skillsQuest = document.getElementById('step-skills-quest');
+            steps.skillsResult = document.getElementById('step-skills-result');
+
+            // Skill type selection
+            const skillTypeChoices = document.querySelectorAll('.skill-type-choice');
+            skillTypeChoices.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    skillTypeChoices.forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
+                    btn.classList.add('selected');
+                    selectedSkillType = btn.dataset.skillType;
+                    document.getElementById('skill-type').value = selectedSkillType;
+                    document.getElementById('next-to-skills-quest').disabled = false;
+                });
+            });
+
+            // Step 9 -> Step 10 (Tertiary Attrs to Skill Type)
+            document.getElementById('next-to-skill-type').addEventListener('click', function() {
                 if (selectedTertiaryAttributes.length === 4) {
                     calculateFinalAttributes();
-                    populateSummary();
-                    showStep(steps.tertiaryAttrs, steps.summary);
+                    showStep(steps.tertiaryAttrs, steps.skillType);
                 }
+            });
+
+            // Back to Tertiary Attrs
+            document.getElementById('back-to-tertiary-attrs').addEventListener('click', function() {
+                showStep(steps.skillType, steps.tertiaryAttrs);
+            });
+
+            // Step 10 -> Step 11 (Skill Type to Skills Quest)
+            document.getElementById('next-to-skills-quest').addEventListener('click', function() {
+                if (selectedSkillType) {
+                    initializeSkillsQuestionnaire();
+                    showStep(steps.skillType, steps.skillsQuest);
+                }
+            });
+
+            // Initialize skills questionnaire
+            function initializeSkillsQuestionnaire() {
+                initializeSkills();
+                totalSkillPointsRemaining = skillDistributions[selectedSkillType].totalPoints;
+                currentScenarioIndex = 0;
+                currentScenarioPhase = 'initial';
+                currentInitialChoice = null;
+                backstoryFragments = [];
+                renderSkillQuestion();
+            }
+
+            // Render current skill question
+            function renderSkillQuestion() {
+                const container = document.getElementById('skill-question-container');
+                const progress = document.getElementById('skill-progress');
+                const pointsDisplay = document.getElementById('skill-points-remaining');
+                const scenario = skillScenarios[currentScenarioIndex];
+                
+                progress.textContent = `Scenario ${currentScenarioIndex + 1} of ${skillScenarios.length}`;
+                pointsDisplay.textContent = `Points remaining: ${totalSkillPointsRemaining}`;
+                
+                container.innerHTML = '';
+                
+                if (currentScenarioPhase === 'initial') {
+                    // Show initial question
+                    document.getElementById('skills-quest-prompt').textContent = "The elder leans forward, eyes gleaming with curiosity. \"Now let me see what life has taught you...\"";
+                    document.getElementById('skills-quest-question').textContent = `"${scenario.prompt}"`;
+                    
+                    scenario.initialChoices.forEach((choice, index) => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'choice-btn skill-answer-btn';
+                        btn.innerHTML = `
+                            <span class="choice-text">${choice.text}</span>
+                            <span class="skill-hints">(Related: ${choice.skills.map(s => allSkills[s].name).join(', ')})</span>
+                        `;
+                        btn.addEventListener('click', function() {
+                            container.querySelectorAll('.skill-answer-btn').forEach(b => b.classList.remove('selected'));
+                            btn.classList.add('selected');
+                            currentInitialChoice = choice;
+                            document.getElementById('next-skill-question').disabled = false;
+                        });
+                        container.appendChild(btn);
+                    });
+                } else {
+                    // Show follow-up question
+                    document.getElementById('skills-quest-prompt').textContent = "The elder nods slowly, considering your words...";
+                    document.getElementById('skills-quest-question').textContent = `"${currentInitialChoice.followUp.prompt}"`;
+                    
+                    currentInitialChoice.followUp.choices.forEach((choice, index) => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'choice-btn skill-answer-btn';
+                        btn.innerHTML = `
+                            <span class="choice-text">${choice.text}</span>
+                            <span class="skill-hints">(${allSkills[choice.skill].name})</span>
+                        `;
+                        btn.addEventListener('click', function() {
+                            container.querySelectorAll('.skill-answer-btn').forEach(b => b.classList.remove('selected'));
+                            btn.classList.add('selected');
+                            btn.dataset.selectedSkill = choice.skill;
+                            btn.dataset.backstory = choice.backstory;
+                            document.getElementById('next-skill-question').disabled = false;
+                        });
+                        container.appendChild(btn);
+                    });
+                }
+                
+                // Update button text
+                const nextBtn = document.getElementById('next-skill-question');
+                if (currentScenarioPhase === 'initial') {
+                    nextBtn.textContent = 'Continue';
+                } else if (currentScenarioIndex === skillScenarios.length - 1) {
+                    nextBtn.textContent = 'See Results';
+                } else {
+                    nextBtn.textContent = 'Next Scenario';
+                }
+                nextBtn.disabled = true;
+            }
+
+            // Handle skill question navigation
+            document.getElementById('next-skill-question').addEventListener('click', function() {
+                const container = document.getElementById('skill-question-container');
+                
+                if (currentScenarioPhase === 'initial') {
+                    // Move to follow-up phase
+                    currentScenarioPhase = 'followUp';
+                    renderSkillQuestion();
+                } else {
+                    // Process the answer and move to next scenario
+                    const selectedBtn = container.querySelector('.skill-answer-btn.selected');
+                    if (selectedBtn) {
+                        const skill = selectedBtn.dataset.selectedSkill;
+                        const backstory = selectedBtn.dataset.backstory;
+                        
+                        // Add point to skill if we have points remaining
+                        if (totalSkillPointsRemaining > 0) {
+                            skillPoints[skill]++;
+                            totalSkillPointsRemaining--;
+                        }
+                        
+                        // Add to backstory
+                        const scenario = skillScenarios[currentScenarioIndex];
+                        backstoryFragments.push(`${scenario.backstoryIntro} ${currentInitialChoice.backstory}, ${backstory}`);
+                    }
+                    
+                    // Move to next scenario or show results
+                    if (currentScenarioIndex < skillScenarios.length - 1) {
+                        currentScenarioIndex++;
+                        currentScenarioPhase = 'initial';
+                        currentInitialChoice = null;
+                        renderSkillQuestion();
+                    } else {
+                        // Show results
+                        displaySkillsResult();
+                        showStep(steps.skillsQuest, steps.skillsResult);
+                    }
+                }
+            });
+
+            // Back to skill type
+            document.getElementById('back-to-skill-type').addEventListener('click', function() {
+                showStep(steps.skillsQuest, steps.skillType);
+            });
+
+            // Display skills result
+            function displaySkillsResult() {
+                const container = document.getElementById('skills-result-container');
+                const backstoryContainer = document.getElementById('backstory-text');
+                
+                // Sort skills by points (highest first)
+                const sortedSkills = Object.entries(skillPoints)
+                    .sort((a, b) => b[1] - a[1])
+                    .filter(([skill, points]) => points > 0);
+                
+                // Create skills display grouped by category
+                const skillsByCategory = {
+                    physical: [],
+                    social: [],
+                    mental: []
+                };
+                
+                sortedSkills.forEach(([skill, points]) => {
+                    skillsByCategory[allSkills[skill].category].push({ skill, points, name: allSkills[skill].name });
+                });
+                
+                container.innerHTML = `
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h5>Physical</h5>
+                            ${skillsByCategory.physical.map(s => `
+                                <div class="skill-item ${s.points >= 3 ? 'high' : s.points >= 2 ? 'medium' : 'low'}">
+                                    ${s.name}: ${getDotsDisplay(s.points)}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="skill-category">
+                            <h5>Social</h5>
+                            ${skillsByCategory.social.map(s => `
+                                <div class="skill-item ${s.points >= 3 ? 'high' : s.points >= 2 ? 'medium' : 'low'}">
+                                    ${s.name}: ${getDotsDisplay(s.points)}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="skill-category">
+                            <h5>Mental</h5>
+                            ${skillsByCategory.mental.map(s => `
+                                <div class="skill-item ${s.points >= 3 ? 'high' : s.points >= 2 ? 'medium' : 'low'}">
+                                    ${s.name}: ${getDotsDisplay(s.points)}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                // Generate backstory
+                generatedBackstory = backstoryFragments.join('\n\n');
+                backstoryContainer.textContent = generatedBackstory;
+            }
+
+            // Back to skills questionnaire (retake)
+            document.getElementById('back-to-skills-quest').addEventListener('click', function() {
+                initializeSkillsQuestionnaire();
+                showStep(steps.skillsResult, steps.skillsQuest);
+            });
+
+            // Step 12 -> Step 13 (Skills Result to Summary)
+            document.getElementById('next-to-summary').addEventListener('click', function() {
+                // Get the final backstory (may have been edited)
+                generatedBackstory = document.getElementById('backstory-text').textContent;
+                populateSummary();
+                showStep(steps.skillsResult, steps.summary);
             });
 
             // Calculate final attribute values
@@ -1060,6 +2296,28 @@
             function populateSummary() {
                 const container = document.getElementById('character-summary');
                 const name = characterNameInput.value;
+                
+                // Get skills by category for display
+                const skillsByCategory = {
+                    physical: [],
+                    social: [],
+                    mental: []
+                };
+                
+                Object.entries(skillPoints).forEach(([skill, points]) => {
+                    if (points > 0) {
+                        skillsByCategory[allSkills[skill].category].push({ 
+                            skill, 
+                            points, 
+                            name: allSkills[skill].name 
+                        });
+                    }
+                });
+                
+                // Sort each category by points
+                Object.keys(skillsByCategory).forEach(cat => {
+                    skillsByCategory[cat].sort((a, b) => b.points - a.points);
+                });
                 
                 container.innerHTML = `
                     <div class="summary-section">
@@ -1107,6 +2365,41 @@
                             </div>
                         </div>
                     </div>
+                    <div class="summary-section">
+                        <h4>Skills</h4>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h5>Physical</h5>
+                                ${skillsByCategory.physical.map(s => `
+                                    <div class="skill-item ${s.points >= 4 ? 'expert' : s.points >= 3 ? 'high' : s.points >= 2 ? 'medium' : 'low'}">
+                                        ${s.name}: ${getDotsDisplay(s.points)}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="skill-category">
+                                <h5>Social</h5>
+                                ${skillsByCategory.social.map(s => `
+                                    <div class="skill-item ${s.points >= 4 ? 'expert' : s.points >= 3 ? 'high' : s.points >= 2 ? 'medium' : 'low'}">
+                                        ${s.name}: ${getDotsDisplay(s.points)}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="skill-category">
+                                <h5>Mental</h5>
+                                ${skillsByCategory.mental.map(s => `
+                                    <div class="skill-item ${s.points >= 4 ? 'expert' : s.points >= 3 ? 'high' : s.points >= 2 ? 'medium' : 'low'}">
+                                        ${s.name}: ${getDotsDisplay(s.points)}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-section">
+                        <h4>Your Story</h4>
+                        <div class="backstory-display">
+                            ${generatedBackstory.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+                        </div>
+                    </div>
                 `;
             }
 
@@ -1131,15 +2424,13 @@
                     'bone-gnawers': 'Bone Gnawer',
                     'children-of-gaia': 'Child of Gaia',
                     'fianna': 'Fianna',
-                    'get-of-fenris': 'Get of Fenris',
+                    'ghost-council': 'Ghost Council',
                     'glass-walkers': 'Glass Walker',
                     'red-talons': 'Red Talon',
                     'shadow-lords': 'Shadow Lord',
                     'silent-striders': 'Silent Strider',
                     'silver-fangs': 'Silver Fang',
-                    'stargazers': 'Stargazer',
-                    'uktena': 'Uktena',
-                    'wendigo': 'Wendigo'
+                    'stargazers': 'Stargazer'
                 };
                 return labels[tribe] || tribe;
             }
@@ -1155,9 +2446,9 @@
                 return labels[auspice] || auspice;
             }
 
-            // Back to Tertiary
+            // Back to Skills Result
             document.getElementById('back-to-tertiary').addEventListener('click', function() {
-                showStep(steps.summary, steps.tertiaryAttrs);
+                showStep(steps.summary, steps.skillsResult);
             });
 
             // Update character data on form submission
@@ -1169,6 +2460,9 @@
                 characterData.tribe = document.getElementById('tribe').value;
                 characterData.auspice = auspiceInput.value;
                 characterData.birthdate = birthdateInput.value;
+                characterData.skillType = selectedSkillType;
+                characterData.skills = skillPoints;
+                characterData.backstory = generatedBackstory;
                 
                 // Store in localStorage for later use
                 localStorage.setItem('werewolfCharacter', JSON.stringify(characterData));
