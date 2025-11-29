@@ -76,9 +76,9 @@
     </main>
     
     <!-- Character Detail Modal -->
-    <div id="character-modal" class="modal-overlay">
+    <div id="character-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content character-detail-modal">
-            <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
+            <button type="button" class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
             <div id="character-detail-content">
                 <!-- Dynamically populated -->
             </div>
@@ -87,6 +87,14 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // HTML escape utility to prevent XSS
+            function escapeHtml(text) {
+                if (text === null || text === undefined) return '';
+                const div = document.createElement('div');
+                div.textContent = String(text);
+                return div.innerHTML;
+            }
+            
             // DOM Elements
             const loginPrompt = document.getElementById('login-prompt');
             const charactersContent = document.getElementById('characters-content');
@@ -178,19 +186,19 @@
                 let html = '';
                 characters.forEach((char, index) => {
                     const system = gamingSystems[char.system] || gamingSystems['werewolf-apocalypse'];
-                    const campaignName = char.campaignId ? getCampaignName(char.campaignId) : 'No Campaign';
+                    const campaignName = char.campaignId ? escapeHtml(getCampaignName(char.campaignId)) : 'No Campaign';
                     
                     html += `
-                        <div class="character-card" data-character-index="${index}" style="--system-color: ${system.color}">
+                        <div class="character-card" data-character-index="${index}" style="--system-color: ${escapeHtml(system.color)}">
                             <div class="card-header">
-                                <span class="system-badge">${system.icon} ${system.name}</span>
+                                <span class="system-badge">${escapeHtml(system.icon)} ${escapeHtml(system.name)}</span>
                             </div>
                             <div class="card-body">
-                                <h3 class="character-name">${char.name || 'Unnamed Character'}</h3>
+                                <h3 class="character-name">${escapeHtml(char.name) || 'Unnamed Character'}</h3>
                                 <div class="character-details">
-                                    ${char.tribe ? `<span class="detail-item">Tribe: ${formatTribe(char.tribe)}</span>` : ''}
-                                    ${char.auspice ? `<span class="detail-item">Auspice: ${formatAuspice(char.auspice)}</span>` : ''}
-                                    ${char.gender ? `<span class="detail-item">Gender: ${formatGender(char.gender)}</span>` : ''}
+                                    ${char.tribe ? `<span class="detail-item">Tribe: ${escapeHtml(formatTribe(char.tribe))}</span>` : ''}
+                                    ${char.auspice ? `<span class="detail-item">Auspice: ${escapeHtml(formatAuspice(char.auspice))}</span>` : ''}
+                                    ${char.gender ? `<span class="detail-item">Gender: ${escapeHtml(formatGender(char.gender))}</span>` : ''}
                                 </div>
                                 <div class="campaign-badge">
                                     <span class="campaign-label">Campaign:</span>
@@ -334,15 +342,15 @@
                             <div class="skills-grid">
                                 <div class="skill-category">
                                     <h5>Physical</h5>
-                                    ${skillsByCategory.physical.map(s => `<div class="skill-item">${s.name}: ${getDotsDisplay(s.value)}</div>`).join('')}
+                                    ${skillsByCategory.physical.map(s => `<div class="skill-item">${escapeHtml(s.name)}: ${getDotsDisplay(s.value)}</div>`).join('')}
                                 </div>
                                 <div class="skill-category">
                                     <h5>Social</h5>
-                                    ${skillsByCategory.social.map(s => `<div class="skill-item">${s.name}: ${getDotsDisplay(s.value)}</div>`).join('')}
+                                    ${skillsByCategory.social.map(s => `<div class="skill-item">${escapeHtml(s.name)}: ${getDotsDisplay(s.value)}</div>`).join('')}
                                 </div>
                                 <div class="skill-category">
                                     <h5>Mental</h5>
-                                    ${skillsByCategory.mental.map(s => `<div class="skill-item">${s.name}: ${getDotsDisplay(s.value)}</div>`).join('')}
+                                    ${skillsByCategory.mental.map(s => `<div class="skill-item">${escapeHtml(s.name)}: ${getDotsDisplay(s.value)}</div>`).join('')}
                                 </div>
                             </div>
                         </div>
@@ -355,20 +363,20 @@
                         <div class="detail-section">
                             <h4>Backstory</h4>
                             <div class="backstory-content">
-                                ${character.backstory.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+                                ${character.backstory.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}
                             </div>
                         </div>
                     `;
                 }
                 
                 characterDetailContent.innerHTML = `
-                    <div class="character-detail-header" style="--system-color: ${system.color}">
-                        <span class="system-badge">${system.icon} ${system.name}</span>
-                        <h2>${character.name || 'Unnamed Character'}</h2>
+                    <div class="character-detail-header" style="--system-color: ${escapeHtml(system.color)}">
+                        <span class="system-badge">${escapeHtml(system.icon)} ${escapeHtml(system.name)}</span>
+                        <h2 id="modal-title">${escapeHtml(character.name) || 'Unnamed Character'}</h2>
                         <p class="character-subtitle">
-                            ${character.gender ? formatGender(character.gender) : ''} 
-                            ${character.tribe ? formatTribe(character.tribe) : ''} 
-                            ${character.auspice ? formatAuspice(character.auspice) : ''}
+                            ${character.gender ? escapeHtml(formatGender(character.gender)) : ''} 
+                            ${character.tribe ? escapeHtml(formatTribe(character.tribe)) : ''} 
+                            ${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : ''}
                         </p>
                     </div>
                     <div class="character-detail-body">
@@ -377,7 +385,7 @@
                         ${backstoryHtml}
                         <div class="detail-section">
                             <h4>Campaign</h4>
-                            <p>${character.campaignId ? getCampaignName(character.campaignId) : 'Not assigned to any campaign'}</p>
+                            <p>${character.campaignId ? escapeHtml(getCampaignName(character.campaignId)) : 'Not assigned to any campaign'}</p>
                         </div>
                         <div class="detail-section">
                             <p class="created-date">Created: ${new Date(character.createdAt).toLocaleDateString()}</p>

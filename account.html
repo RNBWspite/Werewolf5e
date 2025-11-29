@@ -124,6 +124,13 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // HTML escape utility to prevent XSS
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
             // DOM Elements
             const guestView = document.getElementById('guest-view');
             const userView = document.getElementById('user-view');
@@ -209,7 +216,7 @@
                     // Clear pending character
                     localStorage.removeItem('pendingCharacter');
                     
-                    alert('Your character "' + character.name + '" has been saved to your account!');
+                    alert('Your character "' + escapeHtml(character.name) + '" has been saved to your account!');
                 }
             }
             
@@ -278,7 +285,7 @@
                 // Log in the new user
                 localStorage.setItem('currentUser', JSON.stringify(newUser));
                 
-                alert('Account created successfully! Welcome to the pack, ' + username + '!');
+                alert('Account created successfully! Welcome to the pack, ' + escapeHtml(username) + '!');
                 showUserView(newUser);
             });
             
