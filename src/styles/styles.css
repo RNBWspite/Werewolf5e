@@ -1609,3 +1609,232 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== TRIBE-THEMED CHARACTER SHEET STYLES ===== */
+
+.character-sheet {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sheet-header {
+  padding: 30px;
+  text-align: center;
+  border-bottom: 3px solid var(--tribe-accent, #9acd32);
+}
+
+.sheet-title-section {
+  margin-bottom: 20px;
+}
+
+.tribe-symbol {
+  font-size: 48px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px var(--tribe-accent, #9acd32);
+}
+
+.sheet-character-name {
+  color: #ffffff;
+  font-size: 32px;
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: 'Special Elite', cursive;
+}
+
+.sheet-subtitle {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.tribe-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  border: 2px solid;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sheet-identity-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.identity-item {
+  text-align: center;
+}
+
+.identity-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.identity-value {
+  display: block;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.sheet-body {
+  padding: 30px;
+}
+
+.sheet-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  color: #ffffff;
+  font-size: 20px;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid;
+  font-family: 'Special Elite', cursive;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.attributes-section .attributes-grid,
+.skills-section .skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.attr-category,
+.skill-category {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 15px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.attr-row,
+.skill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.attr-row:last-child,
+.skill-row:last-child {
+  border-bottom: none;
+}
+
+.attr-name,
+.skill-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.attr-dots,
+.skill-dots {
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.skill-empty {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+  font-size: 13px;
+}
+
+.backstory-section .backstory-content {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid var(--tribe-accent, #9acd32);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.backstory-section .backstory-content p {
+  margin: 0 0 15px 0;
+}
+
+.backstory-section .backstory-content p:last-child {
+  margin-bottom: 0;
+}
+
+.sheet-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.footer-item {
+  text-align: center;
+}
+
+.footer-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-value {
+  display: block;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+/* Responsive character sheet */
+@media (max-width: 768px) {
+  .attributes-section .attributes-grid,
+  .skills-section .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sheet-identity-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .sheet-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .sheet-character-name {
+    font-size: 24px;
+  }
+}
+
+/* Make modal wider for character sheet */
+.character-detail-modal {
+  max-width: 950px;
+  width: 95%;
+}
