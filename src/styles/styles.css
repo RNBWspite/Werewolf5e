@@ -93,7 +93,7 @@ body {
 .ttrpg-buttons {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 40px;
   margin-top: 40px;
   flex-wrap: wrap;
   padding: 0 20px;
@@ -113,19 +113,17 @@ body {
 }
 
 .ttrpg-button img {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  border-radius: 50%;
+  width: 200px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
   border: 3px solid #333;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: #1a1a2e;
-  padding: 10px;
 }
 
 .ttrpg-button:hover img {
   border-color: #666;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .ttrpg-button span {
@@ -133,7 +131,7 @@ body {
   font-size: 14px;
   font-weight: bold;
   text-align: center;
-  max-width: 150px;
+  max-width: 200px;
 }
 
 /* Button reset for ttrpg-button when used as button */
