@@ -60,6 +60,35 @@ body {
   width: auto;
 }
 
+/* Header logo link wrapper */
+.header-logo-link {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.header-logo-link:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Home icon navigation link */
+.nav-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px !important;
+}
+
+.nav-home svg {
+  stroke: #ffffff;
+  transition: stroke 0.3s ease;
+}
+
+.nav-home:hover svg {
+  stroke: #9acd32;
+}
+
 /* TTRPG Button Section */
 .ttrpg-buttons {
   display: flex;
