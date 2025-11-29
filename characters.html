@@ -118,22 +118,22 @@
             const gamingSystems = {
                 'werewolf-apocalypse': {
                     name: 'Werewolf: The Apocalypse',
-                    icon: '🐺',
+                    icon: 'src/assets/icons/werewolf-apocalypse.svg',
                     color: '#6b8e23'
                 },
                 'dnd5e': {
                     name: 'Dungeons & Dragons 5e',
-                    icon: '🐉',
+                    icon: 'src/assets/icons/dnd5e.svg',
                     color: '#8b0000'
                 },
                 'vampire-masquerade': {
                     name: 'Vampire: The Masquerade',
-                    icon: '🧛',
+                    icon: 'src/assets/icons/vampire-masquerade.svg',
                     color: '#4a0000'
                 },
                 'call-of-cthulhu': {
                     name: 'Call of Cthulhu',
-                    icon: '🐙',
+                    icon: 'src/assets/icons/call-of-cthulhu.svg',
                     color: '#1a3a1a'
                 }
             };
@@ -199,7 +199,7 @@
                     html += `
                         <div class="character-card" data-character-index="${index}" style="--system-color: ${escapeHtml(system.color)}">
                             <div class="card-header">
-                                <span class="system-badge">${escapeHtml(system.icon)} ${escapeHtml(system.name)}</span>
+                                <span class="system-badge"><img class="system-badge-icon" src="${escapeHtml(system.icon)}" alt="${escapeHtml(system.name)}"> ${escapeHtml(system.name)}</span>
                             </div>
                             <div class="card-body">
                                 <h3 class="character-name">${escapeHtml(char.name) || 'Unnamed Character'}</h3>
@@ -379,7 +379,7 @@
                 
                 characterDetailContent.innerHTML = `
                     <div class="character-detail-header" style="--system-color: ${escapeHtml(system.color)}">
-                        <span class="system-badge">${escapeHtml(system.icon)} ${escapeHtml(system.name)}</span>
+                        <span class="system-badge"><img class="system-badge-icon" src="${escapeHtml(system.icon)}" alt="${escapeHtml(system.name)}"> ${escapeHtml(system.name)}</span>
                         <h2 id="modal-title">${escapeHtml(character.name) || 'Unnamed Character'}</h2>
                         <p class="character-subtitle">
                             ${character.gender ? escapeHtml(formatGender(character.gender)) : ''} 
