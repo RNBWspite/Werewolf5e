@@ -377,6 +377,239 @@
                 return '●'.repeat(value) + '○'.repeat(5 - value);
             }
             
+            // Generate editable dots HTML
+            function generateEditableDots(value, max, color) {
+                let html = '';
+                for (let i = 1; i <= max; i++) {
+                    const filled = i <= value;
+                    html += `<span class="dot ${filled ? 'filled' : ''}" data-value="${i}" style="color: ${color};">${filled ? '●' : '○'}</span>`;
+                }
+                return html;
+            }
+            
+            // Generate Gifts & Rites HTML
+            function generateGiftsRitesHtml(giftsRites) {
+                if (!giftsRites || giftsRites.length === 0) {
+                    return '<div class="gift-rite-row empty-row"><span class="empty-message">No gifts or rites added yet</span></div>';
+                }
+                return giftsRites.map((item, index) => `
+                    <div class="gift-rite-row" data-index="${index}">
+                        <div class="gift-rite-fields">
+                            <input type="text" class="gift-rite-input name-input" data-field="name" value="${escapeHtml(item.name || '')}" placeholder="Name">
+                            <input type="text" class="gift-rite-input pool-input" data-field="pool" value="${escapeHtml(item.pool || '')}" placeholder="Pool">
+                            <input type="text" class="gift-rite-input cost-input" data-field="cost" value="${escapeHtml(item.cost || '')}" placeholder="Cost">
+                            <input type="text" class="gift-rite-input notes-input" data-field="notes" value="${escapeHtml(item.notes || '')}" placeholder="Notes">
+                        </div>
+                        <button type="button" class="btn-remove-row" onclick="removeGiftRite(${index})">×</button>
+                    </div>
+                `).join('');
+            }
+            
+            // Generate Advantages & Flaws HTML
+            function generateAdvantagesFlawsHtml(advantagesFlaws, accentColor) {
+                if (!advantagesFlaws || advantagesFlaws.length === 0) {
+                    return '<div class="advantage-flaw-row empty-row"><span class="empty-message">No advantages or flaws added yet</span></div>';
+                }
+                return advantagesFlaws.map((item, index) => `
+                    <div class="advantage-flaw-row" data-index="${index}">
+                        <input type="text" class="advantage-flaw-input" data-field="name" value="${escapeHtml(item.name || '')}" placeholder="Name">
+                        <div class="editable-dots advantage-flaw-dots" data-index="${index}" data-max="5">
+                            ${generateEditableDots(item.points || 0, 5, accentColor)}
+                        </div>
+                        <button type="button" class="btn-remove-row" onclick="removeAdvantageFlaw(${index})">×</button>
+                    </div>
+                `).join('');
+            }
+            
+            // Current character being edited
+            let currentEditingCharacter = null;
+            
+            // Add Gift/Rite row
+            window.addGiftRite = function(characterId) {
+                if (!currentEditingCharacter) return;
+                if (!currentEditingCharacter.giftsRites) {
+                    currentEditingCharacter.giftsRites = [];
+                }
+                currentEditingCharacter.giftsRites.push({ name: '', pool: '', cost: '', notes: '' });
+                saveCharacterChanges(currentEditingCharacter);
+                refreshGiftsRitesList();
+            };
+            
+            // Remove Gift/Rite row
+            window.removeGiftRite = function(index) {
+                if (!currentEditingCharacter || !currentEditingCharacter.giftsRites) return;
+                currentEditingCharacter.giftsRites.splice(index, 1);
+                saveCharacterChanges(currentEditingCharacter);
+                refreshGiftsRitesList();
+            };
+            
+            // Add Advantage/Flaw row
+            window.addAdvantageFlaw = function(characterId) {
+                if (!currentEditingCharacter) return;
+                if (!currentEditingCharacter.advantagesFlaws) {
+                    currentEditingCharacter.advantagesFlaws = [];
+                }
+                currentEditingCharacter.advantagesFlaws.push({ name: '', points: 0 });
+                saveCharacterChanges(currentEditingCharacter);
+                refreshAdvantagesFlawsList();
+            };
+            
+            // Remove Advantage/Flaw row
+            window.removeAdvantageFlaw = function(index) {
+                if (!currentEditingCharacter || !currentEditingCharacter.advantagesFlaws) return;
+                currentEditingCharacter.advantagesFlaws.splice(index, 1);
+                saveCharacterChanges(currentEditingCharacter);
+                refreshAdvantagesFlawsList();
+            };
+            
+            // Refresh Gifts & Rites list
+            function refreshGiftsRitesList() {
+                const container = document.getElementById('gifts-rites-list');
+                if (container && currentEditingCharacter) {
+                    container.innerHTML = generateGiftsRitesHtml(currentEditingCharacter.giftsRites || []);
+                    attachGiftRiteListeners();
+                }
+            }
+            
+            // Refresh Advantages & Flaws list
+            function refreshAdvantagesFlawsList() {
+                const container = document.getElementById('advantages-flaws-list');
+                if (container && currentEditingCharacter) {
+                    const tribeTheme = tribeThemes[currentEditingCharacter.tribe] || { accentColor: '#9acd32' };
+                    container.innerHTML = generateAdvantagesFlawsHtml(currentEditingCharacter.advantagesFlaws || [], tribeTheme.accentColor);
+                    attachAdvantageFlawListeners();
+                }
+            }
+            
+            // Attach listeners for Gift/Rite inputs
+            function attachGiftRiteListeners() {
+                document.querySelectorAll('.gift-rite-row:not(.empty-row)').forEach(row => {
+                    const index = parseInt(row.dataset.index);
+                    row.querySelectorAll('.gift-rite-input').forEach(input => {
+                        input.addEventListener('change', function() {
+                            if (currentEditingCharacter && currentEditingCharacter.giftsRites && currentEditingCharacter.giftsRites[index]) {
+                                currentEditingCharacter.giftsRites[index][this.dataset.field] = this.value;
+                                saveCharacterChanges(currentEditingCharacter);
+                            }
+                        });
+                    });
+                });
+            }
+            
+            // Attach listeners for Advantage/Flaw inputs
+            function attachAdvantageFlawListeners() {
+                document.querySelectorAll('.advantage-flaw-row:not(.empty-row)').forEach(row => {
+                    const index = parseInt(row.dataset.index);
+                    const input = row.querySelector('.advantage-flaw-input');
+                    if (input) {
+                        input.addEventListener('change', function() {
+                            if (currentEditingCharacter && currentEditingCharacter.advantagesFlaws && currentEditingCharacter.advantagesFlaws[index]) {
+                                currentEditingCharacter.advantagesFlaws[index].name = this.value;
+                                saveCharacterChanges(currentEditingCharacter);
+                            }
+                        });
+                    }
+                    
+                    const dotsContainer = row.querySelector('.advantage-flaw-dots');
+                    if (dotsContainer) {
+                        dotsContainer.querySelectorAll('.dot').forEach(dot => {
+                            dot.addEventListener('click', function() {
+                                const value = parseInt(this.dataset.value);
+                                if (currentEditingCharacter && currentEditingCharacter.advantagesFlaws && currentEditingCharacter.advantagesFlaws[index]) {
+                                    // Toggle: if clicking same value, reduce by 1; otherwise set to clicked value
+                                    const currentValue = currentEditingCharacter.advantagesFlaws[index].points || 0;
+                                    currentEditingCharacter.advantagesFlaws[index].points = (currentValue === value) ? value - 1 : value;
+                                    saveCharacterChanges(currentEditingCharacter);
+                                    refreshAdvantagesFlawsList();
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+            
+            // Save character changes to localStorage
+            function saveCharacterChanges(character) {
+                const allCharacters = JSON.parse(localStorage.getItem('characters') || '[]');
+                const index = allCharacters.findIndex(c => c.id === character.id);
+                if (index !== -1) {
+                    allCharacters[index] = character;
+                    localStorage.setItem('characters', JSON.stringify(allCharacters));
+                    
+                    // Update userCharacters array
+                    const userIndex = userCharacters.findIndex(c => c.id === character.id);
+                    if (userIndex !== -1) {
+                        userCharacters[userIndex] = character;
+                    }
+                }
+            }
+            
+            // Attach editable section listeners
+            function attachEditableListeners() {
+                // Editable dots (Renown, Harano, Hauglosk)
+                document.querySelectorAll('.editable-dots:not(.advantage-flaw-dots)').forEach(container => {
+                    const field = container.dataset.field;
+                    container.querySelectorAll('.dot').forEach(dot => {
+                        dot.addEventListener('click', function() {
+                            const value = parseInt(this.dataset.value);
+                            if (currentEditingCharacter) {
+                                // Handle nested fields like renown.glory
+                                const fieldParts = field.split('.');
+                                if (fieldParts.length === 2) {
+                                    if (!currentEditingCharacter[fieldParts[0]]) {
+                                        currentEditingCharacter[fieldParts[0]] = {};
+                                    }
+                                    const currentValue = currentEditingCharacter[fieldParts[0]][fieldParts[1]] || 0;
+                                    currentEditingCharacter[fieldParts[0]][fieldParts[1]] = (currentValue === value) ? value - 1 : value;
+                                } else {
+                                    const currentValue = currentEditingCharacter[field] || 0;
+                                    currentEditingCharacter[field] = (currentValue === value) ? value - 1 : value;
+                                }
+                                saveCharacterChanges(currentEditingCharacter);
+                                updateDotsDisplay(container, field);
+                            }
+                        });
+                    });
+                });
+                
+                // Editable textareas
+                document.querySelectorAll('.editable-textarea').forEach(textarea => {
+                    textarea.addEventListener('change', function() {
+                        const field = this.dataset.field;
+                        if (currentEditingCharacter) {
+                            currentEditingCharacter[field] = this.value;
+                            saveCharacterChanges(currentEditingCharacter);
+                        }
+                    });
+                });
+                
+                // Gift/Rite listeners
+                attachGiftRiteListeners();
+                
+                // Advantage/Flaw listeners
+                attachAdvantageFlawListeners();
+            }
+            
+            // Update dots display after click
+            function updateDotsDisplay(container, field) {
+                if (!currentEditingCharacter) return;
+                
+                const fieldParts = field.split('.');
+                let value;
+                if (fieldParts.length === 2) {
+                    value = currentEditingCharacter[fieldParts[0]]?.[fieldParts[1]] || 0;
+                } else {
+                    value = currentEditingCharacter[field] || 0;
+                }
+                
+                container.querySelectorAll('.dot').forEach(dot => {
+                    const dotValue = parseInt(dot.dataset.value);
+                    const filled = dotValue <= value;
+                    dot.classList.toggle('filled', filled);
+                    dot.textContent = filled ? '●' : '○';
+                });
+            }
+            
             // Show character detail modal
             function showCharacterDetail(character) {
                 const system = gamingSystems[character.system] || gamingSystems['werewolf-apocalypse'];
@@ -581,6 +814,90 @@
                             </div>
                             ` : ''}
                             
+                            <!-- Editable Sections -->
+                            <div class="sheet-section renown-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Renown</h3>
+                                <div class="renown-grid">
+                                    <div class="renown-item">
+                                        <span class="renown-name">Glory</span>
+                                        <div class="editable-dots" data-field="renown.glory" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.renown?.glory || 0, 5, tribeTheme.accentColor)}
+                                        </div>
+                                    </div>
+                                    <div class="renown-item">
+                                        <span class="renown-name">Honor</span>
+                                        <div class="editable-dots" data-field="renown.honor" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.renown?.honor || 0, 5, tribeTheme.accentColor)}
+                                        </div>
+                                    </div>
+                                    <div class="renown-item">
+                                        <span class="renown-name">Wisdom</span>
+                                        <div class="editable-dots" data-field="renown.wisdom" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.renown?.wisdom || 0, 5, tribeTheme.accentColor)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section harano-hauglosk-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Harano & Hauglosk</h3>
+                                <div class="harano-hauglosk-grid">
+                                    <div class="tracker-item">
+                                        <span class="tracker-name">Harano</span>
+                                        <div class="editable-dots" data-field="harano" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.harano || 0, 5, '#6495ed')}
+                                        </div>
+                                    </div>
+                                    <div class="tracker-item">
+                                        <span class="tracker-name">Hauglosk</span>
+                                        <div class="editable-dots" data-field="hauglosk" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.hauglosk || 0, 5, '#ff6347')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section gifts-rites-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Gifts & Rites</h3>
+                                <div class="gifts-rites-container" data-character-id="${character.id}">
+                                    <div class="gifts-rites-list" id="gifts-rites-list">
+                                        ${generateGiftsRitesHtml(character.giftsRites || [])}
+                                    </div>
+                                    <button type="button" class="btn btn-add-row" onclick="addGiftRite('${character.id}')">+ Add Gift/Rite</button>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section advantages-flaws-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Advantages & Flaws</h3>
+                                <div class="advantages-flaws-container" data-character-id="${character.id}">
+                                    <div class="advantages-flaws-list" id="advantages-flaws-list">
+                                        ${generateAdvantagesFlawsHtml(character.advantagesFlaws || [], tribeTheme.accentColor)}
+                                    </div>
+                                    <button type="button" class="btn btn-add-row" onclick="addAdvantageFlaw('${character.id}')">+ Add Advantage/Flaw</button>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section tenets-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Character Tenets</h3>
+                                <div class="editable-textarea-container">
+                                    <textarea class="editable-textarea" data-field="tenets" data-character-id="${character.id}" placeholder="Enter your character's tenets...">${escapeHtml(character.tenets || '')}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section touchstones-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Touchstones</h3>
+                                <div class="editable-textarea-container">
+                                    <textarea class="editable-textarea" data-field="touchstones" data-character-id="${character.id}" placeholder="Enter your character's touchstones...">${escapeHtml(character.touchstones || '')}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section favors-bans-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Favors & Bans</h3>
+                                <div class="editable-textarea-container">
+                                    <textarea class="editable-textarea" data-field="favorsBans" data-character-id="${character.id}" placeholder="Enter your character's favors and bans...">${escapeHtml(character.favorsBans || '')}</textarea>
+                                </div>
+                            </div>
+                            
                             <div class="sheet-footer">
                                 <div class="footer-item">
                                     <span class="footer-label">Campaign</span>
@@ -595,7 +912,14 @@
                     </div>
                 `;
                 
+                // Set current editing character and attach listeners
+                currentEditingCharacter = character;
                 characterModal.classList.add('active');
+                
+                // Use setTimeout to ensure DOM is ready
+                setTimeout(function() {
+                    attachEditableListeners();
+                }, 0);
             }
             
             // Generate skills HTML organized by category

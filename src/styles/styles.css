@@ -1838,3 +1838,243 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   max-width: 950px;
   width: 95%;
 }
+
+/* ===== EDITABLE CHARACTER SHEET SECTIONS ===== */
+
+/* Renown Section */
+.renown-section .renown-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.renown-item,
+.tracker-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.renown-name,
+.tracker-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Harano & Hauglosk Section */
+.harano-hauglosk-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Editable Dots */
+.editable-dots {
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.editable-dots .dot {
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  user-select: none;
+}
+
+.editable-dots .dot:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+.editable-dots .dot.filled {
+  text-shadow: 0 0 5px currentColor;
+}
+
+/* Gifts & Rites Section */
+.gifts-rites-container,
+.advantages-flaws-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gifts-rites-list,
+.advantages-flaws-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gift-rite-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gift-rite-row.empty-row {
+  justify-content: center;
+  padding: 20px;
+}
+
+.empty-message {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  font-size: 14px;
+}
+
+.gift-rite-fields {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  gap: 10px;
+  flex: 1;
+}
+
+.gift-rite-input,
+.advantage-flaw-input {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(107, 142, 35, 0.3);
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #ffffff;
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+}
+
+.gift-rite-input:focus,
+.advantage-flaw-input:focus {
+  outline: none;
+  border-color: #9acd32;
+  box-shadow: 0 0 5px rgba(154, 205, 50, 0.3);
+}
+
+.gift-rite-input::placeholder,
+.advantage-flaw-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Advantages & Flaws Section */
+.advantage-flaw-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.advantage-flaw-row.empty-row {
+  justify-content: center;
+  padding: 20px;
+}
+
+.advantage-flaw-input {
+  flex: 1;
+}
+
+.advantage-flaw-dots {
+  flex-shrink: 0;
+}
+
+/* Remove Row Button */
+.btn-remove-row {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.btn-remove-row:hover {
+  color: #ff6347;
+}
+
+/* Add Row Button */
+.btn-add-row {
+  background-color: rgba(107, 142, 35, 0.3);
+  border: 1px dashed rgba(107, 142, 35, 0.6);
+  color: #9acd32;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Special Elite', cursive;
+}
+
+.btn-add-row:hover {
+  background-color: rgba(107, 142, 35, 0.5);
+  border-color: #9acd32;
+}
+
+/* Editable Textareas */
+.editable-textarea-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.editable-textarea {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(107, 142, 35, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  color: #ffffff;
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  line-height: 1.8;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.editable-textarea:focus {
+  outline: none;
+  border-color: #9acd32;
+  box-shadow: 0 0 10px rgba(154, 205, 50, 0.2);
+}
+
+.editable-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive styles for editable sections */
+@media (max-width: 768px) {
+  .renown-section .renown-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .harano-hauglosk-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .gift-rite-fields {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .gift-rite-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .advantage-flaw-row {
+    flex-wrap: wrap;
+  }
+  
+  .advantage-flaw-input {
+    flex: 1 1 100%;
+    margin-bottom: 10px;
+  }
+}
