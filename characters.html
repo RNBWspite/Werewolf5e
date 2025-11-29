@@ -138,6 +138,98 @@
                 }
             };
             
+            // Tribe-specific themes for Werewolf character sheets
+            const tribeThemes = {
+                'black-furies': {
+                    name: 'Black Furies',
+                    primaryColor: '#8b0000',
+                    secondaryColor: '#2d0000',
+                    accentColor: '#ff4444',
+                    symbol: '⚔️',
+                    backgroundPattern: 'linear-gradient(135deg, #2d0000 0%, #1a0000 50%, #3d0000 100%)'
+                },
+                'bone-gnawers': {
+                    name: 'Bone Gnawers',
+                    primaryColor: '#8b7355',
+                    secondaryColor: '#3d2e1f',
+                    accentColor: '#d4a574',
+                    symbol: '🦴',
+                    backgroundPattern: 'linear-gradient(135deg, #3d2e1f 0%, #2a1f14 50%, #4d3e2f 100%)'
+                },
+                'children-of-gaia': {
+                    name: 'Children of Gaia',
+                    primaryColor: '#228b22',
+                    secondaryColor: '#0d3d0d',
+                    accentColor: '#90ee90',
+                    symbol: '🌿',
+                    backgroundPattern: 'linear-gradient(135deg, #0d3d0d 0%, #052805 50%, #1a4d1a 100%)'
+                },
+                'fianna': {
+                    name: 'Fianna',
+                    primaryColor: '#2e8b57',
+                    secondaryColor: '#1a4030',
+                    accentColor: '#ffd700',
+                    symbol: '🎵',
+                    backgroundPattern: 'linear-gradient(135deg, #1a4030 0%, #0d2018 50%, #2a5040 100%)'
+                },
+                'ghost-council': {
+                    name: 'Ghost Council',
+                    primaryColor: '#4682b4',
+                    secondaryColor: '#1a3045',
+                    accentColor: '#87ceeb',
+                    symbol: '👻',
+                    backgroundPattern: 'linear-gradient(135deg, #1a3045 0%, #0d1825 50%, #2a4055 100%)'
+                },
+                'glass-walkers': {
+                    name: 'Glass Walkers',
+                    primaryColor: '#708090',
+                    secondaryColor: '#2d3436',
+                    accentColor: '#00d4ff',
+                    symbol: '💻',
+                    backgroundPattern: 'linear-gradient(135deg, #2d3436 0%, #1a1e20 50%, #3d4446 100%)'
+                },
+                'red-talons': {
+                    name: 'Red Talons',
+                    primaryColor: '#8b0000',
+                    secondaryColor: '#3d1a1a',
+                    accentColor: '#ff6347',
+                    symbol: '🐺',
+                    backgroundPattern: 'linear-gradient(135deg, #3d1a1a 0%, #280d0d 50%, #4d2a2a 100%)'
+                },
+                'shadow-lords': {
+                    name: 'Shadow Lords',
+                    primaryColor: '#1a1a2e',
+                    secondaryColor: '#0d0d17',
+                    accentColor: '#9370db',
+                    symbol: '👑',
+                    backgroundPattern: 'linear-gradient(135deg, #0d0d17 0%, #050508 50%, #1a1a27 100%)'
+                },
+                'silent-striders': {
+                    name: 'Silent Striders',
+                    primaryColor: '#daa520',
+                    secondaryColor: '#3d3010',
+                    accentColor: '#ffd700',
+                    symbol: '🏜️',
+                    backgroundPattern: 'linear-gradient(135deg, #3d3010 0%, #282008 50%, #4d4020 100%)'
+                },
+                'silver-fangs': {
+                    name: 'Silver Fangs',
+                    primaryColor: '#c0c0c0',
+                    secondaryColor: '#2a2a3a',
+                    accentColor: '#ffffff',
+                    symbol: '🏆',
+                    backgroundPattern: 'linear-gradient(135deg, #2a2a3a 0%, #1a1a28 50%, #3a3a4a 100%)'
+                },
+                'stargazers': {
+                    name: 'Stargazers',
+                    primaryColor: '#4b0082',
+                    secondaryColor: '#1a0030',
+                    accentColor: '#e6e6fa',
+                    symbol: '⭐',
+                    backgroundPattern: 'linear-gradient(135deg, #1a0030 0%, #0d0018 50%, #2a0040 100%)'
+                }
+            };
+            
             let currentUser = null;
             let userCharacters = [];
             
@@ -377,31 +469,195 @@
                     `;
                 }
                 
+                // Get tribe theme for styling (for Werewolf characters)
+                const tribe = character.tribe || '';
+                const tribeTheme = tribeThemes[tribe] || {
+                    primaryColor: system.color,
+                    secondaryColor: '#1a1a1a',
+                    accentColor: '#9acd32',
+                    symbol: system.icon,
+                    backgroundPattern: `linear-gradient(135deg, ${system.color}22 0%, #1a1a1a 50%, ${system.color}22 100%)`
+                };
+                
+                // Character sheet styled like the PDF
                 characterDetailContent.innerHTML = `
-                    <div class="character-detail-header" style="--system-color: ${escapeHtml(system.color)}">
-                        <span class="system-badge">${escapeHtml(system.icon)} ${escapeHtml(system.name)}</span>
-                        <h2 id="modal-title">${escapeHtml(character.name) || 'Unnamed Character'}</h2>
-                        <p class="character-subtitle">
-                            ${character.gender ? escapeHtml(formatGender(character.gender)) : ''} 
-                            ${character.tribe ? escapeHtml(formatTribe(character.tribe)) : ''} 
-                            ${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : ''}
-                        </p>
-                    </div>
-                    <div class="character-detail-body">
-                        ${attributesHtml}
-                        ${skillsHtml}
-                        ${backstoryHtml}
-                        <div class="detail-section">
-                            <h4>Campaign</h4>
-                            <p>${character.campaignId ? escapeHtml(getCampaignName(character.campaignId)) : 'Not assigned to any campaign'}</p>
+                    <div class="character-sheet" style="
+                        --tribe-primary: ${tribeTheme.primaryColor};
+                        --tribe-secondary: ${tribeTheme.secondaryColor};
+                        --tribe-accent: ${tribeTheme.accentColor};
+                        --tribe-bg: ${tribeTheme.backgroundPattern};
+                    ">
+                        <div class="sheet-header" style="background: ${tribeTheme.backgroundPattern};">
+                            <div class="sheet-title-section">
+                                <div class="tribe-symbol">${tribeTheme.symbol}</div>
+                                <h2 class="sheet-character-name" id="modal-title">${escapeHtml(character.name) || 'Unnamed Character'}</h2>
+                                <div class="sheet-subtitle">
+                                    ${character.tribe ? `<span class="tribe-badge" style="border-color: ${tribeTheme.accentColor}; color: ${tribeTheme.accentColor};">${escapeHtml(formatTribe(character.tribe))}</span>` : ''}
+                                </div>
+                            </div>
+                            <div class="sheet-identity-row">
+                                <div class="identity-item">
+                                    <span class="identity-label">Auspice</span>
+                                    <span class="identity-value">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : '—'}</span>
+                                </div>
+                                <div class="identity-item">
+                                    <span class="identity-label">Gender</span>
+                                    <span class="identity-value">${character.gender ? escapeHtml(formatGender(character.gender)) : '—'}</span>
+                                </div>
+                                <div class="identity-item">
+                                    <span class="identity-label">Birthdate</span>
+                                    <span class="identity-value">${character.birthdate ? new Date(character.birthdate).toLocaleDateString() : '—'}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-section">
-                            <p class="created-date">Created: ${new Date(character.createdAt).toLocaleDateString()}</p>
+                        
+                        <div class="sheet-body">
+                            <div class="sheet-section attributes-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Attributes</h3>
+                                <div class="attributes-grid">
+                                    <div class="attr-category">
+                                        <h4 class="category-title">Physical</h4>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Strength</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.strength || 1)}</span>
+                                        </div>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Dexterity</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.dexterity || 1)}</span>
+                                        </div>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Stamina</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.stamina || 1)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="attr-category">
+                                        <h4 class="category-title">Social</h4>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Charisma</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.charisma || 1)}</span>
+                                        </div>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Manipulation</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.manipulation || 1)}</span>
+                                        </div>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Composure</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.composure || 1)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="attr-category">
+                                        <h4 class="category-title">Mental</h4>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Intelligence</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.intelligence || 1)}</span>
+                                        </div>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Wits</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.wits || 1)}</span>
+                                        </div>
+                                        <div class="attr-row">
+                                            <span class="attr-name">Resolve</span>
+                                            <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.resolve || 1)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            ${character.skills ? `
+                            <div class="sheet-section skills-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Skills</h3>
+                                <div class="skills-grid">
+                                    ${generateSkillsHtml(character.skills, tribeTheme.accentColor)}
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            ${character.backstory ? `
+                            <div class="sheet-section backstory-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Backstory</h3>
+                                <div class="backstory-content">
+                                    ${character.backstory.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="sheet-footer">
+                                <div class="footer-item">
+                                    <span class="footer-label">Campaign</span>
+                                    <span class="footer-value">${character.campaignId ? escapeHtml(getCampaignName(character.campaignId)) : 'Unassigned'}</span>
+                                </div>
+                                <div class="footer-item">
+                                    <span class="footer-label">Created</span>
+                                    <span class="footer-value">${new Date(character.createdAt).toLocaleDateString()}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
                 
                 characterModal.classList.add('active');
+            }
+            
+            // Generate skills HTML organized by category
+            function generateSkillsHtml(skills, accentColor) {
+                const skillsByCategory = { physical: [], social: [], mental: [] };
+                const skillCategories = {
+                    athletics: 'physical', brawl: 'physical', firearms: 'physical',
+                    larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
+                    empathy: 'social', etiquette: 'social', intimidation: 'social',
+                    leadership: 'social', performance: 'social', persuasion: 'social',
+                    streetwise: 'social', subterfuge: 'social',
+                    academics: 'mental', awareness: 'mental', craft: 'mental',
+                    insight: 'mental', investigation: 'mental', medicine: 'mental',
+                    occult: 'mental', science: 'mental', technology: 'mental'
+                };
+                
+                Object.entries(skills).forEach(([skill, value]) => {
+                    if (value > 0) {
+                        const category = skillCategories[skill] || 'mental';
+                        skillsByCategory[category].push({ name: skill, value: value });
+                    }
+                });
+                
+                // Sort each category by value
+                Object.keys(skillsByCategory).forEach(cat => {
+                    skillsByCategory[cat].sort((a, b) => b.value - a.value);
+                });
+                
+                const formatSkillName = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+                
+                return `
+                    <div class="skill-category">
+                        <h4 class="category-title">Physical</h4>
+                        ${skillsByCategory.physical.length > 0 ? 
+                            skillsByCategory.physical.map(s => `
+                                <div class="skill-row">
+                                    <span class="skill-name">${escapeHtml(formatSkillName(s.name))}</span>
+                                    <span class="skill-dots" style="color: ${accentColor};">${getDotsDisplay(s.value)}</span>
+                                </div>
+                            `).join('') : '<div class="skill-row"><span class="skill-empty">No physical skills</span></div>'}
+                    </div>
+                    <div class="skill-category">
+                        <h4 class="category-title">Social</h4>
+                        ${skillsByCategory.social.length > 0 ? 
+                            skillsByCategory.social.map(s => `
+                                <div class="skill-row">
+                                    <span class="skill-name">${escapeHtml(formatSkillName(s.name))}</span>
+                                    <span class="skill-dots" style="color: ${accentColor};">${getDotsDisplay(s.value)}</span>
+                                </div>
+                            `).join('') : '<div class="skill-row"><span class="skill-empty">No social skills</span></div>'}
+                    </div>
+                    <div class="skill-category">
+                        <h4 class="category-title">Mental</h4>
+                        ${skillsByCategory.mental.length > 0 ? 
+                            skillsByCategory.mental.map(s => `
+                                <div class="skill-row">
+                                    <span class="skill-name">${escapeHtml(formatSkillName(s.name))}</span>
+                                    <span class="skill-dots" style="color: ${accentColor};">${getDotsDisplay(s.value)}</span>
+                                </div>
+                            `).join('') : '<div class="skill-row"><span class="skill-empty">No mental skills</span></div>'}
+                    </div>
+                `;
             }
             
             // Close modal
