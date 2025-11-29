@@ -425,7 +425,7 @@
             let currentEditingCharacter = null;
             
             // Add Gift/Rite row
-            window.addGiftRite = function(characterId) {
+            window.addGiftRite = function() {
                 if (!currentEditingCharacter) return;
                 if (!currentEditingCharacter.giftsRites) {
                     currentEditingCharacter.giftsRites = [];
@@ -444,7 +444,7 @@
             };
             
             // Add Advantage/Flaw row
-            window.addAdvantageFlaw = function(characterId) {
+            window.addAdvantageFlaw = function() {
                 if (!currentEditingCharacter) return;
                 if (!currentEditingCharacter.advantagesFlaws) {
                     currentEditingCharacter.advantagesFlaws = [];
@@ -516,9 +516,9 @@
                             dot.addEventListener('click', function() {
                                 const value = parseInt(this.dataset.value);
                                 if (currentEditingCharacter && currentEditingCharacter.advantagesFlaws && currentEditingCharacter.advantagesFlaws[index]) {
-                                    // Toggle: if clicking same value, reduce by 1; otherwise set to clicked value
+                                    // Toggle: if clicking same value, reduce by 1 (min 0); otherwise set to clicked value
                                     const currentValue = currentEditingCharacter.advantagesFlaws[index].points || 0;
-                                    currentEditingCharacter.advantagesFlaws[index].points = (currentValue === value) ? value - 1 : value;
+                                    currentEditingCharacter.advantagesFlaws[index].points = (currentValue === value) ? Math.max(0, value - 1) : value;
                                     saveCharacterChanges(currentEditingCharacter);
                                     refreshAdvantagesFlawsList();
                                 }
@@ -560,10 +560,10 @@
                                         currentEditingCharacter[fieldParts[0]] = {};
                                     }
                                     const currentValue = currentEditingCharacter[fieldParts[0]][fieldParts[1]] || 0;
-                                    currentEditingCharacter[fieldParts[0]][fieldParts[1]] = (currentValue === value) ? value - 1 : value;
+                                    currentEditingCharacter[fieldParts[0]][fieldParts[1]] = (currentValue === value) ? Math.max(0, value - 1) : value;
                                 } else {
                                     const currentValue = currentEditingCharacter[field] || 0;
-                                    currentEditingCharacter[field] = (currentValue === value) ? value - 1 : value;
+                                    currentEditingCharacter[field] = (currentValue === value) ? Math.max(0, value - 1) : value;
                                 }
                                 saveCharacterChanges(currentEditingCharacter);
                                 updateDotsDisplay(container, field);
@@ -863,7 +863,7 @@
                                     <div class="gifts-rites-list" id="gifts-rites-list">
                                         ${generateGiftsRitesHtml(character.giftsRites || [])}
                                     </div>
-                                    <button type="button" class="btn btn-add-row" onclick="addGiftRite('${character.id}')">+ Add Gift/Rite</button>
+                                    <button type="button" class="btn btn-add-row" onclick="addGiftRite()">+ Add Gift/Rite</button>
                                 </div>
                             </div>
                             
@@ -873,7 +873,7 @@
                                     <div class="advantages-flaws-list" id="advantages-flaws-list">
                                         ${generateAdvantagesFlawsHtml(character.advantagesFlaws || [], tribeTheme.accentColor)}
                                     </div>
-                                    <button type="button" class="btn btn-add-row" onclick="addAdvantageFlaw('${character.id}')">+ Add Advantage/Flaw</button>
+                                    <button type="button" class="btn btn-add-row" onclick="addAdvantageFlaw()">+ Add Advantage/Flaw</button>
                                 </div>
                             </div>
                             
