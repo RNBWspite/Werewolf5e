@@ -9,7 +9,9 @@
 .form-group.hidden,
 .adventure-step.hidden,
 .sound-icon.hidden,
-div.hidden {
+div.hidden,
+section.hidden,
+.hidden {
   display: none;
 }
 
