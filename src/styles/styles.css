@@ -1220,10 +1220,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .system-icon {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  border-radius: 50%;
+  font-size: 28px;
 }
 
 .system-info {
@@ -1423,17 +1420,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #ffffff;
   font-size: 13px;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.system-badge-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  border-radius: 50%;
-  vertical-align: middle;
 }
 
 .character-card .card-body {
