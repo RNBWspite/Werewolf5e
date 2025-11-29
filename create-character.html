@@ -2463,12 +2463,37 @@
                 characterData.skillType = selectedSkillType;
                 characterData.skills = skillPoints;
                 characterData.backstory = generatedBackstory;
+                characterData.system = 'werewolf-apocalypse';
+                characterData.createdAt = new Date().toISOString();
                 
-                // Store in localStorage for later use
-                localStorage.setItem('werewolfCharacter', JSON.stringify(characterData));
-                
-                console.log('Character created:', characterData);
-                alert('Character created successfully! Your journey begins...');
+                // Check if user is logged in
+                const currentUser = localStorage.getItem('currentUser');
+                if (currentUser) {
+                    const user = JSON.parse(currentUser);
+                    characterData.userEmail = user.email;
+                    characterData.id = 'char_' + Date.now();
+                    
+                    // Get existing characters and add new one
+                    const characters = JSON.parse(localStorage.getItem('characters') || '[]');
+                    characters.push(characterData);
+                    localStorage.setItem('characters', JSON.stringify(characters));
+                    
+                    // Also store as current werewolf character
+                    localStorage.setItem('werewolfCharacter', JSON.stringify(characterData));
+                    
+                    console.log('Character created:', characterData);
+                    alert('Character created successfully! Your journey begins... View your character in the Characters section.');
+                    window.location.href = 'characters.html';
+                } else {
+                    // Not logged in - store temporarily and prompt to log in
+                    localStorage.setItem('werewolfCharacter', JSON.stringify(characterData));
+                    localStorage.setItem('pendingCharacter', JSON.stringify(characterData));
+                    
+                    console.log('Character created:', characterData);
+                    if (confirm('Character created! Sign in or create an account to save your character permanently. Go to Account page?')) {
+                        window.location.href = 'account.html';
+                    }
+                }
             });
         });
     </script>
