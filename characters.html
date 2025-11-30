@@ -754,7 +754,7 @@
                                 </div>
                                 <div class="header-form-row">
                                     <span class="header-form-label">CHRONICLE:</span>
-                                    <input type="text" class="header-form-input editable-chronicle" data-field="chronicle" data-character-id="${character.id}" value="${escapeHtml(character.chronicle || '')}" placeholder="Enter chronicle name...">
+                                    <span class="header-form-value">${character.campaignId ? escapeHtml(getCampaignName(character.campaignId)) : '—'}</span>
                                 </div>
                                 <div class="header-form-row">
                                     <span class="header-form-label">AUSPICE:</span>
