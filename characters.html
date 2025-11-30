@@ -586,6 +586,17 @@
                     });
                 });
                 
+                // Header form inputs (Chronicle, Concept)
+                document.querySelectorAll('.header-form-input').forEach(input => {
+                    input.addEventListener('change', function() {
+                        const field = this.dataset.field;
+                        if (currentEditingCharacter) {
+                            currentEditingCharacter[field] = this.value;
+                            saveCharacterChanges(currentEditingCharacter);
+                        }
+                    });
+                });
+                
                 // Gift/Rite listeners
                 attachGiftRiteListeners();
                 
@@ -736,25 +747,26 @@
                         </div>
                         ` : ''}
                         <div class="sheet-header" style="background: ${tribeTheme.backgroundPattern};">
-                            <div class="sheet-title-section">
-                                <div class="tribe-symbol">${tribeTheme.symbol}</div>
-                                <h2 class="sheet-character-name" id="modal-title">${escapeHtml(character.name) || 'Unnamed Character'}</h2>
-                                <div class="sheet-subtitle">
-                                    ${character.tribe ? `<span class="tribe-badge" style="border-color: ${tribeTheme.accentColor}; color: ${tribeTheme.accentColor};">${escapeHtml(formatTribe(character.tribe))}</span>` : ''}
+                            <div class="sheet-header-form">
+                                <div class="header-form-row">
+                                    <span class="header-form-label">NAME:</span>
+                                    <span class="header-form-value header-form-name">${escapeHtml(character.name) || 'Unnamed Character'}</span>
                                 </div>
-                            </div>
-                            <div class="sheet-identity-row">
-                                <div class="identity-item">
-                                    <span class="identity-label">Auspice</span>
-                                    <span class="identity-value">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : '—'}</span>
+                                <div class="header-form-row">
+                                    <span class="header-form-label">CHRONICLE:</span>
+                                    <input type="text" class="header-form-input editable-chronicle" data-field="chronicle" data-character-id="${character.id}" value="${escapeHtml(character.chronicle || '')}" placeholder="Enter chronicle name...">
                                 </div>
-                                <div class="identity-item">
-                                    <span class="identity-label">Gender</span>
-                                    <span class="identity-value">${character.gender ? escapeHtml(formatGender(character.gender)) : '—'}</span>
+                                <div class="header-form-row">
+                                    <span class="header-form-label">AUSPICE:</span>
+                                    <span class="header-form-value">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : '—'}</span>
                                 </div>
-                                <div class="identity-item">
-                                    <span class="identity-label">Birthdate</span>
-                                    <span class="identity-value">${character.birthdate ? new Date(character.birthdate).toLocaleDateString() : '—'}</span>
+                                <div class="header-form-row">
+                                    <span class="header-form-label">CONCEPT:</span>
+                                    <input type="text" class="header-form-input editable-concept" data-field="concept" data-character-id="${character.id}" value="${escapeHtml(character.concept || '')}" placeholder="Enter character concept...">
+                                </div>
+                                <div class="header-form-row">
+                                    <span class="header-form-label">TRIBE:</span>
+                                    <span class="header-form-value">${character.tribe ? escapeHtml(formatTribe(character.tribe)) : '—'}</span>
                                 </div>
                             </div>
                         </div>

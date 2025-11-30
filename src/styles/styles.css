@@ -1622,8 +1622,72 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .sheet-header {
   padding: 30px;
-  text-align: center;
+  text-align: left;
   border-bottom: 3px solid var(--tribe-accent, #9acd32);
+}
+
+/* Header Form Layout (like official character sheet) */
+.sheet-header-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.header-form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-form-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.header-form-value {
+  color: #ffffff;
+  font-size: 16px;
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 4px;
+  min-height: 24px;
+}
+
+.header-form-value.header-form-name {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Special Elite', cursive;
+  color: var(--tribe-accent, #9acd32);
+}
+
+.header-form-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  padding: 4px 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.header-form-input:focus {
+  border-bottom-color: var(--tribe-accent, #9acd32);
+}
+
+.header-form-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
 }
 
 .sheet-title-section {
@@ -2024,6 +2088,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background: 
     linear-gradient(180deg, rgba(60, 50, 40, 0.9) 0%, rgba(40, 35, 30, 0.95) 100%) !important;
   border-bottom: 3px solid #a0522d !important;
+}
+
+.bone-gnawer-theme .header-form-label {
+  color: #cd853f;
+}
+
+.bone-gnawer-theme .header-form-value {
+  border-bottom-color: rgba(205, 133, 63, 0.3);
+}
+
+.bone-gnawer-theme .header-form-value.header-form-name {
+  color: #cd853f;
+}
+
+.bone-gnawer-theme .header-form-input {
+  border-bottom-color: rgba(205, 133, 63, 0.3);
+}
+
+.bone-gnawer-theme .header-form-input:focus {
+  border-bottom-color: #cd853f;
 }
 
 .bone-gnawer-theme .tribe-badge {
