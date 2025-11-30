@@ -820,16 +820,19 @@
                             </div>
                             ` : ''}
                             
-                            ${character.backstory ? `
-                            <div class="sheet-section backstory-section">
-                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Backstory</h3>
-                                <div class="backstory-content">
-                                    ${character.backstory.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+                            <!-- Editable Sections -->
+                            <div class="sheet-section rage-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Rage</h3>
+                                <div class="rage-grid">
+                                    <div class="tracker-item rage-tracker">
+                                        <span class="tracker-name">Rage</span>
+                                        <div class="editable-dots" data-field="rage" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.rage || 0, 5, '#dc143c')}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            ` : ''}
                             
-                            <!-- Editable Sections -->
                             <div class="sheet-section renown-section">
                                 <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Renown</h3>
                                 <div class="renown-grid">
@@ -910,6 +913,13 @@
                                 <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Favors & Bans</h3>
                                 <div class="editable-textarea-container">
                                     <textarea class="editable-textarea" data-field="favorsBans" data-character-id="${character.id}" placeholder="Enter your character's favors and bans...">${escapeHtml(character.favorsBans || '')}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section history-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">History</h3>
+                                <div class="history-content">
+                                    ${character.backstory ? character.backstory.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('') : '<p class="empty-history">No history recorded yet.</p>'}
                                 </div>
                             </div>
                             
