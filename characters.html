@@ -330,11 +330,14 @@
                 
                 charactersGrid.innerHTML = html;
                 
-                // Add click handlers
+                // Add click handlers - open character sheet in new tab
                 document.querySelectorAll('.view-character-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const index = parseInt(this.dataset.index);
-                        showCharacterDetail(userCharacters[index]);
+                        const character = userCharacters[index];
+                        if (character && character.id) {
+                            window.open('character-sheet.html?id=' + encodeURIComponent(character.id), '_blank');
+                        }
                     });
                 });
                 

@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Sheet - Werewolf 5e</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/styles.css">
+    <style>
+        /* Character Sheet Tab-specific Styles */
+        .character-sheet-page {
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Special Elite', cursive;
+        }
+        
+        /* Tab Navigation */
+        .sheet-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 0;
+            border-bottom: 2px solid var(--tribe-accent, #9acd32);
+        }
+        
+        .sheet-tab {
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-family: 'Special Elite', cursive;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .sheet-tab:hover {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+        
+        .sheet-tab.active {
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--tribe-accent, #9acd32);
+            border-color: var(--tribe-accent, #9acd32);
+            border-bottom: 2px solid #1a1a1a;
+            margin-bottom: -2px;
+        }
+        
+        .tab-content {
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+            padding: 25px;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Condensed Layout */
+        .condensed-header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: start;
+            padding: 20px;
+            background: var(--tribe-bg, linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%));
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .character-name-large {
+            font-size: 28px;
+            color: var(--tribe-accent, #9acd32);
+            margin: 0;
+        }
+        
+        .character-details-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        
+        .detail-label {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Condensed Attributes Grid */
+        .condensed-attributes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .attr-group {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .attr-group-title {
+            font-size: 12px;
+            color: var(--tribe-accent, #9acd32);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+        }
+        
+        .attr-row-condensed {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 13px;
+        }
+        
+        .attr-row-condensed.dice-selectable {
+            cursor: pointer;
+            padding: 4px 6px;
+            margin: 0 -6px;
+            border-radius: 4px;
+        }
+        
+        .attr-row-condensed.dice-selectable:hover {
+            background: rgba(154, 205, 50, 0.15);
+        }
+        
+        .attr-row-condensed.dice-selected {
+            background: rgba(154, 205, 50, 0.25);
+        }
+        
+        /* Condensed Skills Grid */
+        .condensed-skills {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .skill-row-condensed {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 0;
+            font-size: 12px;
+        }
+        
+        .skill-row-condensed.no-points {
+            color: rgba(255, 255, 255, 0.35);
+        }
+        
+        .skill-row-condensed.dice-selectable {
+            cursor: pointer;
+            padding: 3px 6px;
+            margin: 0 -6px;
+            border-radius: 4px;
+        }
+        
+        .skill-row-condensed.dice-selectable:hover {
+            background: rgba(154, 205, 50, 0.15);
+        }
+        
+        .skill-row-condensed.dice-selected {
+            background: rgba(154, 205, 50, 0.25);
+        }
+        
+        /* Trackers Row */
+        .trackers-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tracker-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .tracker-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Litany Default Styles */
+        .litany-default {
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 3px solid var(--tribe-accent, #9acd32);
+            padding: 15px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .litany-default h4 {
+            color: var(--tribe-accent, #9acd32);
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        
+        .litany-default ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .litany-default li {
+            margin-bottom: 6px;
+        }
+        
+        /* Section styling for Tab 2 */
+        .tab-section {
+            margin-bottom: 25px;
+        }
+        
+        .tab-section-title {
+            color: var(--tribe-accent, #9acd32);
+            font-size: 16px;
+            margin: 0 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Dice Roller Compact */
+        .dice-roller-compact {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--tribe-accent, #9acd32);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .dice-roller-compact .dice-pool-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .dice-roller-compact .pool-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+        
+        .dice-roller-compact .pool-label {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .dice-roller-compact .pool-value {
+            color: var(--tribe-accent, #9acd32);
+            font-weight: bold;
+        }
+        
+        .dice-roller-compact .total-pool {
+            background: rgba(154, 205, 50, 0.2);
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .dice-roller-compact .dice-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+        
+        .dice-roller-compact .btn {
+            padding: 8px 20px;
+            font-size: 13px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .condensed-attributes,
+            .condensed-skills {
+                grid-template-columns: 1fr;
+            }
+            
+            .condensed-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .trackers-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <nav>
+            <a href="index.html" class="nav-home" aria-label="Home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+            <a href="account.html">Account</a>
+            <a href="characters.html">Characters</a>
+            <a href="sessions.html">Sessions</a>
+            <a href="about.html">About Us</a>
+        </nav>
+        <a href="index.html" class="header-logo-link">
+            <img src="https://github.com/user-attachments/assets/aaa6e10d-a24c-4711-8da7-2683d2028d7b" alt="RNBW Logo" class="header-logo">
+        </a>
+    </header>
+    
+    <main class="character-sheet-page" id="character-sheet-page">
+        <div id="loading-message" style="text-align: center; padding: 50px;">
+            <p>Loading character...</p>
+        </div>
+        <div id="error-message" class="hidden" style="text-align: center; padding: 50px;">
+            <h2>Character Not Found</h2>
+            <p>The requested character could not be loaded.</p>
+            <a href="characters.html" class="btn btn-primary">Back to Characters</a>
+        </div>
+        <div id="character-content" class="hidden">
+            <!-- Dynamically populated -->
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // HTML escape utility
+            function escapeHtml(text) {
+                if (text === null || text === undefined) return '';
+                const div = document.createElement('div');
+                div.textContent = String(text);
+                return div.innerHTML;
+            }
+            
+            // Default Litany text
+            const DEFAULT_LITANY = `Tenets of the Litany
+
+• Combat the Wyrm wherever it dwells and whenever it thrives
+• Respect the territory of another
+• Accept an honorable surrender
+• Submit to those of higher station
+• Respect those of lower station, for all are of Gaia
+• The first share of the kill for greatest in station
+• Eat not the flesh of humans
+• The veil shall not be lifted
+• The leader may be challenged at any time during peace
+• The leader may not be challenged during wartime
+• Take no action that causes a caern to be violated`;
+            
+            // Skill categories mapping
+            const SKILL_CATEGORIES = {
+                athletics: 'physical', brawl: 'physical', firearms: 'physical',
+                larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
+                empathy: 'social', etiquette: 'social', intimidation: 'social',
+                leadership: 'social', performance: 'social', persuasion: 'social',
+                streetwise: 'social', subterfuge: 'social',
+                academics: 'mental', awareness: 'mental', craft: 'mental',
+                insight: 'mental', investigation: 'mental', medicine: 'mental',
+                occult: 'mental', science: 'mental', technology: 'mental'
+            };
+            
+            // All skills by category
+            const ALL_SKILLS = {
+                physical: ['athletics', 'brawl', 'firearms', 'larceny', 'melee', 'stealth', 'survival'],
+                social: ['empathy', 'etiquette', 'intimidation', 'leadership', 'performance', 'persuasion', 'streetwise', 'subterfuge'],
+                mental: ['academics', 'awareness', 'craft', 'insight', 'investigation', 'medicine', 'occult', 'science', 'technology']
+            };
+            
+            // Tribe themes
+            const tribeThemes = {
+                'black-furies': { accentColor: '#ff4444', bgPattern: 'linear-gradient(135deg, #2d0000 0%, #1a0000 50%, #3d0000 100%)' },
+                'bone-gnawers': { accentColor: '#d4a574', bgPattern: 'linear-gradient(135deg, #3d2e1f 0%, #2a1f14 50%, #4d3e2f 100%)' },
+                'children-of-gaia': { accentColor: '#90ee90', bgPattern: 'linear-gradient(135deg, #0d3d0d 0%, #052805 50%, #1a4d1a 100%)' },
+                'fianna': { accentColor: '#ffd700', bgPattern: 'linear-gradient(135deg, #1a4030 0%, #0d2018 50%, #2a5040 100%)' },
+                'ghost-council': { accentColor: '#87ceeb', bgPattern: 'linear-gradient(135deg, #1a3045 0%, #0d1825 50%, #2a4055 100%)' },
+                'glass-walkers': { accentColor: '#00d4ff', bgPattern: 'linear-gradient(135deg, #2d3436 0%, #1a1e20 50%, #3d4446 100%)' },
+                'red-talons': { accentColor: '#ff6347', bgPattern: 'linear-gradient(135deg, #3d1a1a 0%, #280d0d 50%, #4d2a2a 100%)' },
+                'shadow-lords': { accentColor: '#9370db', bgPattern: 'linear-gradient(135deg, #0d0d17 0%, #050508 50%, #1a1a27 100%)' },
+                'silent-striders': { accentColor: '#ffd700', bgPattern: 'linear-gradient(135deg, #3d3010 0%, #282008 50%, #4d4020 100%)' },
+                'silver-fangs': { accentColor: '#ffffff', bgPattern: 'linear-gradient(135deg, #2a2a3a 0%, #1a1a28 50%, #3a3a4a 100%)' },
+                'stargazers': { accentColor: '#e6e6fa', bgPattern: 'linear-gradient(135deg, #1a0030 0%, #0d0018 50%, #2a0040 100%)' }
+            };
+            
+            // Format functions
+            function formatTribe(tribe) {
+                const tribes = {
+                    'black-furies': 'Black Furies', 'bone-gnawers': 'Bone Gnawers',
+                    'children-of-gaia': 'Children of Gaia', 'fianna': 'Fianna',
+                    'ghost-council': 'Ghost Council', 'glass-walkers': 'Glass Walkers',
+                    'red-talons': 'Red Talons', 'shadow-lords': 'Shadow Lords',
+                    'silent-striders': 'Silent Striders', 'silver-fangs': 'Silver Fangs',
+                    'stargazers': 'Stargazers'
+                };
+                return tribes[tribe] || tribe;
+            }
+            
+            function formatAuspice(auspice) {
+                const auspices = { 'ragabash': 'Ragabash', 'theurge': 'Theurge', 'philodox': 'Philodox', 'galliard': 'Galliard', 'ahroun': 'Ahroun' };
+                return auspices[auspice] || auspice;
+            }
+            
+            function formatGender(gender) {
+                const genders = { 'male': 'Male', 'female': 'Female', 'non-binary': 'Non-Binary', 'genderfluid': 'Genderfluid', 'agender': 'Agender' };
+                return genders[gender] || gender;
+            }
+            
+            function formatSkillName(name) {
+                return name.charAt(0).toUpperCase() + name.slice(1);
+            }
+            
+            function calculateAge(birthdate) {
+                const birth = new Date(birthdate);
+                const today = new Date();
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--;
+                return age;
+            }
+            
+            function getDotsDisplay(value, max = 5) {
+                return '●'.repeat(value) + '○'.repeat(max - value);
+            }
+            
+            function generateEditableDots(value, max, color) {
+                let html = '';
+                for (let i = 1; i <= max; i++) {
+                    const filled = i <= value;
+                    html += `<span class="dot ${filled ? 'filled' : ''}" data-value="${i}" style="color: ${color};">${filled ? '●' : '○'}</span>`;
+                }
+                return html;
+            }
+            
+            // Get character ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const characterId = urlParams.get('id');
+            
+            if (!characterId) {
+                document.getElementById('loading-message').classList.add('hidden');
+                document.getElementById('error-message').classList.remove('hidden');
+                return;
+            }
+            
+            // Load character
+            const allCharacters = JSON.parse(localStorage.getItem('characters') || '[]');
+            const character = allCharacters.find(c => c.id === characterId);
+            
+            if (!character) {
+                document.getElementById('loading-message').classList.add('hidden');
+                document.getElementById('error-message').classList.remove('hidden');
+                return;
+            }
+            
+            // Set page title
+            document.title = `${character.name || 'Character'} - Werewolf 5e`;
+            
+            // Get theme
+            const theme = tribeThemes[character.tribe] || { accentColor: '#9acd32', bgPattern: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)' };
+            
+            // Generate skills HTML with ALL skills
+            function generateAllSkillsHtml(skills, category) {
+                const categorySkills = ALL_SKILLS[category];
+                return categorySkills.map(skill => {
+                    const value = skills?.[skill] || 0;
+                    const hasPoints = value > 0;
+                    return `
+                        <div class="skill-row-condensed ${hasPoints ? 'dice-selectable' : 'no-points'}" 
+                             data-type="skill" data-name="${formatSkillName(skill)}" data-value="${value}">
+                            <span class="skill-name">${formatSkillName(skill)}</span>
+                            <span class="skill-dots" style="color: ${hasPoints ? theme.accentColor : 'rgba(255,255,255,0.3)'};">
+                                ${getDotsDisplay(value)}
+                            </span>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Generate Gifts & Rites HTML
+            function generateGiftsRitesHtml(giftsRites) {
+                if (!giftsRites || giftsRites.length === 0) {
+                    return '<div class="empty-message" style="color: rgba(255,255,255,0.5); font-style: italic;">No gifts or rites added yet</div>';
+                }
+                return giftsRites.map((item, index) => `
+                    <div class="gift-rite-row" data-index="${index}" style="display: grid; grid-template-columns: 2fr 1fr 1fr 2fr auto; gap: 10px; margin-bottom: 8px; align-items: center;">
+                        <input type="text" class="gift-rite-input" data-field="name" value="${escapeHtml(item.name || '')}" placeholder="Name" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 13px;">
+                        <input type="text" class="gift-rite-input" data-field="pool" value="${escapeHtml(item.pool || '')}" placeholder="Pool" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 13px;">
+                        <input type="text" class="gift-rite-input" data-field="cost" value="${escapeHtml(item.cost || '')}" placeholder="Cost" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 13px;">
+                        <input type="text" class="gift-rite-input" data-field="notes" value="${escapeHtml(item.notes || '')}" placeholder="Notes" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 13px;">
+                        <button type="button" class="btn-remove-row" data-index="${index}" style="background: none; border: none; color: rgba(255,255,255,0.5); font-size: 20px; cursor: pointer;">×</button>
+                    </div>
+                `).join('');
+            }
+            
+            // Generate Advantages & Flaws HTML
+            function generateAdvantagesFlawsHtml(advantagesFlaws) {
+                if (!advantagesFlaws || advantagesFlaws.length === 0) {
+                    return '<div class="empty-message" style="color: rgba(255,255,255,0.5); font-style: italic;">No advantages or flaws added yet</div>';
+                }
+                return advantagesFlaws.map((item, index) => `
+                    <div class="advantage-flaw-row" data-index="${index}" style="display: flex; gap: 15px; margin-bottom: 8px; align-items: center;">
+                        <input type="text" class="advantage-flaw-input" data-field="name" value="${escapeHtml(item.name || '')}" placeholder="Name" style="flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 13px;">
+                        <div class="editable-dots advantage-flaw-dots" data-index="${index}" data-max="5" style="display: flex; gap: 4px;">
+                            ${generateEditableDots(item.points || 0, 5, theme.accentColor)}
+                        </div>
+                        <button type="button" class="btn-remove-row" data-index="${index}" style="background: none; border: none; color: rgba(255,255,255,0.5); font-size: 20px; cursor: pointer;">×</button>
+                    </div>
+                `).join('');
+            }
+            
+            // Build character sheet HTML
+            const characterContent = document.getElementById('character-content');
+            characterContent.innerHTML = `
+                <div class="character-sheet-container" style="--tribe-accent: ${theme.accentColor}; --tribe-bg: ${theme.bgPattern}; max-width: 1200px; margin: 0 auto;">
+                    <!-- Condensed Header -->
+                    <div class="condensed-header">
+                        <div class="header-info">
+                            <h1 class="character-name-large">${escapeHtml(character.name) || 'Unnamed Character'}</h1>
+                            <div class="character-details-row">
+                                ${character.tribe ? `<span><span class="detail-label">Tribe:</span> ${escapeHtml(formatTribe(character.tribe))}</span>` : ''}
+                                ${character.auspice ? `<span><span class="detail-label">Auspice:</span> ${escapeHtml(formatAuspice(character.auspice))}</span>` : ''}
+                                ${character.gender ? `<span><span class="detail-label">Gender:</span> ${escapeHtml(formatGender(character.gender))}</span>` : ''}
+                                ${character.birthdate ? `<span><span class="detail-label">Age:</span> ${calculateAge(character.birthdate)}</span>` : ''}
+                                ${character.concept ? `<span><span class="detail-label">Concept:</span> ${escapeHtml(character.concept)}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="header-portrait" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 2px solid ${theme.accentColor}; background: rgba(0,0,0,0.3);">
+                            ${character.portraitUrl ? 
+                                `<img src="${escapeHtml(character.portraitUrl)}" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover;">` :
+                                `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: ${theme.accentColor}; font-size: 24px;">🐺</div>`
+                            }
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Navigation -->
+                    <div class="sheet-tabs">
+                        <button type="button" class="sheet-tab active" data-tab="stats">Stats & Trackers</button>
+                        <button type="button" class="sheet-tab" data-tab="details">Details & Background</button>
+                    </div>
+                    
+                    <!-- Tab 1: Stats & Trackers -->
+                    <div class="tab-content active" id="tab-stats">
+                        <!-- Dice Roller Compact -->
+                        <div class="dice-roller-compact">
+                            <div class="dice-pool-display">
+                                <div class="pool-item">
+                                    <span class="pool-label">Attribute:</span>
+                                    <span class="pool-value" id="selected-attr-name">None</span>
+                                    <span style="color: rgba(255,255,255,0.5);">(<span id="selected-attr-dice">0</span>)</span>
+                                </div>
+                                <div class="pool-item">
+                                    <span class="pool-label">Skill:</span>
+                                    <span class="pool-value" id="selected-skill-name">None</span>
+                                    <span style="color: rgba(255,255,255,0.5);">(<span id="selected-skill-dice">0</span>)</span>
+                                </div>
+                                <div class="total-pool">
+                                    <span>Total: </span>
+                                    <span id="total-dice-pool">0</span>
+                                    <span> dice</span>
+                                </div>
+                                <div class="dice-actions">
+                                    <button type="button" class="btn btn-primary" id="roll-dice-btn" disabled>Roll Dice</button>
+                                    <button type="button" class="btn btn-secondary" id="clear-dice-btn">Clear</button>
+                                </div>
+                            </div>
+                            <div class="dice-results hidden" id="dice-results" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;" id="dice-values"></div>
+                                <div style="display: flex; gap: 30px;">
+                                    <div id="success-count"><span class="count-number" style="font-size: 24px; color: #32cd32;">0</span> <span style="color: rgba(255,255,255,0.7);">Successes</span></div>
+                                    <div id="failure-count"><span class="count-number" style="font-size: 24px; color: #dc143c;">0</span> <span style="color: rgba(255,255,255,0.7);">Failures</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Attributes -->
+                        <h3 style="color: ${theme.accentColor}; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Attributes</h3>
+                        <div class="condensed-attributes">
+                            <div class="attr-group">
+                                <div class="attr-group-title">Physical</div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Strength" data-value="${character.attributes?.strength || 1}">
+                                    <span>Strength</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.strength || 1)}</span>
+                                </div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Dexterity" data-value="${character.attributes?.dexterity || 1}">
+                                    <span>Dexterity</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.dexterity || 1)}</span>
+                                </div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Stamina" data-value="${character.attributes?.stamina || 1}">
+                                    <span>Stamina</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.stamina || 1)}</span>
+                                </div>
+                            </div>
+                            <div class="attr-group">
+                                <div class="attr-group-title">Social</div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Charisma" data-value="${character.attributes?.charisma || 1}">
+                                    <span>Charisma</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.charisma || 1)}</span>
+                                </div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Manipulation" data-value="${character.attributes?.manipulation || 1}">
+                                    <span>Manipulation</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.manipulation || 1)}</span>
+                                </div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Composure" data-value="${character.attributes?.composure || 1}">
+                                    <span>Composure</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.composure || 1)}</span>
+                                </div>
+                            </div>
+                            <div class="attr-group">
+                                <div class="attr-group-title">Mental</div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Intelligence" data-value="${character.attributes?.intelligence || 1}">
+                                    <span>Intelligence</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.intelligence || 1)}</span>
+                                </div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Wits" data-value="${character.attributes?.wits || 1}">
+                                    <span>Wits</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.wits || 1)}</span>
+                                </div>
+                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Resolve" data-value="${character.attributes?.resolve || 1}">
+                                    <span>Resolve</span>
+                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.resolve || 1)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skills -->
+                        <h3 style="color: ${theme.accentColor}; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Skills</h3>
+                        <div class="condensed-skills">
+                            <div class="attr-group">
+                                <div class="attr-group-title">Physical</div>
+                                ${generateAllSkillsHtml(character.skills, 'physical')}
+                            </div>
+                            <div class="attr-group">
+                                <div class="attr-group-title">Social</div>
+                                ${generateAllSkillsHtml(character.skills, 'social')}
+                            </div>
+                            <div class="attr-group">
+                                <div class="attr-group-title">Mental</div>
+                                ${generateAllSkillsHtml(character.skills, 'mental')}
+                            </div>
+                        </div>
+                        
+                        <!-- Trackers -->
+                        <h3 style="color: ${theme.accentColor}; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Trackers</h3>
+                        <div class="trackers-row">
+                            <div class="tracker-box">
+                                <span class="tracker-label">Rage</span>
+                                <div class="editable-dots" data-field="rage" data-max="5" style="display: flex; gap: 4px;">
+                                    ${generateEditableDots(character.rage || 0, 5, '#dc143c')}
+                                </div>
+                            </div>
+                            <div class="tracker-box">
+                                <span class="tracker-label">Glory</span>
+                                <div class="editable-dots" data-field="renown.glory" data-max="5" style="display: flex; gap: 4px;">
+                                    ${generateEditableDots(character.renown?.glory || 0, 5, theme.accentColor)}
+                                </div>
+                            </div>
+                            <div class="tracker-box">
+                                <span class="tracker-label">Honor</span>
+                                <div class="editable-dots" data-field="renown.honor" data-max="5" style="display: flex; gap: 4px;">
+                                    ${generateEditableDots(character.renown?.honor || 0, 5, theme.accentColor)}
+                                </div>
+                            </div>
+                            <div class="tracker-box">
+                                <span class="tracker-label">Wisdom</span>
+                                <div class="editable-dots" data-field="renown.wisdom" data-max="5" style="display: flex; gap: 4px;">
+                                    ${generateEditableDots(character.renown?.wisdom || 0, 5, theme.accentColor)}
+                                </div>
+                            </div>
+                            <div class="tracker-box">
+                                <span class="tracker-label">Harano</span>
+                                <div class="editable-dots" data-field="harano" data-max="5" style="display: flex; gap: 4px;">
+                                    ${generateEditableDots(character.harano || 0, 5, '#6495ed')}
+                                </div>
+                            </div>
+                            <div class="tracker-box">
+                                <span class="tracker-label">Hauglosk</span>
+                                <div class="editable-dots" data-field="hauglosk" data-max="5" style="display: flex; gap: 4px;">
+                                    ${generateEditableDots(character.hauglosk || 0, 5, '#ff6347')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab 2: Details & Background -->
+                    <div class="tab-content" id="tab-details">
+                        <div class="tab-section">
+                            <h3 class="tab-section-title">Favors & Bans</h3>
+                            <textarea class="editable-textarea" data-field="favorsBans" placeholder="Enter your character's favors and bans..." style="width: 100%; min-height: 100px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 12px; color: #fff; font-family: 'Special Elite', cursive; font-size: 14px; resize: vertical;">${escapeHtml(character.favorsBans || '')}</textarea>
+                        </div>
+                        
+                        <div class="tab-section">
+                            <h3 class="tab-section-title">Gifts & Rites</h3>
+                            <div id="gifts-rites-list">
+                                ${generateGiftsRitesHtml(character.giftsRites)}
+                            </div>
+                            <button type="button" class="btn btn-secondary" id="add-gift-rite-btn" style="margin-top: 10px;">+ Add Gift/Rite</button>
+                        </div>
+                        
+                        <div class="tab-section">
+                            <h3 class="tab-section-title">Advantages & Flaws</h3>
+                            <div id="advantages-flaws-list">
+                                ${generateAdvantagesFlawsHtml(character.advantagesFlaws)}
+                            </div>
+                            <button type="button" class="btn btn-secondary" id="add-advantage-flaw-btn" style="margin-top: 10px;">+ Add Advantage/Flaw</button>
+                        </div>
+                        
+                        <div class="tab-section">
+                            <h3 class="tab-section-title">Touchstones</h3>
+                            <textarea class="editable-textarea" data-field="touchstones" placeholder="Enter your character's touchstones..." style="width: 100%; min-height: 100px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 12px; color: #fff; font-family: 'Special Elite', cursive; font-size: 14px; resize: vertical;">${escapeHtml(character.touchstones || '')}</textarea>
+                        </div>
+                        
+                        <div class="tab-section">
+                            <h3 class="tab-section-title">Chronicle Tenets</h3>
+                            ${character.tenets ? 
+                                `<textarea class="editable-textarea" data-field="tenets" placeholder="Enter chronicle tenets..." style="width: 100%; min-height: 150px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 12px; color: #fff; font-family: 'Special Elite', cursive; font-size: 14px; resize: vertical;">${escapeHtml(character.tenets)}</textarea>` :
+                                `<div class="litany-default">
+                                    <h4>Tenets of the Litany</h4>
+                                    <ul>
+                                        <li>Combat the Wyrm wherever it dwells and whenever it thrives</li>
+                                        <li>Respect the territory of another</li>
+                                        <li>Accept an honorable surrender</li>
+                                        <li>Submit to those of higher station</li>
+                                        <li>Respect those of lower station, for all are of Gaia</li>
+                                        <li>The first share of the kill for greatest in station</li>
+                                        <li>Eat not the flesh of humans</li>
+                                        <li>The veil shall not be lifted</li>
+                                        <li>The leader may be challenged at any time during peace</li>
+                                        <li>The leader may not be challenged during wartime</li>
+                                        <li>Take no action that causes a caern to be violated</li>
+                                    </ul>
+                                    <button type="button" class="btn btn-secondary" id="customize-tenets-btn" style="margin-top: 10px;">Customize Tenets</button>
+                                </div>`
+                            }
+                        </div>
+                        
+                        <div class="tab-section">
+                            <h3 class="tab-section-title">History</h3>
+                            <div style="background: rgba(0,0,0,0.2); border-left: 3px solid ${theme.accentColor}; padding: 15px; line-height: 1.8; color: rgba(255,255,255,0.9);">
+                                ${character.backstory ? character.backstory.split('\n').map(p => `<p style="margin: 0 0 10px 0;">${escapeHtml(p)}</p>`).join('') : '<p style="color: rgba(255,255,255,0.5); font-style: italic;">No history recorded yet.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Show content
+            document.getElementById('loading-message').classList.add('hidden');
+            characterContent.classList.remove('hidden');
+            
+            // Tab switching
+            document.querySelectorAll('.sheet-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    
+                    // Update tab buttons
+                    document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update tab content
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById('tab-' + tabId).classList.add('active');
+                });
+            });
+            
+            // Dice roller functionality
+            let selectedAttribute = null;
+            let selectedSkill = null;
+            
+            function updateDicePoolDisplay() {
+                const attrNameEl = document.getElementById('selected-attr-name');
+                const attrDiceEl = document.getElementById('selected-attr-dice');
+                const skillNameEl = document.getElementById('selected-skill-name');
+                const skillDiceEl = document.getElementById('selected-skill-dice');
+                const totalPoolEl = document.getElementById('total-dice-pool');
+                const rollBtn = document.getElementById('roll-dice-btn');
+                
+                const attrValue = selectedAttribute ? selectedAttribute.value : 0;
+                const skillValue = selectedSkill ? selectedSkill.value : 0;
+                const totalPool = attrValue + skillValue;
+                
+                attrNameEl.textContent = selectedAttribute ? selectedAttribute.name : 'None';
+                attrDiceEl.textContent = attrValue;
+                skillNameEl.textContent = selectedSkill ? selectedSkill.name : 'None';
+                skillDiceEl.textContent = skillValue;
+                totalPoolEl.textContent = totalPool;
+                
+                rollBtn.disabled = totalPool === 0;
+            }
+            
+            // Click handlers for dice selection
+            document.querySelectorAll('.dice-selectable').forEach(row => {
+                row.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    const name = this.dataset.name;
+                    const value = parseInt(this.dataset.value);
+                    
+                    if (value === 0) return; // Can't select skills with 0 points
+                    
+                    if (type === 'attribute') {
+                        document.querySelectorAll('.dice-selectable[data-type="attribute"]').forEach(r => r.classList.remove('dice-selected'));
+                        if (selectedAttribute && selectedAttribute.name === name) {
+                            selectedAttribute = null;
+                        } else {
+                            selectedAttribute = { name, value };
+                            this.classList.add('dice-selected');
+                        }
+                    } else if (type === 'skill') {
+                        document.querySelectorAll('.dice-selectable[data-type="skill"]').forEach(r => r.classList.remove('dice-selected'));
+                        if (selectedSkill && selectedSkill.name === name) {
+                            selectedSkill = null;
+                        } else {
+                            selectedSkill = { name, value };
+                            this.classList.add('dice-selected');
+                        }
+                    }
+                    
+                    updateDicePoolDisplay();
+                });
+            });
+            
+            // Roll dice
+            document.getElementById('roll-dice-btn').addEventListener('click', function() {
+                const totalPool = (selectedAttribute ? selectedAttribute.value : 0) + (selectedSkill ? selectedSkill.value : 0);
+                if (totalPool === 0) return;
+                
+                const rolls = [];
+                for (let i = 0; i < totalPool; i++) {
+                    rolls.push(Math.floor(Math.random() * 10) + 1);
+                }
+                
+                const successes = rolls.filter(r => r >= 6).length;
+                const failures = rolls.length - successes;
+                
+                const resultsEl = document.getElementById('dice-results');
+                const diceValuesEl = document.getElementById('dice-values');
+                
+                diceValuesEl.innerHTML = rolls.map(roll => 
+                    `<span style="display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; border-radius: 6px; font-weight: bold; ${roll >= 6 ? 'background: rgba(50,205,50,0.2); border: 2px solid #32cd32; color: #32cd32;' : 'background: rgba(220,20,60,0.2); border: 2px solid #dc143c; color: #dc143c;'}">${roll}</span>`
+                ).join('');
+                
+                document.querySelector('#success-count .count-number').textContent = successes;
+                document.querySelector('#failure-count .count-number').textContent = failures;
+                
+                resultsEl.classList.remove('hidden');
+            });
+            
+            // Clear dice
+            document.getElementById('clear-dice-btn').addEventListener('click', function() {
+                selectedAttribute = null;
+                selectedSkill = null;
+                document.querySelectorAll('.dice-selectable').forEach(r => r.classList.remove('dice-selected'));
+                updateDicePoolDisplay();
+                document.getElementById('dice-results').classList.add('hidden');
+            });
+            
+            // Save character changes
+            function saveCharacter() {
+                const allCharacters = JSON.parse(localStorage.getItem('characters') || '[]');
+                const index = allCharacters.findIndex(c => c.id === character.id);
+                if (index !== -1) {
+                    allCharacters[index] = character;
+                    localStorage.setItem('characters', JSON.stringify(allCharacters));
+                }
+            }
+            
+            // Editable dots handlers
+            document.querySelectorAll('.editable-dots').forEach(container => {
+                const field = container.dataset.field;
+                container.querySelectorAll('.dot').forEach(dot => {
+                    dot.style.cursor = 'pointer';
+                    dot.addEventListener('click', function() {
+                        const value = parseInt(this.dataset.value);
+                        const fieldParts = field.split('.');
+                        
+                        let currentValue;
+                        if (fieldParts.length === 2) {
+                            if (!character[fieldParts[0]]) character[fieldParts[0]] = {};
+                            currentValue = character[fieldParts[0]][fieldParts[1]] || 0;
+                            character[fieldParts[0]][fieldParts[1]] = (currentValue === value) ? Math.max(0, value - 1) : value;
+                        } else {
+                            currentValue = character[field] || 0;
+                            character[field] = (currentValue === value) ? Math.max(0, value - 1) : value;
+                        }
+                        
+                        saveCharacter();
+                        
+                        // Update display
+                        let newValue;
+                        if (fieldParts.length === 2) {
+                            newValue = character[fieldParts[0]][fieldParts[1]];
+                        } else {
+                            newValue = character[field];
+                        }
+                        
+                        container.querySelectorAll('.dot').forEach(d => {
+                            const dVal = parseInt(d.dataset.value);
+                            const filled = dVal <= newValue;
+                            d.classList.toggle('filled', filled);
+                            d.textContent = filled ? '●' : '○';
+                        });
+                    });
+                });
+            });
+            
+            // Editable textareas
+            document.querySelectorAll('.editable-textarea').forEach(textarea => {
+                textarea.addEventListener('change', function() {
+                    character[this.dataset.field] = this.value;
+                    saveCharacter();
+                });
+            });
+            
+            // Customize tenets button
+            const customizeTenetsBtn = document.getElementById('customize-tenets-btn');
+            if (customizeTenetsBtn) {
+                customizeTenetsBtn.addEventListener('click', function() {
+                    const litanyDiv = this.closest('.litany-default');
+                    litanyDiv.outerHTML = `<textarea class="editable-textarea" data-field="tenets" placeholder="Enter chronicle tenets..." style="width: 100%; min-height: 200px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 12px; color: #fff; font-family: 'Special Elite', cursive; font-size: 14px; resize: vertical;">${DEFAULT_LITANY}</textarea>`;
+                    
+                    // Attach event listener to new textarea
+                    const newTextarea = document.querySelector('.editable-textarea[data-field="tenets"]');
+                    newTextarea.addEventListener('change', function() {
+                        character.tenets = this.value;
+                        saveCharacter();
+                    });
+                    character.tenets = DEFAULT_LITANY;
+                    saveCharacter();
+                });
+            }
+            
+            // Add Gift/Rite button
+            document.getElementById('add-gift-rite-btn').addEventListener('click', function() {
+                if (!character.giftsRites) character.giftsRites = [];
+                character.giftsRites.push({ name: '', pool: '', cost: '', notes: '' });
+                saveCharacter();
+                document.getElementById('gifts-rites-list').innerHTML = generateGiftsRitesHtml(character.giftsRites);
+                attachGiftRiteListeners();
+            });
+            
+            // Add Advantage/Flaw button
+            document.getElementById('add-advantage-flaw-btn').addEventListener('click', function() {
+                if (!character.advantagesFlaws) character.advantagesFlaws = [];
+                character.advantagesFlaws.push({ name: '', points: 0 });
+                saveCharacter();
+                document.getElementById('advantages-flaws-list').innerHTML = generateAdvantagesFlawsHtml(character.advantagesFlaws);
+                attachAdvantageFlawListeners();
+            });
+            
+            function attachGiftRiteListeners() {
+                document.querySelectorAll('#gifts-rites-list .gift-rite-input').forEach(input => {
+                    input.addEventListener('change', function() {
+                        const row = this.closest('.gift-rite-row');
+                        const index = parseInt(row.dataset.index);
+                        const field = this.dataset.field;
+                        if (character.giftsRites && character.giftsRites[index]) {
+                            character.giftsRites[index][field] = this.value;
+                            saveCharacter();
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('#gifts-rites-list .btn-remove-row').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        if (character.giftsRites) {
+                            character.giftsRites.splice(index, 1);
+                            saveCharacter();
+                            document.getElementById('gifts-rites-list').innerHTML = generateGiftsRitesHtml(character.giftsRites);
+                            attachGiftRiteListeners();
+                        }
+                    });
+                });
+            }
+            
+            function attachAdvantageFlawListeners() {
+                document.querySelectorAll('#advantages-flaws-list .advantage-flaw-input').forEach(input => {
+                    input.addEventListener('change', function() {
+                        const row = this.closest('.advantage-flaw-row');
+                        const index = parseInt(row.dataset.index);
+                        if (character.advantagesFlaws && character.advantagesFlaws[index]) {
+                            character.advantagesFlaws[index].name = this.value;
+                            saveCharacter();
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('#advantages-flaws-list .advantage-flaw-dots .dot').forEach(dot => {
+                    dot.style.cursor = 'pointer';
+                    dot.addEventListener('click', function() {
+                        const row = this.closest('.advantage-flaw-row');
+                        const index = parseInt(row.dataset.index);
+                        const value = parseInt(this.dataset.value);
+                        
+                        if (character.advantagesFlaws && character.advantagesFlaws[index]) {
+                            const currentValue = character.advantagesFlaws[index].points || 0;
+                            character.advantagesFlaws[index].points = (currentValue === value) ? Math.max(0, value - 1) : value;
+                            saveCharacter();
+                            document.getElementById('advantages-flaws-list').innerHTML = generateAdvantagesFlawsHtml(character.advantagesFlaws);
+                            attachAdvantageFlawListeners();
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('#advantages-flaws-list .btn-remove-row').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        if (character.advantagesFlaws) {
+                            character.advantagesFlaws.splice(index, 1);
+                            saveCharacter();
+                            document.getElementById('advantages-flaws-list').innerHTML = generateAdvantagesFlawsHtml(character.advantagesFlaws);
+                            attachAdvantageFlawListeners();
+                        }
+                    });
+                });
+            }
+            
+            // Initialize listeners
+            attachGiftRiteListeners();
+            attachAdvantageFlawListeners();
+        });
+    </script>
+</body>
+</html>
