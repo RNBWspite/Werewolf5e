@@ -153,8 +153,11 @@
                     primaryColor: '#8b7355',
                     secondaryColor: '#3d2e1f',
                     accentColor: '#d4a574',
-                    symbol: '🦴',
-                    backgroundPattern: 'linear-gradient(135deg, #3d2e1f 0%, #2a1f14 50%, #4d3e2f 100%)'
+                    symbol: '🐀',
+                    backgroundPattern: 'linear-gradient(135deg, #3d2e1f 0%, #2a1f14 50%, #4d3e2f 100%)',
+                    customClass: 'bone-gnawer-theme',
+                    borderColor: '#8b4513',
+                    textureOverlay: true
                 },
                 'children-of-gaia': {
                     name: 'Children of Gaia',
@@ -307,6 +310,7 @@
                             </div>
                             <div class="card-footer">
                                 <button type="button" class="btn btn-primary view-character-btn" data-index="${index}">View Details</button>
+                                <button type="button" class="btn btn-danger delete-character-btn" data-index="${index}" data-name="${escapeHtml(char.name) || 'this character'}">Delete</button>
                             </div>
                         </div>
                     `;
@@ -321,6 +325,42 @@
                         showCharacterDetail(userCharacters[index]);
                     });
                 });
+                
+                // Add delete handlers
+                document.querySelectorAll('.delete-character-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        const charName = this.dataset.name;
+                        deleteCharacter(index, charName);
+                    });
+                });
+            }
+            
+            // Delete character with confirmation
+            function deleteCharacter(index, charName) {
+                const confirmed = confirm(`Are you sure you want to delete "${charName}"?\n\nThis action cannot be undone. All character data will be permanently lost.`);
+                
+                if (confirmed) {
+                    const allCharacters = JSON.parse(localStorage.getItem('characters') || '[]');
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    
+                    // Find and remove the character
+                    const characterToDelete = userCharacters[index];
+                    const globalIndex = allCharacters.findIndex(c => c.id === characterToDelete.id);
+                    
+                    if (globalIndex !== -1) {
+                        allCharacters.splice(globalIndex, 1);
+                        localStorage.setItem('characters', JSON.stringify(allCharacters));
+                        
+                        // Update user's characters list
+                        userCharacters = allCharacters.filter(c => c.userEmail === currentUser.email);
+                        
+                        // Re-render the list
+                        renderCharacterCards(userCharacters);
+                        
+                        alert(`"${charName}" has been deleted.`);
+                    }
+                }
             }
             
             // Get campaign name by ID
@@ -372,9 +412,305 @@
                 return genders[gender] || gender;
             }
             
+            // Calculate age from birthdate
+            function calculateAge(birthdate) {
+                const birth = new Date(birthdate);
+                const today = new Date();
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+            
+            // Get auspice moon SVG
+            function getAuspiceMoonSvg(auspice) {
+                const moons = {
+                    'ragabash': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/></svg>`,
+                    'theurge': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/><path d="M50 5 A45 45 0 0 1 50 95" fill="currentColor"/></svg>`,
+                    'philodox': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="currentColor"/></svg>`,
+                    'galliard': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/><path d="M50 5 A45 45 0 0 0 50 95" fill="currentColor"/></svg>`,
+                    'ahroun': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="currentColor"/></svg>`
+                };
+                return moons[auspice] || moons['ragabash'];
+            }
+            
             // Get dots display
             function getDotsDisplay(value) {
                 return '●'.repeat(value) + '○'.repeat(5 - value);
+            }
+            
+            // Generate editable dots HTML
+            function generateEditableDots(value, max, color) {
+                let html = '';
+                for (let i = 1; i <= max; i++) {
+                    const filled = i <= value;
+                    html += `<span class="dot ${filled ? 'filled' : ''}" data-value="${i}" style="color: ${color};">${filled ? '●' : '○'}</span>`;
+                }
+                return html;
+            }
+            
+            // Generate Gifts & Rites HTML
+            function generateGiftsRitesHtml(giftsRites) {
+                if (!giftsRites || giftsRites.length === 0) {
+                    return '<div class="gift-rite-row empty-row"><span class="empty-message">No gifts or rites added yet</span></div>';
+                }
+                return giftsRites.map((item, index) => `
+                    <div class="gift-rite-row" data-index="${index}">
+                        <div class="gift-rite-fields">
+                            <input type="text" class="gift-rite-input name-input" data-field="name" value="${escapeHtml(item.name || '')}" placeholder="Name">
+                            <input type="text" class="gift-rite-input pool-input" data-field="pool" value="${escapeHtml(item.pool || '')}" placeholder="Pool">
+                            <input type="text" class="gift-rite-input cost-input" data-field="cost" value="${escapeHtml(item.cost || '')}" placeholder="Cost">
+                            <input type="text" class="gift-rite-input notes-input" data-field="notes" value="${escapeHtml(item.notes || '')}" placeholder="Notes">
+                        </div>
+                        <button type="button" class="btn-remove-row" onclick="removeGiftRite(${index})">×</button>
+                    </div>
+                `).join('');
+            }
+            
+            // Generate Advantages & Flaws HTML
+            function generateAdvantagesFlawsHtml(advantagesFlaws, accentColor) {
+                if (!advantagesFlaws || advantagesFlaws.length === 0) {
+                    return '<div class="advantage-flaw-row empty-row"><span class="empty-message">No advantages or flaws added yet</span></div>';
+                }
+                return advantagesFlaws.map((item, index) => `
+                    <div class="advantage-flaw-row" data-index="${index}">
+                        <input type="text" class="advantage-flaw-input" data-field="name" value="${escapeHtml(item.name || '')}" placeholder="Name">
+                        <div class="editable-dots advantage-flaw-dots" data-index="${index}" data-max="5">
+                            ${generateEditableDots(item.points || 0, 5, accentColor)}
+                        </div>
+                        <button type="button" class="btn-remove-row" onclick="removeAdvantageFlaw(${index})">×</button>
+                    </div>
+                `).join('');
+            }
+            
+            // Current character being edited
+            let currentEditingCharacter = null;
+            
+            // Add Gift/Rite row
+            window.addGiftRite = function() {
+                if (!currentEditingCharacter) return;
+                if (!currentEditingCharacter.giftsRites) {
+                    currentEditingCharacter.giftsRites = [];
+                }
+                currentEditingCharacter.giftsRites.push({ name: '', pool: '', cost: '', notes: '' });
+                saveCharacterChanges(currentEditingCharacter);
+                refreshGiftsRitesList();
+            };
+            
+            // Remove Gift/Rite row
+            window.removeGiftRite = function(index) {
+                if (!currentEditingCharacter || !currentEditingCharacter.giftsRites) return;
+                currentEditingCharacter.giftsRites.splice(index, 1);
+                saveCharacterChanges(currentEditingCharacter);
+                refreshGiftsRitesList();
+            };
+            
+            // Add Advantage/Flaw row
+            window.addAdvantageFlaw = function() {
+                if (!currentEditingCharacter) return;
+                if (!currentEditingCharacter.advantagesFlaws) {
+                    currentEditingCharacter.advantagesFlaws = [];
+                }
+                currentEditingCharacter.advantagesFlaws.push({ name: '', points: 0 });
+                saveCharacterChanges(currentEditingCharacter);
+                refreshAdvantagesFlawsList();
+            };
+            
+            // Remove Advantage/Flaw row
+            window.removeAdvantageFlaw = function(index) {
+                if (!currentEditingCharacter || !currentEditingCharacter.advantagesFlaws) return;
+                currentEditingCharacter.advantagesFlaws.splice(index, 1);
+                saveCharacterChanges(currentEditingCharacter);
+                refreshAdvantagesFlawsList();
+            };
+            
+            // Refresh Gifts & Rites list
+            function refreshGiftsRitesList() {
+                const container = document.getElementById('gifts-rites-list');
+                if (container && currentEditingCharacter) {
+                    container.innerHTML = generateGiftsRitesHtml(currentEditingCharacter.giftsRites || []);
+                    attachGiftRiteListeners();
+                }
+            }
+            
+            // Refresh Advantages & Flaws list
+            function refreshAdvantagesFlawsList() {
+                const container = document.getElementById('advantages-flaws-list');
+                if (container && currentEditingCharacter) {
+                    const tribeTheme = tribeThemes[currentEditingCharacter.tribe] || { accentColor: '#9acd32' };
+                    container.innerHTML = generateAdvantagesFlawsHtml(currentEditingCharacter.advantagesFlaws || [], tribeTheme.accentColor);
+                    attachAdvantageFlawListeners();
+                }
+            }
+            
+            // Attach listeners for Gift/Rite inputs
+            function attachGiftRiteListeners() {
+                document.querySelectorAll('.gift-rite-row:not(.empty-row)').forEach(row => {
+                    const index = parseInt(row.dataset.index);
+                    row.querySelectorAll('.gift-rite-input').forEach(input => {
+                        input.addEventListener('change', function() {
+                            if (currentEditingCharacter && currentEditingCharacter.giftsRites && currentEditingCharacter.giftsRites[index]) {
+                                currentEditingCharacter.giftsRites[index][this.dataset.field] = this.value;
+                                saveCharacterChanges(currentEditingCharacter);
+                            }
+                        });
+                    });
+                });
+            }
+            
+            // Attach listeners for Advantage/Flaw inputs
+            function attachAdvantageFlawListeners() {
+                document.querySelectorAll('.advantage-flaw-row:not(.empty-row)').forEach(row => {
+                    const index = parseInt(row.dataset.index);
+                    const input = row.querySelector('.advantage-flaw-input');
+                    if (input) {
+                        input.addEventListener('change', function() {
+                            if (currentEditingCharacter && currentEditingCharacter.advantagesFlaws && currentEditingCharacter.advantagesFlaws[index]) {
+                                currentEditingCharacter.advantagesFlaws[index].name = this.value;
+                                saveCharacterChanges(currentEditingCharacter);
+                            }
+                        });
+                    }
+                    
+                    const dotsContainer = row.querySelector('.advantage-flaw-dots');
+                    if (dotsContainer) {
+                        dotsContainer.querySelectorAll('.dot').forEach(dot => {
+                            dot.addEventListener('click', function() {
+                                const value = parseInt(this.dataset.value);
+                                if (currentEditingCharacter && currentEditingCharacter.advantagesFlaws && currentEditingCharacter.advantagesFlaws[index]) {
+                                    // Toggle: if clicking same value, reduce by 1 (min 0); otherwise set to clicked value
+                                    const currentValue = currentEditingCharacter.advantagesFlaws[index].points || 0;
+                                    currentEditingCharacter.advantagesFlaws[index].points = (currentValue === value) ? Math.max(0, value - 1) : value;
+                                    saveCharacterChanges(currentEditingCharacter);
+                                    refreshAdvantagesFlawsList();
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+            
+            // Save character changes to localStorage
+            function saveCharacterChanges(character) {
+                const allCharacters = JSON.parse(localStorage.getItem('characters') || '[]');
+                const index = allCharacters.findIndex(c => c.id === character.id);
+                if (index !== -1) {
+                    allCharacters[index] = character;
+                    localStorage.setItem('characters', JSON.stringify(allCharacters));
+                    
+                    // Update userCharacters array
+                    const userIndex = userCharacters.findIndex(c => c.id === character.id);
+                    if (userIndex !== -1) {
+                        userCharacters[userIndex] = character;
+                    }
+                }
+            }
+            
+            // Attach editable section listeners
+            function attachEditableListeners() {
+                // Editable dots (Renown, Harano, Hauglosk)
+                document.querySelectorAll('.editable-dots:not(.advantage-flaw-dots)').forEach(container => {
+                    const field = container.dataset.field;
+                    container.querySelectorAll('.dot').forEach(dot => {
+                        dot.addEventListener('click', function() {
+                            const value = parseInt(this.dataset.value);
+                            if (currentEditingCharacter) {
+                                // Handle nested fields like renown.glory
+                                const fieldParts = field.split('.');
+                                if (fieldParts.length === 2) {
+                                    if (!currentEditingCharacter[fieldParts[0]]) {
+                                        currentEditingCharacter[fieldParts[0]] = {};
+                                    }
+                                    const currentValue = currentEditingCharacter[fieldParts[0]][fieldParts[1]] || 0;
+                                    currentEditingCharacter[fieldParts[0]][fieldParts[1]] = (currentValue === value) ? Math.max(0, value - 1) : value;
+                                } else {
+                                    const currentValue = currentEditingCharacter[field] || 0;
+                                    currentEditingCharacter[field] = (currentValue === value) ? Math.max(0, value - 1) : value;
+                                }
+                                saveCharacterChanges(currentEditingCharacter);
+                                updateDotsDisplay(container, field);
+                            }
+                        });
+                    });
+                });
+                
+                // Editable textareas
+                document.querySelectorAll('.editable-textarea').forEach(textarea => {
+                    textarea.addEventListener('change', function() {
+                        const field = this.dataset.field;
+                        if (currentEditingCharacter) {
+                            currentEditingCharacter[field] = this.value;
+                            saveCharacterChanges(currentEditingCharacter);
+                        }
+                    });
+                });
+                
+                // Header inputs (Concept, Patron)
+                document.querySelectorAll('.header-input').forEach(input => {
+                    input.addEventListener('change', function() {
+                        const field = this.dataset.field;
+                        if (currentEditingCharacter) {
+                            currentEditingCharacter[field] = this.value;
+                            saveCharacterChanges(currentEditingCharacter);
+                        }
+                    });
+                });
+                
+                // Portrait upload
+                document.querySelectorAll('.portrait-file-input').forEach(input => {
+                    input.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file && currentEditingCharacter) {
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                currentEditingCharacter.portraitUrl = event.target.result;
+                                saveCharacterChanges(currentEditingCharacter);
+                                // Update the portrait display
+                                const container = document.querySelector('.character-portrait-container');
+                                if (container) {
+                                    const placeholder = container.querySelector('.auspice-moon-placeholder');
+                                    if (placeholder) {
+                                        placeholder.outerHTML = `<img src="${event.target.result}" alt="Character Portrait" class="character-portrait">`;
+                                    } else {
+                                        const existingImg = container.querySelector('.character-portrait');
+                                        if (existingImg) {
+                                            existingImg.src = event.target.result;
+                                        }
+                                    }
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                });
+                
+                // Gift/Rite listeners
+                attachGiftRiteListeners();
+                
+                // Advantage/Flaw listeners
+                attachAdvantageFlawListeners();
+            }
+            
+            // Update dots display after click
+            function updateDotsDisplay(container, field) {
+                if (!currentEditingCharacter) return;
+                
+                const fieldParts = field.split('.');
+                let value;
+                if (fieldParts.length === 2) {
+                    value = currentEditingCharacter[fieldParts[0]]?.[fieldParts[1]] || 0;
+                } else {
+                    value = currentEditingCharacter[field] || 0;
+                }
+                
+                container.querySelectorAll('.dot').forEach(dot => {
+                    const dotValue = parseInt(dot.dataset.value);
+                    const filled = dotValue <= value;
+                    dot.classList.toggle('filled', filled);
+                    dot.textContent = filled ? '●' : '○';
+                });
             }
             
             // Show character detail modal
@@ -481,32 +817,74 @@
                 
                 // Character sheet styled like the PDF
                 characterDetailContent.innerHTML = `
-                    <div class="character-sheet" style="
+                    <div class="character-sheet ${tribeTheme.customClass || ''}" style="
                         --tribe-primary: ${tribeTheme.primaryColor};
                         --tribe-secondary: ${tribeTheme.secondaryColor};
                         --tribe-accent: ${tribeTheme.accentColor};
                         --tribe-bg: ${tribeTheme.backgroundPattern};
+                        --tribe-border: ${tribeTheme.borderColor || tribeTheme.accentColor};
                     ">
+                        ${tribeTheme.customClass === 'bone-gnawer-theme' ? `
+                        <div class="bone-gnawer-decor">
+                            <div class="torn-edge torn-edge-top"></div>
+                            <div class="skull-decor"></div>
+                            <div class="rat-silhouettes"></div>
+                            <div class="sticker-decor">DON'T TRUST<br>SUITS</div>
+                            <div class="paw-prints"></div>
+                            <div class="tribe-nameplate">BONE<br>GNAWERS</div>
+                            <div class="torn-edge torn-edge-bottom"></div>
+                        </div>
+                        ` : ''}
                         <div class="sheet-header" style="background: ${tribeTheme.backgroundPattern};">
-                            <div class="sheet-title-section">
-                                <div class="tribe-symbol">${tribeTheme.symbol}</div>
-                                <h2 class="sheet-character-name" id="modal-title">${escapeHtml(character.name) || 'Unnamed Character'}</h2>
-                                <div class="sheet-subtitle">
-                                    ${character.tribe ? `<span class="tribe-badge" style="border-color: ${tribeTheme.accentColor}; color: ${tribeTheme.accentColor};">${escapeHtml(formatTribe(character.tribe))}</span>` : ''}
+                            <div class="sheet-header-columns">
+                                <!-- Column 1: Name, Age/Gender, Concept -->
+                                <div class="header-column header-column-1">
+                                    <div class="header-row header-name-row">
+                                        <span class="header-character-name">${escapeHtml(character.name) || 'Unnamed Character'}</span>
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Age:</span>
+                                        <span class="header-value">${character.birthdate ? calculateAge(character.birthdate) : '—'}</span>
+                                        <span class="header-label" style="margin-left: 15px;">Gender:</span>
+                                        <span class="header-value">${character.gender ? escapeHtml(formatGender(character.gender)) : '—'}</span>
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Concept:</span>
+                                        <input type="text" class="header-input editable-concept" data-field="concept" data-character-id="${character.id}" value="${escapeHtml(character.concept || '')}" placeholder="Enter concept...">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="sheet-identity-row">
-                                <div class="identity-item">
-                                    <span class="identity-label">Auspice</span>
-                                    <span class="identity-value">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : '—'}</span>
+                                
+                                <!-- Column 2: Tribe, Patron, Auspice -->
+                                <div class="header-column header-column-2">
+                                    <div class="header-row">
+                                        <span class="header-label">Tribe:</span>
+                                        <span class="header-value">${character.tribe ? escapeHtml(formatTribe(character.tribe)) : '—'}</span>
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Patron:</span>
+                                        <input type="text" class="header-input editable-patron" data-field="patron" data-character-id="${character.id}" value="${escapeHtml(character.patron || '')}" placeholder="Enter patron spirit...">
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Auspice:</span>
+                                        <span class="header-value">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : '—'}</span>
+                                    </div>
                                 </div>
-                                <div class="identity-item">
-                                    <span class="identity-label">Gender</span>
-                                    <span class="identity-value">${character.gender ? escapeHtml(formatGender(character.gender)) : '—'}</span>
-                                </div>
-                                <div class="identity-item">
-                                    <span class="identity-label">Birthdate</span>
-                                    <span class="identity-value">${character.birthdate ? new Date(character.birthdate).toLocaleDateString() : '—'}</span>
+                                
+                                <!-- Column 3: Character Image -->
+                                <div class="header-column header-column-3">
+                                    <div class="character-portrait-container" data-character-id="${character.id}">
+                                        ${character.portraitUrl ? 
+                                            `<img src="${escapeHtml(character.portraitUrl)}" alt="Character Portrait" class="character-portrait">` :
+                                            `<div class="auspice-moon-placeholder ${character.auspice || 'ragabash'}">
+                                                <div class="moon-phase">${getAuspiceMoonSvg(character.auspice)}</div>
+                                                <span class="moon-label">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : 'New Moon'}</span>
+                                            </div>`
+                                        }
+                                        <label class="portrait-upload-btn" title="Upload character portrait">
+                                            <input type="file" accept="image/*" class="portrait-file-input" data-character-id="${character.id}" style="display: none;">
+                                            <span class="upload-icon">📷</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -572,14 +950,108 @@
                             </div>
                             ` : ''}
                             
-                            ${character.backstory ? `
-                            <div class="sheet-section backstory-section">
-                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Backstory</h3>
-                                <div class="backstory-content">
-                                    ${character.backstory.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+                            <!-- Editable Sections -->
+                            <div class="sheet-section rage-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Rage</h3>
+                                <div class="rage-grid">
+                                    <div class="tracker-item rage-tracker">
+                                        <span class="tracker-name">Rage</span>
+                                        <div class="editable-dots" data-field="rage" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.rage || 0, 5, '#dc143c')}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            ` : ''}
+                            
+                            <div class="sheet-section renown-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Renown</h3>
+                                <div class="renown-grid">
+                                    <div class="renown-item">
+                                        <span class="renown-name">Glory</span>
+                                        <div class="editable-dots" data-field="renown.glory" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.renown?.glory || 0, 5, tribeTheme.accentColor)}
+                                        </div>
+                                    </div>
+                                    <div class="renown-item">
+                                        <span class="renown-name">Honor</span>
+                                        <div class="editable-dots" data-field="renown.honor" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.renown?.honor || 0, 5, tribeTheme.accentColor)}
+                                        </div>
+                                    </div>
+                                    <div class="renown-item">
+                                        <span class="renown-name">Wisdom</span>
+                                        <div class="editable-dots" data-field="renown.wisdom" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.renown?.wisdom || 0, 5, tribeTheme.accentColor)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section harano-hauglosk-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Harano & Hauglosk</h3>
+                                <div class="harano-hauglosk-grid">
+                                    <div class="tracker-item">
+                                        <span class="tracker-name">Harano</span>
+                                        <div class="editable-dots" data-field="harano" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.harano || 0, 5, '#6495ed')}
+                                        </div>
+                                    </div>
+                                    <div class="tracker-item">
+                                        <span class="tracker-name">Hauglosk</span>
+                                        <div class="editable-dots" data-field="hauglosk" data-max="5" data-character-id="${character.id}">
+                                            ${generateEditableDots(character.hauglosk || 0, 5, '#ff6347')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section gifts-rites-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Gifts & Rites</h3>
+                                <div class="gifts-rites-container" data-character-id="${character.id}">
+                                    <div class="gifts-rites-list" id="gifts-rites-list">
+                                        ${generateGiftsRitesHtml(character.giftsRites || [])}
+                                    </div>
+                                    <button type="button" class="btn btn-add-row" onclick="addGiftRite()">+ Add Gift/Rite</button>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section advantages-flaws-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Advantages & Flaws</h3>
+                                <div class="advantages-flaws-container" data-character-id="${character.id}">
+                                    <div class="advantages-flaws-list" id="advantages-flaws-list">
+                                        ${generateAdvantagesFlawsHtml(character.advantagesFlaws || [], tribeTheme.accentColor)}
+                                    </div>
+                                    <button type="button" class="btn btn-add-row" onclick="addAdvantageFlaw()">+ Add Advantage/Flaw</button>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section tenets-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Character Tenets</h3>
+                                <div class="editable-textarea-container">
+                                    <textarea class="editable-textarea" data-field="tenets" data-character-id="${character.id}" placeholder="Enter your character's tenets...">${escapeHtml(character.tenets || '')}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section touchstones-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Touchstones</h3>
+                                <div class="editable-textarea-container">
+                                    <textarea class="editable-textarea" data-field="touchstones" data-character-id="${character.id}" placeholder="Enter your character's touchstones...">${escapeHtml(character.touchstones || '')}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section favors-bans-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Favors & Bans</h3>
+                                <div class="editable-textarea-container">
+                                    <textarea class="editable-textarea" data-field="favorsBans" data-character-id="${character.id}" placeholder="Enter your character's favors and bans...">${escapeHtml(character.favorsBans || '')}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="sheet-section history-section">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">History</h3>
+                                <div class="history-content">
+                                    ${character.backstory ? character.backstory.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('') : '<p class="empty-history">No history recorded yet.</p>'}
+                                </div>
+                            </div>
                             
                             <div class="sheet-footer">
                                 <div class="footer-item">
@@ -595,7 +1067,14 @@
                     </div>
                 `;
                 
+                // Set current editing character and attach listeners
+                currentEditingCharacter = character;
                 characterModal.classList.add('active');
+                
+                // Use setTimeout to ensure DOM is ready
+                setTimeout(function() {
+                    attachEditableListeners();
+                }, 0);
             }
             
             // Generate skills HTML organized by category
