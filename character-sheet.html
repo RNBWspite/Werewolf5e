@@ -63,10 +63,10 @@
             display: block;
         }
         
-        /* Condensed Layout */
+        /* Condensed Layout - Header with portrait on left */
         .condensed-header {
             display: grid;
-            grid-template-columns: 1fr auto;
+            grid-template-columns: auto 1fr;
             gap: 20px;
             align-items: start;
             padding: 20px;
@@ -75,10 +75,26 @@
             margin-bottom: 20px;
         }
         
+        .header-portrait {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--tribe-accent, #9acd32);
+            background: rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
         .header-info {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         
         .character-name-large {
@@ -99,28 +115,65 @@
             color: rgba(255, 255, 255, 0.6);
         }
         
-        /* Condensed Attributes Grid */
-        .condensed-attributes {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+        /* Header Trackers */
+        .header-trackers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .attr-group {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 6px;
-        }
-        
-        .attr-group-title {
+        .header-tracker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,0,0,0.3);
+            padding: 6px 12px;
+            border-radius: 4px;
             font-size: 12px;
+        }
+        
+        .header-tracker-label {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* Three Column Layout for Stats */
+        .stats-three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .column-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 400px;
+        }
+        
+        .column-title {
+            font-size: 14px;
             color: var(--tribe-accent, #9acd32);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 5px;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--tribe-accent, #9acd32);
+        }
+        
+        /* Vertical Attribute Groups */
+        .attr-group-vertical {
+            margin-bottom: 15px;
+        }
+        
+        .attr-group-title {
+            font-size: 11px;
+            color: var(--tribe-accent, #9acd32);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            opacity: 0.8;
         }
         
         .attr-row-condensed {
@@ -146,12 +199,9 @@
             background: rgba(154, 205, 50, 0.25);
         }
         
-        /* Condensed Skills Grid */
-        .condensed-skills {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+        /* Vertical Skill Groups */
+        .skill-group-vertical {
+            margin-bottom: 15px;
         }
         
         .skill-row-condensed {
@@ -181,26 +231,118 @@
             background: rgba(154, 205, 50, 0.25);
         }
         
-        /* Trackers Row */
-        .trackers-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+        /* Dice Roller Column */
+        .dice-roller-column {
+            display: flex;
+            flex-direction: column;
         }
         
-        .tracker-box {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px 15px;
-            border-radius: 6px;
+        .dice-pool-section {
+            margin-bottom: 15px;
+        }
+        
+        .pool-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .tracker-label {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.9);
+        .pool-row:last-child {
+            border-bottom: none;
+        }
+        
+        .pool-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+        }
+        
+        .pool-value {
+            color: var(--tribe-accent, #9acd32);
+            font-weight: bold;
+        }
+        
+        .total-pool-row {
+            background: rgba(154, 205, 50, 0.15);
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .total-pool-number {
+            font-size: 24px;
+            color: var(--tribe-accent, #9acd32);
+            font-weight: bold;
+        }
+        
+        .dice-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .dice-buttons .btn {
+            flex: 1;
+        }
+        
+        .dice-results-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: auto;
+        }
+        
+        .dice-values {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .die-result {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .die-success {
+            background: rgba(50, 205, 50, 0.2);
+            border: 2px solid #32cd32;
+            color: #32cd32;
+        }
+        
+        .die-failure {
+            background: rgba(220, 20, 60, 0.2);
+            border: 2px solid #dc143c;
+            color: #dc143c;
+        }
+        
+        .results-summary {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .result-count {
+            text-align: center;
+        }
+        
+        .result-count .count-number {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .result-count .count-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
         }
         
         /* Litany Default Styles */
@@ -241,69 +383,37 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* Dice Roller Compact */
-        .dice-roller-compact {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--tribe-accent, #9acd32);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .dice-roller-compact .dice-pool-display {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .dice-roller-compact .pool-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-        }
-        
-        .dice-roller-compact .pool-label {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .dice-roller-compact .pool-value {
-            color: var(--tribe-accent, #9acd32);
-            font-weight: bold;
-        }
-        
-        .dice-roller-compact .total-pool {
-            background: rgba(154, 205, 50, 0.2);
-            padding: 8px 15px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        
-        .dice-roller-compact .dice-actions {
-            display: flex;
-            gap: 10px;
-            margin-left: auto;
-        }
-        
-        .dice-roller-compact .btn {
-            padding: 8px 20px;
-            font-size: 13px;
-        }
-        
         /* Responsive */
+        @media (max-width: 992px) {
+            .stats-three-columns {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .column-section:last-child {
+                grid-column: span 2;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .condensed-attributes,
-            .condensed-skills {
+            .stats-three-columns {
                 grid-template-columns: 1fr;
+            }
+            
+            .column-section:last-child {
+                grid-column: span 1;
             }
             
             .condensed-header {
                 grid-template-columns: 1fr;
+                text-align: center;
             }
             
-            .trackers-row {
-                grid-template-columns: 1fr;
+            .header-portrait {
+                margin: 0 auto 15px auto;
+            }
+            
+            .header-trackers {
+                justify-content: center;
             }
         }
     </style>
@@ -543,23 +653,64 @@
             const characterContent = document.getElementById('character-content');
             characterContent.innerHTML = `
                 <div class="character-sheet-container" style="--tribe-accent: ${theme.accentColor}; --tribe-bg: ${theme.bgPattern}; max-width: 1200px; margin: 0 auto;">
-                    <!-- Condensed Header -->
+                    <!-- Condensed Header - Portrait on left, info + trackers on right -->
                     <div class="condensed-header">
-                        <div class="header-info">
-                            <h1 class="character-name-large">${escapeHtml(character.name) || 'Unnamed Character'}</h1>
-                            <div class="character-details-row">
-                                ${character.tribe ? `<span><span class="detail-label">Tribe:</span> ${escapeHtml(formatTribe(character.tribe))}</span>` : ''}
-                                ${character.auspice ? `<span><span class="detail-label">Auspice:</span> ${escapeHtml(formatAuspice(character.auspice))}</span>` : ''}
-                                ${character.gender ? `<span><span class="detail-label">Gender:</span> ${escapeHtml(formatGender(character.gender))}</span>` : ''}
-                                ${character.birthdate ? `<span><span class="detail-label">Age:</span> ${calculateAge(character.birthdate)}</span>` : ''}
-                                ${character.concept ? `<span><span class="detail-label">Concept:</span> ${escapeHtml(character.concept)}</span>` : ''}
-                            </div>
-                        </div>
-                        <div class="header-portrait" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 2px solid ${theme.accentColor}; background: rgba(0,0,0,0.3);">
+                        <div class="header-portrait">
                             ${character.portraitUrl ? 
                                 `<img src="${escapeHtml(character.portraitUrl)}" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover;">` :
-                                `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: ${theme.accentColor}; font-size: 24px;">🐺</div>`
+                                `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: ${theme.accentColor}; font-size: 32px;">🐺</div>`
                             }
+                        </div>
+                        <div class="header-right">
+                            <div class="header-info">
+                                <h1 class="character-name-large">${escapeHtml(character.name) || 'Unnamed Character'}</h1>
+                                <div class="character-details-row">
+                                    ${character.tribe ? `<span><span class="detail-label">Tribe:</span> ${escapeHtml(formatTribe(character.tribe))}</span>` : ''}
+                                    ${character.auspice ? `<span><span class="detail-label">Auspice:</span> ${escapeHtml(formatAuspice(character.auspice))}</span>` : ''}
+                                    ${character.gender ? `<span><span class="detail-label">Gender:</span> ${escapeHtml(formatGender(character.gender))}</span>` : ''}
+                                    ${character.birthdate ? `<span><span class="detail-label">Age:</span> ${calculateAge(character.birthdate)}</span>` : ''}
+                                    ${character.concept ? `<span><span class="detail-label">Concept:</span> ${escapeHtml(character.concept)}</span>` : ''}
+                                </div>
+                            </div>
+                            <!-- Trackers in header -->
+                            <div class="header-trackers">
+                                <div class="header-tracker">
+                                    <span class="header-tracker-label">Rage</span>
+                                    <div class="editable-dots" data-field="rage" data-max="5" style="display: flex; gap: 2px;">
+                                        ${generateEditableDots(character.rage || 0, 5, '#dc143c')}
+                                    </div>
+                                </div>
+                                <div class="header-tracker">
+                                    <span class="header-tracker-label">Glory</span>
+                                    <div class="editable-dots" data-field="renown.glory" data-max="5" style="display: flex; gap: 2px;">
+                                        ${generateEditableDots(character.renown?.glory || 0, 5, theme.accentColor)}
+                                    </div>
+                                </div>
+                                <div class="header-tracker">
+                                    <span class="header-tracker-label">Honor</span>
+                                    <div class="editable-dots" data-field="renown.honor" data-max="5" style="display: flex; gap: 2px;">
+                                        ${generateEditableDots(character.renown?.honor || 0, 5, theme.accentColor)}
+                                    </div>
+                                </div>
+                                <div class="header-tracker">
+                                    <span class="header-tracker-label">Wisdom</span>
+                                    <div class="editable-dots" data-field="renown.wisdom" data-max="5" style="display: flex; gap: 2px;">
+                                        ${generateEditableDots(character.renown?.wisdom || 0, 5, theme.accentColor)}
+                                    </div>
+                                </div>
+                                <div class="header-tracker">
+                                    <span class="header-tracker-label">Harano</span>
+                                    <div class="editable-dots" data-field="harano" data-max="5" style="display: flex; gap: 2px;">
+                                        ${generateEditableDots(character.harano || 0, 5, '#6495ed')}
+                                    </div>
+                                </div>
+                                <div class="header-tracker">
+                                    <span class="header-tracker-label">Hauglosk</span>
+                                    <div class="editable-dots" data-field="hauglosk" data-max="5" style="display: flex; gap: 2px;">
+                                        ${generateEditableDots(character.hauglosk || 0, 5, '#ff6347')}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -569,144 +720,121 @@
                         <button type="button" class="sheet-tab" data-tab="details">Details & Background</button>
                     </div>
                     
-                    <!-- Tab 1: Stats & Trackers -->
+                    <!-- Tab 1: Stats & Trackers - Three Column Layout -->
                     <div class="tab-content active" id="tab-stats">
-                        <!-- Dice Roller Compact -->
-                        <div class="dice-roller-compact">
-                            <div class="dice-pool-display">
-                                <div class="pool-item">
-                                    <span class="pool-label">Attribute:</span>
-                                    <span class="pool-value" id="selected-attr-name">None</span>
-                                    <span style="color: rgba(255,255,255,0.5);">(<span id="selected-attr-dice">0</span>)</span>
+                        <div class="stats-three-columns">
+                            <!-- Column 1: Attributes (Vertical) -->
+                            <div class="column-section">
+                                <h3 class="column-title">Attributes</h3>
+                                
+                                <div class="attr-group-vertical">
+                                    <div class="attr-group-title">Physical</div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Strength" data-value="${character.attributes?.strength || 1}">
+                                        <span>Strength</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.strength || 1)}</span>
+                                    </div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Dexterity" data-value="${character.attributes?.dexterity || 1}">
+                                        <span>Dexterity</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.dexterity || 1)}</span>
+                                    </div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Stamina" data-value="${character.attributes?.stamina || 1}">
+                                        <span>Stamina</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.stamina || 1)}</span>
+                                    </div>
                                 </div>
-                                <div class="pool-item">
-                                    <span class="pool-label">Skill:</span>
-                                    <span class="pool-value" id="selected-skill-name">None</span>
-                                    <span style="color: rgba(255,255,255,0.5);">(<span id="selected-skill-dice">0</span>)</span>
+                                
+                                <div class="attr-group-vertical">
+                                    <div class="attr-group-title">Social</div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Charisma" data-value="${character.attributes?.charisma || 1}">
+                                        <span>Charisma</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.charisma || 1)}</span>
+                                    </div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Manipulation" data-value="${character.attributes?.manipulation || 1}">
+                                        <span>Manipulation</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.manipulation || 1)}</span>
+                                    </div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Composure" data-value="${character.attributes?.composure || 1}">
+                                        <span>Composure</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.composure || 1)}</span>
+                                    </div>
                                 </div>
-                                <div class="total-pool">
-                                    <span>Total: </span>
-                                    <span id="total-dice-pool">0</span>
-                                    <span> dice</span>
+                                
+                                <div class="attr-group-vertical">
+                                    <div class="attr-group-title">Mental</div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Intelligence" data-value="${character.attributes?.intelligence || 1}">
+                                        <span>Intelligence</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.intelligence || 1)}</span>
+                                    </div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Wits" data-value="${character.attributes?.wits || 1}">
+                                        <span>Wits</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.wits || 1)}</span>
+                                    </div>
+                                    <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Resolve" data-value="${character.attributes?.resolve || 1}">
+                                        <span>Resolve</span>
+                                        <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.resolve || 1)}</span>
+                                    </div>
                                 </div>
-                                <div class="dice-actions">
+                            </div>
+                            
+                            <!-- Column 2: Skills (Vertical) -->
+                            <div class="column-section">
+                                <h3 class="column-title">Skills</h3>
+                                
+                                <div class="skill-group-vertical">
+                                    <div class="attr-group-title">Physical</div>
+                                    ${generateAllSkillsHtml(character.skills, 'physical')}
+                                </div>
+                                
+                                <div class="skill-group-vertical">
+                                    <div class="attr-group-title">Social</div>
+                                    ${generateAllSkillsHtml(character.skills, 'social')}
+                                </div>
+                                
+                                <div class="skill-group-vertical">
+                                    <div class="attr-group-title">Mental</div>
+                                    ${generateAllSkillsHtml(character.skills, 'mental')}
+                                </div>
+                            </div>
+                            
+                            <!-- Column 3: Dice Roller -->
+                            <div class="column-section dice-roller-column">
+                                <h3 class="column-title">Dice Roller</h3>
+                                
+                                <div class="dice-pool-section">
+                                    <div class="pool-row">
+                                        <span class="pool-label">Attribute:</span>
+                                        <span class="pool-value" id="selected-attr-name">None</span>
+                                        <span style="color: rgba(255,255,255,0.5); font-size: 12px;">(<span id="selected-attr-dice">0</span>)</span>
+                                    </div>
+                                    <div class="pool-row">
+                                        <span class="pool-label">Skill:</span>
+                                        <span class="pool-value" id="selected-skill-name">None</span>
+                                        <span style="color: rgba(255,255,255,0.5); font-size: 12px;">(<span id="selected-skill-dice">0</span>)</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="total-pool-row">
+                                    <span style="font-size: 12px; color: rgba(255,255,255,0.7);">Total Dice Pool</span>
+                                    <div class="total-pool-number" id="total-dice-pool">0</div>
+                                </div>
+                                
+                                <div class="dice-buttons">
                                     <button type="button" class="btn btn-primary" id="roll-dice-btn" disabled>Roll Dice</button>
                                     <button type="button" class="btn btn-secondary" id="clear-dice-btn">Clear</button>
                                 </div>
-                            </div>
-                            <div class="dice-results hidden" id="dice-results" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
-                                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;" id="dice-values"></div>
-                                <div style="display: flex; gap: 30px;">
-                                    <div id="success-count"><span class="count-number" style="font-size: 24px; color: #32cd32;">0</span> <span style="color: rgba(255,255,255,0.7);">Successes</span></div>
-                                    <div id="failure-count"><span class="count-number" style="font-size: 24px; color: #dc143c;">0</span> <span style="color: rgba(255,255,255,0.7);">Failures</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Attributes -->
-                        <h3 style="color: ${theme.accentColor}; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Attributes</h3>
-                        <div class="condensed-attributes">
-                            <div class="attr-group">
-                                <div class="attr-group-title">Physical</div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Strength" data-value="${character.attributes?.strength || 1}">
-                                    <span>Strength</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.strength || 1)}</span>
-                                </div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Dexterity" data-value="${character.attributes?.dexterity || 1}">
-                                    <span>Dexterity</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.dexterity || 1)}</span>
-                                </div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Stamina" data-value="${character.attributes?.stamina || 1}">
-                                    <span>Stamina</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.stamina || 1)}</span>
-                                </div>
-                            </div>
-                            <div class="attr-group">
-                                <div class="attr-group-title">Social</div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Charisma" data-value="${character.attributes?.charisma || 1}">
-                                    <span>Charisma</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.charisma || 1)}</span>
-                                </div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Manipulation" data-value="${character.attributes?.manipulation || 1}">
-                                    <span>Manipulation</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.manipulation || 1)}</span>
-                                </div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Composure" data-value="${character.attributes?.composure || 1}">
-                                    <span>Composure</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.composure || 1)}</span>
-                                </div>
-                            </div>
-                            <div class="attr-group">
-                                <div class="attr-group-title">Mental</div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Intelligence" data-value="${character.attributes?.intelligence || 1}">
-                                    <span>Intelligence</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.intelligence || 1)}</span>
-                                </div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Wits" data-value="${character.attributes?.wits || 1}">
-                                    <span>Wits</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.wits || 1)}</span>
-                                </div>
-                                <div class="attr-row-condensed dice-selectable" data-type="attribute" data-name="Resolve" data-value="${character.attributes?.resolve || 1}">
-                                    <span>Resolve</span>
-                                    <span style="color: ${theme.accentColor};">${getDotsDisplay(character.attributes?.resolve || 1)}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Skills -->
-                        <h3 style="color: ${theme.accentColor}; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Skills</h3>
-                        <div class="condensed-skills">
-                            <div class="attr-group">
-                                <div class="attr-group-title">Physical</div>
-                                ${generateAllSkillsHtml(character.skills, 'physical')}
-                            </div>
-                            <div class="attr-group">
-                                <div class="attr-group-title">Social</div>
-                                ${generateAllSkillsHtml(character.skills, 'social')}
-                            </div>
-                            <div class="attr-group">
-                                <div class="attr-group-title">Mental</div>
-                                ${generateAllSkillsHtml(character.skills, 'mental')}
-                            </div>
-                        </div>
-                        
-                        <!-- Trackers -->
-                        <h3 style="color: ${theme.accentColor}; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Trackers</h3>
-                        <div class="trackers-row">
-                            <div class="tracker-box">
-                                <span class="tracker-label">Rage</span>
-                                <div class="editable-dots" data-field="rage" data-max="5" style="display: flex; gap: 4px;">
-                                    ${generateEditableDots(character.rage || 0, 5, '#dc143c')}
-                                </div>
-                            </div>
-                            <div class="tracker-box">
-                                <span class="tracker-label">Glory</span>
-                                <div class="editable-dots" data-field="renown.glory" data-max="5" style="display: flex; gap: 4px;">
-                                    ${generateEditableDots(character.renown?.glory || 0, 5, theme.accentColor)}
-                                </div>
-                            </div>
-                            <div class="tracker-box">
-                                <span class="tracker-label">Honor</span>
-                                <div class="editable-dots" data-field="renown.honor" data-max="5" style="display: flex; gap: 4px;">
-                                    ${generateEditableDots(character.renown?.honor || 0, 5, theme.accentColor)}
-                                </div>
-                            </div>
-                            <div class="tracker-box">
-                                <span class="tracker-label">Wisdom</span>
-                                <div class="editable-dots" data-field="renown.wisdom" data-max="5" style="display: flex; gap: 4px;">
-                                    ${generateEditableDots(character.renown?.wisdom || 0, 5, theme.accentColor)}
-                                </div>
-                            </div>
-                            <div class="tracker-box">
-                                <span class="tracker-label">Harano</span>
-                                <div class="editable-dots" data-field="harano" data-max="5" style="display: flex; gap: 4px;">
-                                    ${generateEditableDots(character.harano || 0, 5, '#6495ed')}
-                                </div>
-                            </div>
-                            <div class="tracker-box">
-                                <span class="tracker-label">Hauglosk</span>
-                                <div class="editable-dots" data-field="hauglosk" data-max="5" style="display: flex; gap: 4px;">
-                                    ${generateEditableDots(character.hauglosk || 0, 5, '#ff6347')}
+                                
+                                <div class="dice-results-section hidden" id="dice-results">
+                                    <div class="dice-values" id="dice-values"></div>
+                                    <div class="results-summary">
+                                        <div class="result-count" id="success-count">
+                                            <div class="count-number" style="color: #32cd32;">0</div>
+                                            <div class="count-label">Successes</div>
+                                        </div>
+                                        <div class="result-count" id="failure-count">
+                                            <div class="count-number" style="color: #dc143c;">0</div>
+                                            <div class="count-label">Failures</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -856,7 +984,7 @@
                 const diceValuesEl = document.getElementById('dice-values');
                 
                 diceValuesEl.innerHTML = rolls.map(roll => 
-                    `<span style="display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; border-radius: 6px; font-weight: bold; ${roll >= 6 ? 'background: rgba(50,205,50,0.2); border: 2px solid #32cd32; color: #32cd32;' : 'background: rgba(220,20,60,0.2); border: 2px solid #dc143c; color: #dc143c;'}">${roll}</span>`
+                    `<span class="die-result ${roll >= 6 ? 'die-success' : 'die-failure'}">${roll}</span>`
                 ).join('');
                 
                 document.querySelector('#success-count .count-number').textContent = successes;
