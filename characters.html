@@ -103,6 +103,18 @@
                 return div.innerHTML;
             }
             
+            // Shared skill categories mapping
+            const SKILL_CATEGORIES = {
+                athletics: 'physical', brawl: 'physical', firearms: 'physical',
+                larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
+                empathy: 'social', etiquette: 'social', intimidation: 'social',
+                leadership: 'social', performance: 'social', persuasion: 'social',
+                streetwise: 'social', subterfuge: 'social',
+                academics: 'mental', awareness: 'mental', craft: 'mental',
+                insight: 'mental', investigation: 'mental', medicine: 'mental',
+                occult: 'mental', science: 'mental', technology: 'mental'
+            };
+            
             // DOM Elements
             const loginPrompt = document.getElementById('login-prompt');
             const charactersContent = document.getElementById('characters-content');
@@ -1137,20 +1149,10 @@
             // Generate skills HTML organized by category
             function generateSkillsHtml(skills, accentColor) {
                 const skillsByCategory = { physical: [], social: [], mental: [] };
-                const skillCategories = {
-                    athletics: 'physical', brawl: 'physical', firearms: 'physical',
-                    larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
-                    empathy: 'social', etiquette: 'social', intimidation: 'social',
-                    leadership: 'social', performance: 'social', persuasion: 'social',
-                    streetwise: 'social', subterfuge: 'social',
-                    academics: 'mental', awareness: 'mental', craft: 'mental',
-                    insight: 'mental', investigation: 'mental', medicine: 'mental',
-                    occult: 'mental', science: 'mental', technology: 'mental'
-                };
                 
                 Object.entries(skills).forEach(([skill, value]) => {
                     if (value > 0) {
-                        const category = skillCategories[skill] || 'mental';
+                        const category = SKILL_CATEGORIES[skill] || 'mental';
                         skillsByCategory[category].push({ name: skill, value: value });
                     }
                 });
@@ -1199,20 +1201,10 @@
             // Generate clickable skills HTML for dice roller
             function generateSkillsHtmlClickable(skills, accentColor) {
                 const skillsByCategory = { physical: [], social: [], mental: [] };
-                const skillCategories = {
-                    athletics: 'physical', brawl: 'physical', firearms: 'physical',
-                    larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
-                    empathy: 'social', etiquette: 'social', intimidation: 'social',
-                    leadership: 'social', performance: 'social', persuasion: 'social',
-                    streetwise: 'social', subterfuge: 'social',
-                    academics: 'mental', awareness: 'mental', craft: 'mental',
-                    insight: 'mental', investigation: 'mental', medicine: 'mental',
-                    occult: 'mental', science: 'mental', technology: 'mental'
-                };
                 
                 Object.entries(skills).forEach(([skill, value]) => {
                     if (value > 0) {
-                        const category = skillCategories[skill] || 'mental';
+                        const category = SKILL_CATEGORIES[skill] || 'mental';
                         skillsByCategory[category].push({ name: skill, value: value });
                     }
                 });
