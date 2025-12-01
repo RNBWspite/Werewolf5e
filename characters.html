@@ -729,6 +729,8 @@
             }
             
             // Show character detail modal
+            // NOTE: This function is deprecated - characters now open in character-sheet.html
+            // TODO: Remove this function and related modal code in a future cleanup
             function showCharacterDetail(character) {
                 const system = gamingSystems[character.system] || gamingSystems['werewolf-apocalypse'];
                 

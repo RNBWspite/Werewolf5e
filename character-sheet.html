@@ -351,20 +351,34 @@
                 return div.innerHTML;
             }
             
-            // Default Litany text
-            const DEFAULT_LITANY = `Tenets of the Litany
-
-• Combat the Wyrm wherever it dwells and whenever it thrives
-• Respect the territory of another
-• Accept an honorable surrender
-• Submit to those of higher station
-• Respect those of lower station, for all are of Gaia
-• The first share of the kill for greatest in station
-• Eat not the flesh of humans
-• The veil shall not be lifted
-• The leader may be challenged at any time during peace
-• The leader may not be challenged during wartime
-• Take no action that causes a caern to be violated`;
+            // Default Litany tenets array
+            const LITANY_TENETS = [
+                'Combat the Wyrm wherever it dwells and whenever it thrives',
+                'Respect the territory of another',
+                'Accept an honorable surrender',
+                'Submit to those of higher station',
+                'Respect those of lower station, for all are of Gaia',
+                'The first share of the kill for greatest in station',
+                'Eat not the flesh of humans',
+                'The veil shall not be lifted',
+                'The leader may be challenged at any time during peace',
+                'The leader may not be challenged during wartime',
+                'Take no action that causes a caern to be violated'
+            ];
+            
+            // Default Litany text (formatted for textarea)
+            const DEFAULT_LITANY = 'Tenets of the Litany\n\n• ' + LITANY_TENETS.join('\n• ');
+            
+            // Generate Litany HTML from array
+            function generateLitanyHtml() {
+                return `<div class="litany-default">
+                    <h4>Tenets of the Litany</h4>
+                    <ul>
+                        ${LITANY_TENETS.map(tenet => `<li>${escapeHtml(tenet)}</li>`).join('\n                        ')}
+                    </ul>
+                    <button type="button" class="btn btn-secondary" id="customize-tenets-btn" style="margin-top: 10px;">Customize Tenets</button>
+                </div>`;
+            }
             
             // Skill categories mapping
             const SKILL_CATEGORIES = {
@@ -730,23 +744,7 @@
                             <h3 class="tab-section-title">Chronicle Tenets</h3>
                             ${character.tenets ? 
                                 `<textarea class="editable-textarea" data-field="tenets" placeholder="Enter chronicle tenets..." style="width: 100%; min-height: 150px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 12px; color: #fff; font-family: 'Special Elite', cursive; font-size: 14px; resize: vertical;">${escapeHtml(character.tenets)}</textarea>` :
-                                `<div class="litany-default">
-                                    <h4>Tenets of the Litany</h4>
-                                    <ul>
-                                        <li>Combat the Wyrm wherever it dwells and whenever it thrives</li>
-                                        <li>Respect the territory of another</li>
-                                        <li>Accept an honorable surrender</li>
-                                        <li>Submit to those of higher station</li>
-                                        <li>Respect those of lower station, for all are of Gaia</li>
-                                        <li>The first share of the kill for greatest in station</li>
-                                        <li>Eat not the flesh of humans</li>
-                                        <li>The veil shall not be lifted</li>
-                                        <li>The leader may be challenged at any time during peace</li>
-                                        <li>The leader may not be challenged during wartime</li>
-                                        <li>Take no action that causes a caern to be violated</li>
-                                    </ul>
-                                    <button type="button" class="btn btn-secondary" id="customize-tenets-btn" style="margin-top: 10px;">Customize Tenets</button>
-                                </div>`
+                                generateLitanyHtml()
                             }
                         </div>
                         
@@ -811,7 +809,8 @@
                     const name = this.dataset.name;
                     const value = parseInt(this.dataset.value);
                     
-                    if (value === 0) return; // Can't select skills with 0 points
+                    // Skip skills with 0 points - they cannot be used in dice pools
+                    if (value === 0) return;
                     
                     if (type === 'attribute') {
                         document.querySelectorAll('.dice-selectable[data-type="attribute"]').forEach(r => r.classList.remove('dice-selected'));
@@ -835,16 +834,21 @@
                 });
             });
             
-            // Roll dice
+            // Roll d10 dice and return array of results
+            function rollD10Dice(count) {
+                const rolls = [];
+                for (let i = 0; i < count; i++) {
+                    rolls.push(Math.floor(Math.random() * 10) + 1);
+                }
+                return rolls;
+            }
+            
+            // Roll dice button handler
             document.getElementById('roll-dice-btn').addEventListener('click', function() {
                 const totalPool = (selectedAttribute ? selectedAttribute.value : 0) + (selectedSkill ? selectedSkill.value : 0);
                 if (totalPool === 0) return;
                 
-                const rolls = [];
-                for (let i = 0; i < totalPool; i++) {
-                    rolls.push(Math.floor(Math.random() * 10) + 1);
-                }
-                
+                const rolls = rollD10Dice(totalPool);
                 const successes = rolls.filter(r => r >= 6).length;
                 const failures = rolls.length - successes;
                 
