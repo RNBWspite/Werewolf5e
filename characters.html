@@ -375,6 +375,30 @@
                 return genders[gender] || gender;
             }
             
+            // Calculate age from birthdate
+            function calculateAge(birthdate) {
+                const birth = new Date(birthdate);
+                const today = new Date();
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+            
+            // Get auspice moon SVG
+            function getAuspiceMoonSvg(auspice) {
+                const moons = {
+                    'ragabash': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/></svg>`,
+                    'theurge': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/><path d="M50 5 A45 45 0 0 1 50 95" fill="currentColor"/></svg>`,
+                    'philodox': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="currentColor"/></svg>`,
+                    'galliard': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/><path d="M50 5 A45 45 0 0 0 50 95" fill="currentColor"/></svg>`,
+                    'ahroun': `<svg viewBox="0 0 100 100" class="moon-svg"><circle cx="50" cy="50" r="45" fill="currentColor"/></svg>`
+                };
+                return moons[auspice] || moons['ragabash'];
+            }
+            
             // Get dots display
             function getDotsDisplay(value) {
                 return '●'.repeat(value) + '○'.repeat(5 - value);
@@ -586,13 +610,41 @@
                     });
                 });
                 
-                // Header form inputs (Chronicle, Concept)
-                document.querySelectorAll('.header-form-input').forEach(input => {
+                // Header inputs (Concept, Patron)
+                document.querySelectorAll('.header-input').forEach(input => {
                     input.addEventListener('change', function() {
                         const field = this.dataset.field;
                         if (currentEditingCharacter) {
                             currentEditingCharacter[field] = this.value;
                             saveCharacterChanges(currentEditingCharacter);
+                        }
+                    });
+                });
+                
+                // Portrait upload
+                document.querySelectorAll('.portrait-file-input').forEach(input => {
+                    input.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file && currentEditingCharacter) {
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                currentEditingCharacter.portraitUrl = event.target.result;
+                                saveCharacterChanges(currentEditingCharacter);
+                                // Update the portrait display
+                                const container = document.querySelector('.character-portrait-container');
+                                if (container) {
+                                    const placeholder = container.querySelector('.auspice-moon-placeholder');
+                                    if (placeholder) {
+                                        placeholder.outerHTML = `<img src="${event.target.result}" alt="Character Portrait" class="character-portrait">`;
+                                    } else {
+                                        const existingImg = container.querySelector('.character-portrait');
+                                        if (existingImg) {
+                                            existingImg.src = event.target.result;
+                                        }
+                                    }
+                                }
+                            };
+                            reader.readAsDataURL(file);
                         }
                     });
                 });
@@ -747,26 +799,55 @@
                         </div>
                         ` : ''}
                         <div class="sheet-header" style="background: ${tribeTheme.backgroundPattern};">
-                            <div class="sheet-header-form">
-                                <div class="header-form-row">
-                                    <span class="header-form-label">NAME:</span>
-                                    <span class="header-form-value header-form-name">${escapeHtml(character.name) || 'Unnamed Character'}</span>
+                            <div class="sheet-header-columns">
+                                <!-- Column 1: Name, Age/Gender, Concept -->
+                                <div class="header-column header-column-1">
+                                    <div class="header-row header-name-row">
+                                        <span class="header-character-name">${escapeHtml(character.name) || 'Unnamed Character'}</span>
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Age:</span>
+                                        <span class="header-value">${character.birthdate ? calculateAge(character.birthdate) : '—'}</span>
+                                        <span class="header-label" style="margin-left: 15px;">Gender:</span>
+                                        <span class="header-value">${character.gender ? escapeHtml(formatGender(character.gender)) : '—'}</span>
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Concept:</span>
+                                        <input type="text" class="header-input editable-concept" data-field="concept" data-character-id="${character.id}" value="${escapeHtml(character.concept || '')}" placeholder="Enter concept...">
+                                    </div>
                                 </div>
-                                <div class="header-form-row">
-                                    <span class="header-form-label">CHRONICLE:</span>
-                                    <span class="header-form-value">${character.campaignId ? escapeHtml(getCampaignName(character.campaignId)) : '—'}</span>
+                                
+                                <!-- Column 2: Tribe, Patron, Auspice -->
+                                <div class="header-column header-column-2">
+                                    <div class="header-row">
+                                        <span class="header-label">Tribe:</span>
+                                        <span class="header-value">${character.tribe ? escapeHtml(formatTribe(character.tribe)) : '—'}</span>
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Patron:</span>
+                                        <input type="text" class="header-input editable-patron" data-field="patron" data-character-id="${character.id}" value="${escapeHtml(character.patron || '')}" placeholder="Enter patron spirit...">
+                                    </div>
+                                    <div class="header-row">
+                                        <span class="header-label">Auspice:</span>
+                                        <span class="header-value">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : '—'}</span>
+                                    </div>
                                 </div>
-                                <div class="header-form-row">
-                                    <span class="header-form-label">AUSPICE:</span>
-                                    <span class="header-form-value">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : '—'}</span>
-                                </div>
-                                <div class="header-form-row">
-                                    <span class="header-form-label">CONCEPT:</span>
-                                    <input type="text" class="header-form-input editable-concept" data-field="concept" data-character-id="${character.id}" value="${escapeHtml(character.concept || '')}" placeholder="Enter character concept...">
-                                </div>
-                                <div class="header-form-row">
-                                    <span class="header-form-label">TRIBE:</span>
-                                    <span class="header-form-value">${character.tribe ? escapeHtml(formatTribe(character.tribe)) : '—'}</span>
+                                
+                                <!-- Column 3: Character Image -->
+                                <div class="header-column header-column-3">
+                                    <div class="character-portrait-container" data-character-id="${character.id}">
+                                        ${character.portraitUrl ? 
+                                            `<img src="${escapeHtml(character.portraitUrl)}" alt="Character Portrait" class="character-portrait">` :
+                                            `<div class="auspice-moon-placeholder ${character.auspice || 'ragabash'}">
+                                                <div class="moon-phase">${getAuspiceMoonSvg(character.auspice)}</div>
+                                                <span class="moon-label">${character.auspice ? escapeHtml(formatAuspice(character.auspice)) : 'New Moon'}</span>
+                                            </div>`
+                                        }
+                                        <label class="portrait-upload-btn" title="Upload character portrait">
+                                            <input type="file" accept="image/*" class="portrait-file-input" data-character-id="${character.id}" style="display: none;">
+                                            <span class="upload-icon">📷</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
