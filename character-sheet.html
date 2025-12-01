@@ -291,7 +291,7 @@
             background: rgba(0,0,0,0.3);
             border-radius: 6px;
             padding: 15px;
-            margin-top: auto;
+            text-align: center;
         }
         
         .dice-values {
@@ -299,6 +299,7 @@
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 15px;
+            justify-content: center;
         }
         
         .die-result {
@@ -328,6 +329,7 @@
             display: flex;
             gap: 20px;
             justify-content: center;
+            margin-bottom: 15px;
         }
         
         .result-count {
@@ -343,6 +345,55 @@
             font-size: 11px;
             color: rgba(255,255,255,0.6);
             text-transform: uppercase;
+        }
+        
+        /* Difficulty Reference */
+        .difficulty-reference {
+            background: rgba(0,0,0,0.3);
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .difficulty-title {
+            font-size: 11px;
+            color: var(--tribe-accent, #9acd32);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .difficulty-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px 12px;
+            font-size: 11px;
+        }
+        
+        .difficulty-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .difficulty-number {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(154, 205, 50, 0.3);
+            border: 1px solid var(--tribe-accent, #9acd32);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--tribe-accent, #9acd32);
+        }
+        
+        .difficulty-label {
+            color: rgba(255,255,255,0.7);
         }
         
         /* Litany Default Styles */
@@ -823,6 +874,7 @@
                                     <button type="button" class="btn btn-secondary" id="clear-dice-btn">Clear</button>
                                 </div>
                                 
+                                <!-- Dice Results - centered in column -->
                                 <div class="dice-results-section hidden" id="dice-results">
                                     <div class="dice-values" id="dice-values"></div>
                                     <div class="results-summary">
@@ -833,6 +885,41 @@
                                         <div class="result-count" id="failure-count">
                                             <div class="count-number" style="color: #dc143c;">0</div>
                                             <div class="count-label">Failures</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Difficulty Reference - always visible -->
+                                <div class="difficulty-reference">
+                                    <div class="difficulty-title">Difficulty Reference</div>
+                                    <div class="difficulty-grid">
+                                        <div class="difficulty-item">
+                                            <span class="difficulty-number">1</span>
+                                            <span class="difficulty-label">Routine</span>
+                                        </div>
+                                        <div class="difficulty-item">
+                                            <span class="difficulty-number">2</span>
+                                            <span class="difficulty-label">Straightforward</span>
+                                        </div>
+                                        <div class="difficulty-item">
+                                            <span class="difficulty-number">3</span>
+                                            <span class="difficulty-label">Moderate</span>
+                                        </div>
+                                        <div class="difficulty-item">
+                                            <span class="difficulty-number">4</span>
+                                            <span class="difficulty-label">Challenging</span>
+                                        </div>
+                                        <div class="difficulty-item">
+                                            <span class="difficulty-number">5</span>
+                                            <span class="difficulty-label">Hard</span>
+                                        </div>
+                                        <div class="difficulty-item">
+                                            <span class="difficulty-number">6</span>
+                                            <span class="difficulty-label">Very Hard</span>
+                                        </div>
+                                        <div class="difficulty-item">
+                                            <span class="difficulty-number">7</span>
+                                            <span class="difficulty-label">Nearly Impossible</span>
                                         </div>
                                     </div>
                                 </div>
