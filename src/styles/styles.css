@@ -2661,3 +2661,364 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: 10px;
   }
 }
+
+/* ===== DICE ROLLER STYLES ===== */
+
+.dice-roller-section {
+  position: relative;
+}
+
+.dice-roller-instructions {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-style: italic;
+}
+
+.click-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Selectable rows */
+.dice-selectable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.dice-selectable:hover {
+  background-color: rgba(154, 205, 50, 0.15);
+  transform: translateX(3px);
+}
+
+.dice-selectable.dice-selected {
+  background-color: rgba(154, 205, 50, 0.3);
+  border-left: 3px solid #9acd32;
+  padding-left: calc(6px - 3px);
+}
+
+.dice-selectable.dice-selected::before {
+  content: '✓';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9acd32;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Dice Pool Display */
+.dice-pool-display {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.selected-pools {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.selected-pool-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(107, 142, 35, 0.3);
+  min-width: 150px;
+}
+
+.pool-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.pool-value {
+  color: #9acd32;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.pool-dice {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+}
+
+.total-pool {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(107, 142, 35, 0.2) 0%, rgba(85, 107, 47, 0.3) 100%);
+  border-radius: 8px;
+  border: 2px solid #9acd32;
+}
+
+.total-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.total-value {
+  color: #9acd32;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(154, 205, 50, 0.5);
+}
+
+/* Dice Roller Actions */
+.dice-roller-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.dice-roll-btn {
+  font-size: 18px;
+  padding: 15px 40px;
+}
+
+.dice-clear-btn {
+  padding: 15px 25px;
+}
+
+/* Dice Results */
+.dice-results {
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(107, 142, 35, 0.5);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 15px;
+}
+
+.results-title {
+  color: #9acd32;
+  font-size: 18px;
+  margin: 0 0 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.dice-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.die-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  border: 2px solid;
+  transition: transform 0.3s ease;
+  animation: diceRoll 0.5s ease-out;
+}
+
+.die-result.success {
+  background-color: rgba(50, 205, 50, 0.2);
+  border-color: #32cd32;
+  color: #32cd32;
+  box-shadow: 0 0 10px rgba(50, 205, 50, 0.3);
+}
+
+.die-result.failure {
+  background-color: rgba(220, 20, 60, 0.2);
+  border-color: #dc143c;
+  color: #dc143c;
+  box-shadow: 0 0 10px rgba(220, 20, 60, 0.2);
+}
+
+@keyframes diceRoll {
+  0% {
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(-10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Results Summary */
+.results-summary {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.result-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 30px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.result-count.successes {
+  background-color: rgba(50, 205, 50, 0.1);
+  border: 2px solid rgba(50, 205, 50, 0.3);
+}
+
+.result-count.failures {
+  background-color: rgba(220, 20, 60, 0.1);
+  border: 2px solid rgba(220, 20, 60, 0.3);
+}
+
+.result-count .count-number {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.result-count.successes .count-number {
+  color: #32cd32;
+}
+
+.result-count.failures .count-number {
+  color: #dc143c;
+}
+
+.result-count .count-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 5px;
+}
+
+/* Emphasized result (higher count) */
+.result-count.emphasized {
+  transform: scale(1.15);
+  box-shadow: 0 0 20px rgba(154, 205, 50, 0.3);
+}
+
+.result-count.emphasized.successes {
+  background-color: rgba(50, 205, 50, 0.25);
+  border-color: #32cd32;
+  box-shadow: 0 0 25px rgba(50, 205, 50, 0.4);
+}
+
+.result-count.emphasized.failures {
+  background-color: rgba(220, 20, 60, 0.25);
+  border-color: #dc143c;
+  box-shadow: 0 0 25px rgba(220, 20, 60, 0.4);
+}
+
+.result-count.emphasized .count-number {
+  text-shadow: 0 0 15px currentColor;
+}
+
+/* Difficulty Reference */
+.difficulty-reference {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.difficulty-reference h5 {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.difficulty-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.difficulty-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+}
+
+.diff-successes {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(50, 205, 50, 0.2);
+  border: 1px solid #32cd32;
+  border-radius: 50%;
+  color: #32cd32;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Responsive dice roller styles */
+@media (max-width: 600px) {
+  .selected-pools {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .selected-pool-item {
+    width: 100%;
+  }
+  
+  .results-summary {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .result-count {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .die-result {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .dice-roller-actions {
+    flex-direction: column;
+  }
+  
+  .dice-roll-btn,
+  .dice-clear-btn {
+    width: 100%;
+  }
+}
