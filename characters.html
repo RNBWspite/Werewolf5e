@@ -310,6 +310,7 @@
                             </div>
                             <div class="card-footer">
                                 <button type="button" class="btn btn-primary view-character-btn" data-index="${index}">View Details</button>
+                                <button type="button" class="btn btn-danger delete-character-btn" data-index="${index}" data-name="${escapeHtml(char.name) || 'this character'}">Delete</button>
                             </div>
                         </div>
                     `;
@@ -324,6 +325,42 @@
                         showCharacterDetail(userCharacters[index]);
                     });
                 });
+                
+                // Add delete handlers
+                document.querySelectorAll('.delete-character-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        const charName = this.dataset.name;
+                        deleteCharacter(index, charName);
+                    });
+                });
+            }
+            
+            // Delete character with confirmation
+            function deleteCharacter(index, charName) {
+                const confirmed = confirm(`Are you sure you want to delete "${charName}"?\n\nThis action cannot be undone. All character data will be permanently lost.`);
+                
+                if (confirmed) {
+                    const allCharacters = JSON.parse(localStorage.getItem('characters') || '[]');
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    
+                    // Find and remove the character
+                    const characterToDelete = userCharacters[index];
+                    const globalIndex = allCharacters.findIndex(c => c.id === characterToDelete.id);
+                    
+                    if (globalIndex !== -1) {
+                        allCharacters.splice(globalIndex, 1);
+                        localStorage.setItem('characters', JSON.stringify(allCharacters));
+                        
+                        // Update user's characters list
+                        userCharacters = allCharacters.filter(c => c.userEmail === currentUser.email);
+                        
+                        // Re-render the list
+                        renderCharacterCards(userCharacters);
+                        
+                        alert(`"${charName}" has been deleted.`);
+                    }
+                }
             }
             
             // Get campaign name by ID
