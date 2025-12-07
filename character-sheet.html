@@ -146,7 +146,7 @@
         
         .column-section {
             background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid color-mix(in srgb, var(--tribe-accent, #9acd32) 30%, transparent);
             border-radius: 8px;
             padding: 15px;
             min-height: 400px;
@@ -192,11 +192,11 @@
         }
         
         .attr-row-condensed.dice-selectable:hover {
-            background: rgba(154, 205, 50, 0.15);
+            background: color-mix(in srgb, var(--tribe-accent, #9acd32) 15%, transparent);
         }
         
         .attr-row-condensed.dice-selected {
-            background: rgba(154, 205, 50, 0.25);
+            background: color-mix(in srgb, var(--tribe-accent, #9acd32) 25%, transparent);
         }
         
         /* Vertical Skill Groups */
@@ -224,17 +224,19 @@
         }
         
         .skill-row-condensed.dice-selectable:hover {
-            background: rgba(154, 205, 50, 0.15);
+            background: color-mix(in srgb, var(--tribe-accent, #9acd32) 15%, transparent);
         }
         
         .skill-row-condensed.dice-selected {
-            background: rgba(154, 205, 50, 0.25);
+            background: color-mix(in srgb, var(--tribe-accent, #9acd32) 25%, transparent);
         }
         
         /* Dice Roller Column */
         .dice-roller-column {
             display: flex;
             flex-direction: column;
+            border: 2px solid var(--tribe-accent, #9acd32);
+            box-shadow: 0 0 10px color-mix(in srgb, var(--tribe-accent, #9acd32) 30%, transparent);
         }
         
         .dice-pool-section {
@@ -264,7 +266,7 @@
         }
         
         .total-pool-row {
-            background: rgba(154, 205, 50, 0.15);
+            background: color-mix(in srgb, var(--tribe-accent, #9acd32) 15%, transparent);
             padding: 10px;
             border-radius: 4px;
             margin: 10px 0;
@@ -314,9 +316,9 @@
         }
         
         .die-success {
-            background: rgba(50, 205, 50, 0.2);
-            border: 2px solid #32cd32;
-            color: #32cd32;
+            background: color-mix(in srgb, var(--tribe-accent, #32cd32) 20%, transparent);
+            border: 2px solid var(--tribe-accent, #32cd32);
+            color: var(--tribe-accent, #32cd32);
         }
         
         .die-failure {
@@ -339,6 +341,10 @@
         .result-count .count-number {
             font-size: 28px;
             font-weight: bold;
+        }
+        
+        .result-count .count-number.success-color {
+            color: var(--tribe-accent, #32cd32);
         }
         
         .result-count .count-label {
@@ -382,7 +388,7 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: rgba(154, 205, 50, 0.3);
+            background: color-mix(in srgb, var(--tribe-accent, #9acd32) 30%, transparent);
             border: 1px solid var(--tribe-accent, #9acd32);
             display: flex;
             align-items: center;
@@ -879,7 +885,7 @@
                                     <div class="dice-values" id="dice-values"></div>
                                     <div class="results-summary">
                                         <div class="result-count" id="success-count">
-                                            <div class="count-number" style="color: #32cd32;">0</div>
+                                            <div class="count-number success-color">0</div>
                                             <div class="count-label">Successes</div>
                                         </div>
                                         <div class="result-count" id="failure-count">
