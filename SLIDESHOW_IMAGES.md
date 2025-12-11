@@ -32,7 +32,7 @@ The slideshow requires the following WEBP images (9 backgrounds + 1 logo):
 ### Image Specifications
 
 - **Background Images**: Recommended size 1920x1080 pixels (Full HD) or larger
-- **Logo Image**: Recommended max-width 800 pixels, transparent background preferred
+- **Logo Image**: Displayed at 12000 x 2482 pixels (full resolution), transparent background preferred
 - **Format**: WEBP (required for optimal web performance and modern browser support)
 
 ## Current Implementation
