@@ -138,8 +138,8 @@ body {
 }
 
 .slideshow-logo {
-  max-width: 800px;
-  width: 60%;
+  max-width: 12000px;
+  width: 12000px;
   height: auto;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.9));
 }
@@ -190,7 +190,8 @@ main {
 /* Responsive slideshow */
 @media (max-width: 768px) {
   .slideshow-logo {
-    max-width: 500px;
+    max-width: 12000px;
+    width: 12000px;
   }
   
   .slide-nav {
@@ -209,7 +210,8 @@ main {
 
 @media (max-width: 480px) {
   .slideshow-logo {
-    max-width: 280px;
+    max-width: 12000px;
+    width: 12000px;
   }
   
   .slide-nav {
