@@ -362,6 +362,22 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         
+        .untrained-warning {
+            background: rgba(255, 140, 0, 0.15);
+            border: 1px solid rgba(255, 140, 0, 0.5);
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 12px;
+            text-align: center;
+            color: #ffa500;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        .untrained-warning.hidden {
+            display: none;
+        }
+        
         .difficulty-title {
             font-size: 11px;
             color: var(--tribe-accent, #9acd32);
@@ -663,7 +679,7 @@
                     const value = skills?.[skill] || 0;
                     const hasPoints = value > 0;
                     return `
-                        <div class="skill-row-condensed ${hasPoints ? 'dice-selectable' : 'no-points'}" 
+                        <div class="skill-row-condensed dice-selectable ${!hasPoints ? 'no-points' : ''}" 
                              data-type="skill" data-name="${formatSkillName(skill)}" data-value="${value}">
                             <span class="skill-name">${formatSkillName(skill)}</span>
                             <span class="skill-dots" style="color: ${hasPoints ? theme.accentColor : 'rgba(255,255,255,0.3)'};">
@@ -897,6 +913,9 @@
                                 
                                 <!-- Difficulty Reference - always visible -->
                                 <div class="difficulty-reference">
+                                    <div id="untrained-warning" class="untrained-warning hidden">
+                                        ⚠️ Rolling with an untrained skill (0 dots) increases the difficulty by +1 level
+                                    </div>
                                     <div class="difficulty-title">Difficulty Reference</div>
                                     <div class="difficulty-grid">
                                         <div class="difficulty-item">
@@ -1009,6 +1028,7 @@
                 const skillDiceEl = document.getElementById('selected-skill-dice');
                 const totalPoolEl = document.getElementById('total-dice-pool');
                 const rollBtn = document.getElementById('roll-dice-btn');
+                const warningEl = document.getElementById('untrained-warning');
                 
                 const attrValue = selectedAttribute ? selectedAttribute.value : 0;
                 const skillValue = selectedSkill ? selectedSkill.value : 0;
@@ -1020,6 +1040,13 @@
                 skillDiceEl.textContent = skillValue;
                 totalPoolEl.textContent = totalPool;
                 
+                // Show warning if a 0-point skill is selected
+                if (selectedSkill && selectedSkill.value === 0) {
+                    warningEl.classList.remove('hidden');
+                } else {
+                    warningEl.classList.add('hidden');
+                }
+                
                 rollBtn.disabled = totalPool === 0;
             }
             
@@ -1029,9 +1056,6 @@
                     const type = this.dataset.type;
                     const name = this.dataset.name;
                     const value = parseInt(this.dataset.value);
-                    
-                    // Skip skills with 0 points - they cannot be used in dice pools
-                    if (value === 0) return;
                     
                     if (type === 'attribute') {
                         document.querySelectorAll('.dice-selectable[data-type="attribute"]').forEach(r => r.classList.remove('dice-selected'));
