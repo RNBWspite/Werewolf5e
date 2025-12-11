@@ -103,6 +103,18 @@
                 return div.innerHTML;
             }
             
+            // Shared skill categories mapping
+            const SKILL_CATEGORIES = {
+                athletics: 'physical', brawl: 'physical', firearms: 'physical',
+                larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
+                empathy: 'social', etiquette: 'social', intimidation: 'social',
+                leadership: 'social', performance: 'social', persuasion: 'social',
+                streetwise: 'social', subterfuge: 'social',
+                academics: 'mental', awareness: 'mental', craft: 'mental',
+                insight: 'mental', investigation: 'mental', medicine: 'mental',
+                occult: 'mental', science: 'mental', technology: 'mental'
+            };
+            
             // DOM Elements
             const loginPrompt = document.getElementById('login-prompt');
             const charactersContent = document.getElementById('characters-content');
@@ -318,11 +330,14 @@
                 
                 charactersGrid.innerHTML = html;
                 
-                // Add click handlers
+                // Add click handlers - open character sheet in new tab
                 document.querySelectorAll('.view-character-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const index = parseInt(this.dataset.index);
-                        showCharacterDetail(userCharacters[index]);
+                        const character = userCharacters[index];
+                        if (character && character.id) {
+                            window.open('character-sheet.html?id=' + encodeURIComponent(character.id), '_blank');
+                        }
                     });
                 });
                 
@@ -714,6 +729,8 @@
             }
             
             // Show character detail modal
+            // NOTE: This function is deprecated - characters now open in character-sheet.html
+            // TODO: Remove this function and related modal code in a future cleanup
             function showCharacterDetail(character) {
                 const system = gamingSystems[character.system] || gamingSystems['werewolf-apocalypse'];
                 
@@ -890,50 +907,104 @@
                         </div>
                         
                         <div class="sheet-body">
+                            <!-- Dice Roller Section -->
+                            <div class="sheet-section dice-roller-section" style="border: 2px solid ${tribeTheme.accentColor}; border-radius: 8px; padding: 15px; margin-bottom: 25px; background: rgba(0,0,0,0.3);">
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor}; margin-top: 0;">🎲 Dice Roller</h3>
+                                <p class="dice-roller-instructions">Click on an Attribute and/or Skill to build your dice pool. Each dot = 1d10. Rolls of 6+ are successes.</p>
+                                <div class="dice-pool-display">
+                                    <div class="selected-pools">
+                                        <div class="selected-pool-item" id="selected-attribute">
+                                            <span class="pool-label">Attribute:</span>
+                                            <span class="pool-value" id="selected-attr-name">None selected</span>
+                                            <span class="pool-dice" id="selected-attr-dice">0 dice</span>
+                                        </div>
+                                        <div class="selected-pool-item" id="selected-skill">
+                                            <span class="pool-label">Skill:</span>
+                                            <span class="pool-value" id="selected-skill-name">None selected</span>
+                                            <span class="pool-dice" id="selected-skill-dice">0 dice</span>
+                                        </div>
+                                    </div>
+                                    <div class="total-pool">
+                                        <span class="total-label">Total Dice Pool:</span>
+                                        <span class="total-value" id="total-dice-pool">0</span>
+                                    </div>
+                                </div>
+                                <div class="dice-roller-actions">
+                                    <button type="button" class="btn btn-primary dice-roll-btn" id="roll-dice-btn" disabled>Roll Dice</button>
+                                    <button type="button" class="btn btn-secondary dice-clear-btn" id="clear-dice-btn">Clear Selection</button>
+                                </div>
+                                <div class="dice-results hidden" id="dice-results">
+                                    <h4 class="results-title">Roll Results</h4>
+                                    <div class="dice-values" id="dice-values"></div>
+                                    <div class="results-summary">
+                                        <div class="result-count successes" id="success-count">
+                                            <span class="count-number">0</span>
+                                            <span class="count-label">Successes</span>
+                                        </div>
+                                        <div class="result-count failures" id="failure-count">
+                                            <span class="count-number">0</span>
+                                            <span class="count-label">Failures</span>
+                                        </div>
+                                    </div>
+                                    <div class="difficulty-reference">
+                                        <h5>Difficulty Reference:</h5>
+                                        <ul class="difficulty-list">
+                                            <li><span class="diff-successes">1</span> Routine Task</li>
+                                            <li><span class="diff-successes">2</span> Straightforward Task</li>
+                                            <li><span class="diff-successes">3</span> Moderate Task</li>
+                                            <li><span class="diff-successes">4</span> Challenging Task</li>
+                                            <li><span class="diff-successes">5</span> Hard Task</li>
+                                            <li><span class="diff-successes">6</span> Very Hard Task</li>
+                                            <li><span class="diff-successes">7</span> Nearly Impossible Task</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="sheet-section attributes-section">
-                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Attributes</h3>
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Attributes <span class="click-hint">(click to select for dice roll)</span></h3>
                                 <div class="attributes-grid">
                                     <div class="attr-category">
                                         <h4 class="category-title">Physical</h4>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Strength" data-value="${character.attributes?.strength || 1}">
                                             <span class="attr-name">Strength</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.strength || 1)}</span>
                                         </div>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Dexterity" data-value="${character.attributes?.dexterity || 1}">
                                             <span class="attr-name">Dexterity</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.dexterity || 1)}</span>
                                         </div>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Stamina" data-value="${character.attributes?.stamina || 1}">
                                             <span class="attr-name">Stamina</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.stamina || 1)}</span>
                                         </div>
                                     </div>
                                     <div class="attr-category">
                                         <h4 class="category-title">Social</h4>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Charisma" data-value="${character.attributes?.charisma || 1}">
                                             <span class="attr-name">Charisma</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.charisma || 1)}</span>
                                         </div>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Manipulation" data-value="${character.attributes?.manipulation || 1}">
                                             <span class="attr-name">Manipulation</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.manipulation || 1)}</span>
                                         </div>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Composure" data-value="${character.attributes?.composure || 1}">
                                             <span class="attr-name">Composure</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.composure || 1)}</span>
                                         </div>
                                     </div>
                                     <div class="attr-category">
                                         <h4 class="category-title">Mental</h4>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Intelligence" data-value="${character.attributes?.intelligence || 1}">
                                             <span class="attr-name">Intelligence</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.intelligence || 1)}</span>
                                         </div>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Wits" data-value="${character.attributes?.wits || 1}">
                                             <span class="attr-name">Wits</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.wits || 1)}</span>
                                         </div>
-                                        <div class="attr-row">
+                                        <div class="attr-row dice-selectable" data-type="attribute" data-name="Resolve" data-value="${character.attributes?.resolve || 1}">
                                             <span class="attr-name">Resolve</span>
                                             <span class="attr-dots" style="color: ${tribeTheme.accentColor};">${getDotsDisplay(character.attributes?.resolve || 1)}</span>
                                         </div>
@@ -943,9 +1014,9 @@
                             
                             ${character.skills ? `
                             <div class="sheet-section skills-section">
-                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Skills</h3>
+                                <h3 class="section-title" style="border-bottom-color: ${tribeTheme.accentColor};">Skills <span class="click-hint">(click to select for dice roll)</span></h3>
                                 <div class="skills-grid">
-                                    ${generateSkillsHtml(character.skills, tribeTheme.accentColor)}
+                                    ${generateSkillsHtmlClickable(character.skills, tribeTheme.accentColor)}
                                 </div>
                             </div>
                             ` : ''}
@@ -1074,26 +1145,19 @@
                 // Use setTimeout to ensure DOM is ready
                 setTimeout(function() {
                     attachEditableListeners();
+                    attachDiceRollerListeners();
+                    // Reset dice selection when opening a new character
+                    clearDiceSelection();
                 }, 0);
             }
             
             // Generate skills HTML organized by category
             function generateSkillsHtml(skills, accentColor) {
                 const skillsByCategory = { physical: [], social: [], mental: [] };
-                const skillCategories = {
-                    athletics: 'physical', brawl: 'physical', firearms: 'physical',
-                    larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
-                    empathy: 'social', etiquette: 'social', intimidation: 'social',
-                    leadership: 'social', performance: 'social', persuasion: 'social',
-                    streetwise: 'social', subterfuge: 'social',
-                    academics: 'mental', awareness: 'mental', craft: 'mental',
-                    insight: 'mental', investigation: 'mental', medicine: 'mental',
-                    occult: 'mental', science: 'mental', technology: 'mental'
-                };
                 
                 Object.entries(skills).forEach(([skill, value]) => {
                     if (value > 0) {
-                        const category = skillCategories[skill] || 'mental';
+                        const category = SKILL_CATEGORIES[skill] || 'mental';
                         skillsByCategory[category].push({ name: skill, value: value });
                     }
                 });
@@ -1137,6 +1201,215 @@
                             `).join('') : '<div class="skill-row"><span class="skill-empty">No mental skills</span></div>'}
                     </div>
                 `;
+            }
+            
+            // Generate clickable skills HTML for dice roller
+            function generateSkillsHtmlClickable(skills, accentColor) {
+                const skillsByCategory = { physical: [], social: [], mental: [] };
+                
+                Object.entries(skills).forEach(([skill, value]) => {
+                    if (value > 0) {
+                        const category = SKILL_CATEGORIES[skill] || 'mental';
+                        skillsByCategory[category].push({ name: skill, value: value });
+                    }
+                });
+                
+                // Sort each category by value
+                Object.keys(skillsByCategory).forEach(cat => {
+                    skillsByCategory[cat].sort((a, b) => b.value - a.value);
+                });
+                
+                const formatSkillName = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+                
+                return `
+                    <div class="skill-category">
+                        <h4 class="category-title">Physical</h4>
+                        ${skillsByCategory.physical.length > 0 ? 
+                            skillsByCategory.physical.map(s => `
+                                <div class="skill-row dice-selectable" data-type="skill" data-name="${escapeHtml(formatSkillName(s.name))}" data-value="${s.value}">
+                                    <span class="skill-name">${escapeHtml(formatSkillName(s.name))}</span>
+                                    <span class="skill-dots" style="color: ${accentColor};">${getDotsDisplay(s.value)}</span>
+                                </div>
+                            `).join('') : '<div class="skill-row"><span class="skill-empty">No physical skills</span></div>'}
+                    </div>
+                    <div class="skill-category">
+                        <h4 class="category-title">Social</h4>
+                        ${skillsByCategory.social.length > 0 ? 
+                            skillsByCategory.social.map(s => `
+                                <div class="skill-row dice-selectable" data-type="skill" data-name="${escapeHtml(formatSkillName(s.name))}" data-value="${s.value}">
+                                    <span class="skill-name">${escapeHtml(formatSkillName(s.name))}</span>
+                                    <span class="skill-dots" style="color: ${accentColor};">${getDotsDisplay(s.value)}</span>
+                                </div>
+                            `).join('') : '<div class="skill-row"><span class="skill-empty">No social skills</span></div>'}
+                    </div>
+                    <div class="skill-category">
+                        <h4 class="category-title">Mental</h4>
+                        ${skillsByCategory.mental.length > 0 ? 
+                            skillsByCategory.mental.map(s => `
+                                <div class="skill-row dice-selectable" data-type="skill" data-name="${escapeHtml(formatSkillName(s.name))}" data-value="${s.value}">
+                                    <span class="skill-name">${escapeHtml(formatSkillName(s.name))}</span>
+                                    <span class="skill-dots" style="color: ${accentColor};">${getDotsDisplay(s.value)}</span>
+                                </div>
+                            `).join('') : '<div class="skill-row"><span class="skill-empty">No mental skills</span></div>'}
+                    </div>
+                `;
+            }
+            
+            // ===== DICE ROLLER FUNCTIONALITY =====
+            let selectedAttribute = null;
+            let selectedSkill = null;
+            
+            // Attach dice roller event listeners
+            function attachDiceRollerListeners() {
+                // Click handlers for selectable rows
+                document.querySelectorAll('.dice-selectable').forEach(row => {
+                    row.addEventListener('click', function() {
+                        const type = this.dataset.type;
+                        const name = this.dataset.name;
+                        const value = parseInt(this.dataset.value);
+                        
+                        if (type === 'attribute') {
+                            // Deselect previous attribute
+                            document.querySelectorAll('.dice-selectable[data-type="attribute"]').forEach(r => {
+                                r.classList.remove('dice-selected');
+                            });
+                            // Toggle selection
+                            if (selectedAttribute && selectedAttribute.name === name) {
+                                selectedAttribute = null;
+                            } else {
+                                selectedAttribute = { name, value };
+                                this.classList.add('dice-selected');
+                            }
+                        } else if (type === 'skill') {
+                            // Deselect previous skill
+                            document.querySelectorAll('.dice-selectable[data-type="skill"]').forEach(r => {
+                                r.classList.remove('dice-selected');
+                            });
+                            // Toggle selection
+                            if (selectedSkill && selectedSkill.name === name) {
+                                selectedSkill = null;
+                            } else {
+                                selectedSkill = { name, value };
+                                this.classList.add('dice-selected');
+                            }
+                        }
+                        
+                        updateDicePoolDisplay();
+                    });
+                });
+                
+                // Roll button handler
+                const rollBtn = document.getElementById('roll-dice-btn');
+                if (rollBtn) {
+                    rollBtn.addEventListener('click', rollDice);
+                }
+                
+                // Clear button handler
+                const clearBtn = document.getElementById('clear-dice-btn');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', clearDiceSelection);
+                }
+            }
+            
+            // Update the dice pool display
+            function updateDicePoolDisplay() {
+                const attrNameEl = document.getElementById('selected-attr-name');
+                const attrDiceEl = document.getElementById('selected-attr-dice');
+                const skillNameEl = document.getElementById('selected-skill-name');
+                const skillDiceEl = document.getElementById('selected-skill-dice');
+                const totalPoolEl = document.getElementById('total-dice-pool');
+                const rollBtn = document.getElementById('roll-dice-btn');
+                
+                if (attrNameEl && attrDiceEl && skillNameEl && skillDiceEl && totalPoolEl) {
+                    const attrValue = selectedAttribute ? selectedAttribute.value : 0;
+                    const skillValue = selectedSkill ? selectedSkill.value : 0;
+                    const totalPool = attrValue + skillValue;
+                    
+                    attrNameEl.textContent = selectedAttribute ? selectedAttribute.name : 'None selected';
+                    attrDiceEl.textContent = attrValue + ' dice';
+                    
+                    skillNameEl.textContent = selectedSkill ? selectedSkill.name : 'None selected';
+                    skillDiceEl.textContent = skillValue + ' dice';
+                    
+                    totalPoolEl.textContent = totalPool;
+                    
+                    // Enable roll button if at least one selection
+                    if (rollBtn) {
+                        rollBtn.disabled = totalPool === 0;
+                    }
+                }
+            }
+            
+            // Roll dice and display results
+            function rollDice() {
+                const attrValue = selectedAttribute ? selectedAttribute.value : 0;
+                const skillValue = selectedSkill ? selectedSkill.value : 0;
+                const totalPool = attrValue + skillValue;
+                
+                if (totalPool === 0) return;
+                
+                // Roll d10 dice
+                const rolls = [];
+                for (let i = 0; i < totalPool; i++) {
+                    rolls.push(Math.floor(Math.random() * 10) + 1);
+                }
+                
+                // Count successes (6+)
+                const successes = rolls.filter(r => r >= 6).length;
+                const failures = rolls.length - successes;
+                
+                // Display results
+                const resultsEl = document.getElementById('dice-results');
+                const diceValuesEl = document.getElementById('dice-values');
+                const successCountEl = document.getElementById('success-count');
+                const failureCountEl = document.getElementById('failure-count');
+                
+                if (resultsEl && diceValuesEl && successCountEl && failureCountEl) {
+                    // Show individual dice
+                    diceValuesEl.innerHTML = rolls.map(roll => 
+                        `<span class="die-result ${roll >= 6 ? 'success' : 'failure'}">${roll}</span>`
+                    ).join('');
+                    
+                    // Update counts with emphasis on the higher number
+                    const successNumEl = successCountEl.querySelector('.count-number');
+                    const failureNumEl = failureCountEl.querySelector('.count-number');
+                    
+                    if (successNumEl) successNumEl.textContent = successes;
+                    if (failureNumEl) failureNumEl.textContent = failures;
+                    
+                    // Add emphasis class to the higher count
+                    successCountEl.classList.remove('emphasized');
+                    failureCountEl.classList.remove('emphasized');
+                    
+                    if (successes > failures) {
+                        successCountEl.classList.add('emphasized');
+                    } else if (failures > successes) {
+                        failureCountEl.classList.add('emphasized');
+                    }
+                    
+                    // Show results section
+                    resultsEl.classList.remove('hidden');
+                }
+            }
+            
+            // Clear dice selection
+            function clearDiceSelection() {
+                selectedAttribute = null;
+                selectedSkill = null;
+                
+                // Remove selected class from all rows
+                document.querySelectorAll('.dice-selectable').forEach(row => {
+                    row.classList.remove('dice-selected');
+                });
+                
+                // Update display
+                updateDicePoolDisplay();
+                
+                // Hide results
+                const resultsEl = document.getElementById('dice-results');
+                if (resultsEl) {
+                    resultsEl.classList.add('hidden');
+                }
             }
             
             // Close modal
