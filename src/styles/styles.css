@@ -1,4 +1,6 @@
 :root {
+  /* Logo maximum width set to 12000px to support full resolution display (12000 x 2482 pixels)
+     while maintaining responsive scaling on smaller devices */
   --logo-max-width: 12000px;
 }
 
