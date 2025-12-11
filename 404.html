@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Werewolf 5e</title>
+    <link rel="stylesheet" href="src/styles/styles.css">
+    <style>
+        .error-404-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            background-color: #1a1a1a;
+        }
+        
+        .error-404-image {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        
+        .error-404-title {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        
+        .error-404-message {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .error-404-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #9acd32;
+            color: #1a1a1a;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .error-404-button:hover {
+            background-color: #7fb82e;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .error-404-title {
+                font-size: 2rem;
+            }
+            
+            .error-404-message {
+                font-size: 1rem;
+            }
+            
+            .error-404-image {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <nav>
+            <a href="index.html" class="nav-home" aria-label="Home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+            <a href="account.html">Account</a>
+            <a href="characters.html">Characters</a>
+            <a href="sessions.html">Sessions</a>
+            <a href="about.html">About Us</a>
+        </nav>
+        <a href="index.html" class="header-logo-link">
+            <img src="https://github.com/user-attachments/assets/aaa6e10d-a24c-4711-8da7-2683d2028d7b" alt="RNBW Logo" class="header-logo">
+        </a>
+    </header>
+    
+    <main class="error-404-container">
+        <img src="404Unicorn.webp" alt="404 - Page Not Found" class="error-404-image" onerror="this.style.display='none'">
+        <h1 class="error-404-title">404 - Page Not Found</h1>
+        <p class="error-404-message">
+            The page you're looking for doesn't exist yet. It may still be under construction or you may have followed a broken link.
+        </p>
+        <a href="index.html" class="error-404-button">Return to Home</a>
+    </main>
+</body>
+</html>
