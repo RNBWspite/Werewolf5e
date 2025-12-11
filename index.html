@@ -28,6 +28,40 @@
         <h1>Welcome to Werewolf 5e</h1>
         <p>This is the main webpage entry point.</p>
         
+        <!-- Hero Slideshow Section -->
+        <section class="hero-slideshow">
+            <div class="slideshow-container">
+                <!-- Background slides -->
+                <div class="slide fade active">
+                    <img src="https://placeholder-werewolfbg.jpg" alt="Werewolf Background">
+                </div>
+                <div class="slide fade">
+                    <img src="https://placeholder-waterfallbg.jpg" alt="Waterfall Background">
+                </div>
+                <div class="slide fade">
+                    <img src="https://placeholder-castlebg.jpg" alt="Castle Background">
+                </div>
+                <div class="slide fade">
+                    <img src="https://placeholder-nighttimefieldbg.jpg" alt="Nighttime Field Background">
+                </div>
+                <div class="slide fade">
+                    <img src="https://placeholder-forestsunsetbg.jpg" alt="Forest Sunset Background">
+                </div>
+                <div class="slide fade">
+                    <img src="https://placeholder-blacksmithbg.jpg" alt="Blacksmith Background">
+                </div>
+                
+                <!-- Logo overlay (centered, stays on top) -->
+                <div class="logo-overlay">
+                    <img src="https://placeholder-rollslogowebsiteheader.png" alt="Rolls Logo Website Header" class="slideshow-logo">
+                </div>
+                
+                <!-- Navigation arrows -->
+                <button class="slide-nav prev" aria-label="Previous slide">&lt;</button>
+                <button class="slide-nav next" aria-label="Next slide">&gt;</button>
+            </div>
+        </section>
+        
         <section class="ttrpg-buttons">
             <button type="button" class="ttrpg-button" id="werewolf-apocalypse-btn">
                 <img src="https://github.com/user-attachments/assets/84010a83-d685-4cfa-bbfd-14029a78007d" alt="Werewolf The Apocalypse">
@@ -107,6 +141,66 @@
                     window.location.href = 'create-character.html';
                 }, 3000);
             });
+
+            // Slideshow functionality
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.slide-nav.prev');
+            const nextBtn = document.querySelector('.slide-nav.next');
+            let currentSlide = 0;
+            let slideInterval;
+
+            function showSlide(n) {
+                // Remove active class from all slides
+                slides.forEach(slide => slide.classList.remove('active'));
+                
+                // Handle wrap around
+                if (n >= slides.length) {
+                    currentSlide = 0;
+                } else if (n < 0) {
+                    currentSlide = slides.length - 1;
+                } else {
+                    currentSlide = n;
+                }
+                
+                // Add active class to current slide
+                slides[currentSlide].classList.add('active');
+            }
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            function startSlideshow() {
+                // Auto-advance every 20 seconds
+                slideInterval = setInterval(nextSlide, 20000);
+            }
+
+            function resetSlideshow() {
+                clearInterval(slideInterval);
+                startSlideshow();
+            }
+
+            // Navigation button event listeners
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    nextSlide();
+                    resetSlideshow(); // Reset timer when manually navigating
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    prevSlide();
+                    resetSlideshow(); // Reset timer when manually navigating
+                });
+            }
+
+            // Start the slideshow
+            startSlideshow();
         });
     </script>
 </body>
