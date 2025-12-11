@@ -34,22 +34,22 @@
                 <!-- Background slides -->
                 <!-- TODO: Replace these placeholder URLs with actual image URLs for:
                      WerewolfBG, WaterfallBG, CastleBG, NighttimefieldBG, ForestsunsetBG, BlacksmithBG -->
-                <div class="slide fade active">
+                <div class="slide active">
                     <img src="https://via.placeholder.com/1200x500/2a2a2a/9acd32?text=Werewolf+Background" alt="Werewolf Background">
                 </div>
-                <div class="slide fade">
+                <div class="slide">
                     <img src="https://via.placeholder.com/1200x500/2a2a2a/6495ed?text=Waterfall+Background" alt="Waterfall Background">
                 </div>
-                <div class="slide fade">
+                <div class="slide">
                     <img src="https://via.placeholder.com/1200x500/2a2a2a/8b4513?text=Castle+Background" alt="Castle Background">
                 </div>
-                <div class="slide fade">
+                <div class="slide">
                     <img src="https://via.placeholder.com/1200x500/1a1a1a/4169e1?text=Nighttime+Field+Background" alt="Nighttime Field Background">
                 </div>
-                <div class="slide fade">
+                <div class="slide">
                     <img src="https://via.placeholder.com/1200x500/2a2a2a/ff8c00?text=Forest+Sunset+Background" alt="Forest Sunset Background">
                 </div>
-                <div class="slide fade">
+                <div class="slide">
                     <img src="https://via.placeholder.com/1200x500/2a2a2a/cd853f?text=Blacksmith+Background" alt="Blacksmith Background">
                 </div>
                 
@@ -149,61 +149,67 @@
             const slides = document.querySelectorAll('.slide');
             const prevBtn = document.querySelector('.slide-nav.prev');
             const nextBtn = document.querySelector('.slide-nav.next');
-            let currentSlide = 0;
-            let slideInterval;
+            
+            // Only initialize slideshow if slides exist
+            if (slides.length > 0) {
+                let currentSlide = 0;
+                let slideInterval;
 
-            function showSlide(n) {
-                // Remove active class from all slides
-                slides.forEach(slide => slide.classList.remove('active'));
-                
-                // Handle wrap around
-                if (n >= slides.length) {
-                    currentSlide = 0;
-                } else if (n < 0) {
-                    currentSlide = slides.length - 1;
-                } else {
-                    currentSlide = n;
+                function showSlide(n) {
+                    // Remove active class from all slides
+                    slides.forEach(slide => slide.classList.remove('active'));
+                    
+                    // Handle wrap around
+                    if (n >= slides.length) {
+                        currentSlide = 0;
+                    } else if (n < 0) {
+                        currentSlide = slides.length - 1;
+                    } else {
+                        currentSlide = n;
+                    }
+                    
+                    // Add active class to current slide
+                    slides[currentSlide].classList.add('active');
                 }
-                
-                // Add active class to current slide
-                slides[currentSlide].classList.add('active');
-            }
 
-            function nextSlide() {
-                showSlide(currentSlide + 1);
-            }
+                function nextSlide() {
+                    showSlide(currentSlide + 1);
+                }
 
-            function prevSlide() {
-                showSlide(currentSlide - 1);
-            }
+                function prevSlide() {
+                    showSlide(currentSlide - 1);
+                }
 
-            function startSlideshow() {
-                // Auto-advance every 20 seconds
-                slideInterval = setInterval(nextSlide, 20000);
-            }
+                function startSlideshow() {
+                    // Auto-advance every 20 seconds
+                    slideInterval = setInterval(nextSlide, 20000);
+                }
 
-            function resetSlideshow() {
-                clearInterval(slideInterval);
+                function resetSlideshow() {
+                    if (slideInterval) {
+                        clearInterval(slideInterval);
+                    }
+                    startSlideshow();
+                }
+
+                // Navigation button event listeners
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        nextSlide();
+                        resetSlideshow(); // Reset timer when manually navigating
+                    });
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        prevSlide();
+                        resetSlideshow(); // Reset timer when manually navigating
+                    });
+                }
+
+                // Start the slideshow
                 startSlideshow();
             }
-
-            // Navigation button event listeners
-            if (nextBtn) {
-                nextBtn.addEventListener('click', function() {
-                    nextSlide();
-                    resetSlideshow(); // Reset timer when manually navigating
-                });
-            }
-
-            if (prevBtn) {
-                prevBtn.addEventListener('click', function() {
-                    prevSlide();
-                    resetSlideshow(); // Reset timer when manually navigating
-                });
-            }
-
-            // Start the slideshow
-            startSlideshow();
         });
     </script>
 </body>
