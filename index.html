@@ -169,8 +169,8 @@
                 }
 
                 function startSlideshow() {
-                    // Auto-advance every 20 seconds
-                    slideInterval = setInterval(nextSlide, 20000);
+                    // Auto-advance every 10 seconds
+                    slideInterval = setInterval(nextSlide, 10000);
                 }
 
                 function resetSlideshow() {
@@ -195,7 +195,8 @@
                     });
                 }
 
-                // Start the slideshow
+                // Initialize first slide and start the slideshow
+                showSlide(0);
                 startSlideshow();
             }
         });
