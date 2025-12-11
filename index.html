@@ -24,9 +24,34 @@
             <img src="https://github.com/user-attachments/assets/aaa6e10d-a24c-4711-8da7-2683d2028d7b" alt="RNBW Logo" class="header-logo">
         </a>
     </header>
+    
+    <!-- Background Slideshow (full-page) -->
+    <div class="background-slideshow">
+        <!-- Background slides -->
+        <div class="slide active">
+            <img src="BlacksmithBG.webp" alt="Blacksmith Background">
+        </div>
+        <div class="slide">
+            <img src="WaterfallBG.webp" alt="Waterfall Background">
+        </div>
+        <div class="slide">
+            <img src="NightfieldBG.webp" alt="Night Field Background">
+        </div>
+        <div class="slide">
+            <img src="SunsetBG.webp" alt="Sunset Background">
+        </div>
+        
+        <!-- Logo overlay (centered, stays on top) -->
+        <div class="logo-overlay">
+            <img src="RollsLogoWebsiteHeader.webp" alt="Rolls Logo Website Header" class="slideshow-logo">
+        </div>
+        
+        <!-- Navigation arrows -->
+        <button class="slide-nav prev" aria-label="Previous slide">&lt;</button>
+        <button class="slide-nav next" aria-label="Next slide">&gt;</button>
+    </div>
+    
     <main>
-        <h1>Welcome to Werewolf 5e</h1>
-        <p>This is the main webpage entry point.</p>
         
         <section class="ttrpg-buttons">
             <button type="button" class="ttrpg-button" id="werewolf-apocalypse-btn">
@@ -107,6 +132,72 @@
                     window.location.href = 'create-character.html';
                 }, 3000);
             });
+
+            // Slideshow functionality
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.slide-nav.prev');
+            const nextBtn = document.querySelector('.slide-nav.next');
+            
+            // Only initialize slideshow if slides exist
+            if (slides.length > 0) {
+                let currentSlide = 0;
+                let slideInterval;
+
+                function showSlide(n) {
+                    // Remove active class from all slides
+                    slides.forEach(slide => slide.classList.remove('active'));
+                    
+                    // Handle wrap around
+                    if (n >= slides.length) {
+                        currentSlide = 0;
+                    } else if (n < 0) {
+                        currentSlide = slides.length - 1;
+                    } else {
+                        currentSlide = n;
+                    }
+                    
+                    // Add active class to current slide
+                    slides[currentSlide].classList.add('active');
+                }
+
+                function nextSlide() {
+                    showSlide(currentSlide + 1);
+                }
+
+                function prevSlide() {
+                    showSlide(currentSlide - 1);
+                }
+
+                function startSlideshow() {
+                    // Auto-advance every 20 seconds
+                    slideInterval = setInterval(nextSlide, 20000);
+                }
+
+                function resetSlideshow() {
+                    if (slideInterval) {
+                        clearInterval(slideInterval);
+                    }
+                    startSlideshow();
+                }
+
+                // Navigation button event listeners
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        nextSlide();
+                        resetSlideshow(); // Reset timer when manually navigating
+                    });
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        prevSlide();
+                        resetSlideshow(); // Reset timer when manually navigating
+                    });
+                }
+
+                // Start the slideshow
+                startSlideshow();
+            }
         });
     </script>
 </body>

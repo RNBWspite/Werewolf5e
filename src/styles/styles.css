@@ -89,14 +89,143 @@ body {
   stroke: #9acd32;
 }
 
+/* Background Slideshow (Full-page) */
+.background-slideshow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Slides */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  z-index: 1;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Logo Overlay */
+.logo-overlay {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slideshow-logo {
+  max-width: 800px;
+  width: 60%;
+  height: auto;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.9));
+}
+
+/* Navigation Arrows */
+.slide-nav {
+  position: fixed;
+  top: 35%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-size: 24px;
+  padding: 15px 20px;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.slide-nav:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-color: #9acd32;
+  color: #9acd32;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slide-nav.prev {
+  left: 20px;
+}
+
+.slide-nav.next {
+  right: 20px;
+}
+
+/* Main content positioned above background */
+main {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding-bottom: 20px;
+}
+
+/* Responsive slideshow */
+@media (max-width: 768px) {
+  .slideshow-logo {
+    max-width: 500px;
+  }
+  
+  .slide-nav {
+    font-size: 18px;
+    padding: 10px 15px;
+  }
+  
+  .slide-nav.prev {
+    left: 10px;
+  }
+  
+  .slide-nav.next {
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slideshow-logo {
+    max-width: 280px;
+  }
+  
+  .slide-nav {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+}
+
 /* TTRPG Button Section */
 .ttrpg-buttons {
   display: flex;
   justify-content: center;
-  gap: 40px;
-  margin-top: 40px;
-  flex-wrap: wrap;
-  padding: 0 20px;
+  gap: 20px;
+  flex-wrap: nowrap;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 50%, transparent 100%);
 }
 
 .ttrpg-button {
@@ -106,6 +235,7 @@ body {
   text-decoration: none;
   color: #ffffff;
   transition: transform 0.3s ease;
+  max-width: 180px;
 }
 
 .ttrpg-button:hover {
@@ -113,8 +243,8 @@ body {
 }
 
 .ttrpg-button img {
-  width: 200px;
-  height: 250px;
+  width: 160px;
+  height: 200px;
   object-fit: cover;
   border-radius: 8px;
   border: 3px solid #333;
@@ -128,10 +258,10 @@ body {
 
 .ttrpg-button span {
   margin-top: 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   text-align: center;
-  max-width: 200px;
+  max-width: 160px;
 }
 
 /* Button reset for ttrpg-button when used as button */

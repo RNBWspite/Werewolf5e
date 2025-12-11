@@ -1,0 +1,15 @@
+# Placeholder images (replace with actual assets)
+*.webp
+create_placeholders.py
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Dependencies
+node_modules/
+dist/
+
+# Build artifacts
+*.log
