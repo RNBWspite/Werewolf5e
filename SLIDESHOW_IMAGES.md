@@ -4,16 +4,21 @@ This document explains how to add the actual images for the hero slideshow on th
 
 ## Required Images
 
-The slideshow requires the following 5 WEBP images:
+The slideshow requires the following WEBP images (9 backgrounds + 1 logo):
 
-### Background Images (4 total)
+### Background Images (9 total)
 1. **BlacksmithBG.webp** - Blacksmith-themed background
 2. **WaterfallBG.webp** - Waterfall background
 3. **NightfieldBG.webp** - Nighttime field background
 4. **SunsetBG.webp** - Sunset background
+5. **LavaCaveBG.webp** - Lava cave background
+6. **CrystalCaveBG.webp** - Crystal cave background
+7. **IceLakeBG.webp** - Ice lake background
+8. **AuroraSnowBG.webp** - Aurora snow background
+9. **RustCityBG.webp** - Rust city background
 
 ### Logo Image (1 total)
-5. **RollsLogoWebsiteHeader.webp** - The Rolls logo to display centered on top of the slideshow
+10. **RollsLogoWebsiteHeader.webp** - The Rolls logo to display centered on top of the slideshow
 
 ## How to Add Images
 
