@@ -139,7 +139,7 @@ body {
 
 .slideshow-logo {
   max-width: 12000px;
-  width: 12000px;
+  width: 100%;
   height: auto;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.9));
 }
@@ -191,7 +191,7 @@ main {
 @media (max-width: 768px) {
   .slideshow-logo {
     max-width: 12000px;
-    width: 12000px;
+    width: 100%;
   }
   
   .slide-nav {
@@ -211,7 +211,7 @@ main {
 @media (max-width: 480px) {
   .slideshow-logo {
     max-width: 12000px;
-    width: 12000px;
+    width: 100%;
   }
   
   .slide-nav {
