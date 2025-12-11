@@ -44,7 +44,7 @@ To replace placeholders:
 - **Full-page background**: Images cover the entire viewport
 - **Centered logo**: Logo is positioned at 45% from top, centered horizontally
 - **Bottom game buttons**: TTRPG game selection buttons appear at the bottom with gradient overlay
-- **Auto-advance**: Slides change every 20 seconds
+- **Auto-advance**: Slides change every 5 seconds
 - **Manual navigation**: Arrow buttons on left (<) and right (>) sides
 - **Smooth transitions**: 1.5 second fade between slides
 
@@ -54,6 +54,6 @@ After adding images:
 1. Open `index.html` in a browser
 2. Verify all images load correctly
 3. Test the navigation arrows (< and >)
-4. Wait 20 seconds to confirm auto-advance works
+4. Wait 5 seconds to confirm auto-advance works
 5. Check that the logo stays centered and visible over all backgrounds
 6. Verify game buttons appear correctly at the bottom
