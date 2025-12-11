@@ -1,5 +1,6 @@
 # Placeholder images (replace with actual assets)
 *.webp
+!404Unicorn.webp
 create_placeholders.py
 
 # Python
