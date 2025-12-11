@@ -4,7 +4,7 @@ This document explains how to add the actual images for the hero slideshow on th
 
 ## Required Images
 
-The slideshow requires the following 10 WEBP images:
+The slideshow requires the following WEBP images (9 backgrounds + 1 logo):
 
 ### Background Images (9 total)
 1. **BlacksmithBG.webp** - Blacksmith-themed background
