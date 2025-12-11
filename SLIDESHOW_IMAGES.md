@@ -4,56 +4,49 @@ This document explains how to add the actual images for the hero slideshow on th
 
 ## Required Images
 
-The slideshow requires the following 7 images:
+The slideshow requires the following 5 WEBP images:
 
-### Background Images (6 total)
-1. **WerewolfBG** - Werewolf-themed background
-2. **WaterfallBG** - Waterfall background
-3. **CastleBG** - Castle background
-4. **NighttimefieldBG** - Nighttime field background
-5. **ForestsunsetBG** - Forest sunset background
-6. **BlacksmithBG** - Blacksmith background
+### Background Images (4 total)
+1. **BlacksmithBG.webp** - Blacksmith-themed background
+2. **WaterfallBG.webp** - Waterfall background
+3. **NightfieldBG.webp** - Nighttime field background
+4. **SunsetBG.webp** - Sunset background
 
 ### Logo Image (1 total)
-7. **RollsLogoWebsiteHeader** - The Rolls logo to display centered on top of the slideshow
+5. **RollsLogoWebsiteHeader.webp** - The Rolls logo to display centered on top of the slideshow
 
 ## How to Add Images
 
-### Option 1: Using GitHub User Attachments (Recommended)
+### Adding Your Images
 
-1. Upload your images to a GitHub issue or pull request comment
-2. Copy the generated URL (format: `https://github.com/user-attachments/assets/...`)
-3. Replace the placeholder URLs in `index.html` at lines 35-57
+1. Create or obtain your background images and logo in WEBP format
+2. Name them exactly as specified above
+3. Place them in the repository root directory (same location as `index.html`)
+4. The slideshow will automatically display them
 
-### Option 2: Using Local Files
+### Image Specifications
 
-1. Create an `assets` or `images` folder in the repository root
-2. Add your images to that folder
-3. Update the `src` attributes in `index.html` to point to the local files:
-   ```html
-   <img src="assets/werewolf-bg.jpg" alt="Werewolf Background">
-   ```
+- **Background Images**: Recommended size 1920x1080 pixels (Full HD) or larger
+- **Logo Image**: Recommended max-width 800 pixels, transparent background preferred
+- **Format**: WEBP (required for optimal web performance and modern browser support)
 
-## Current Placeholder URLs
+## Current Implementation
 
-The slideshow currently uses placeholder images from `via.placeholder.com`. You need to replace these URLs in `index.html`:
+The slideshow currently uses placeholder images created with Python. These are included in `.gitignore` and should be replaced with your actual assets.
 
-```html
-<!-- Lines to update in index.html: -->
-Line 37: Werewolf Background
-Line 40: Waterfall Background
-Line 43: Castle Background
-Line 46: Nighttime Field Background
-Line 49: Forest Sunset Background
-Line 52: Blacksmith Background
-Line 57: Rolls Logo Website Header (in logo-overlay div)
-```
+To replace placeholders:
+1. Remove or rename the placeholder .webp files
+2. Add your actual WEBP images with the exact names listed above
+3. Refresh the page to see your images
 
-## Image Specifications
+## Layout Features
 
-- **Background Images**: Recommended size 1200x500 pixels (or larger, will auto-resize)
-- **Logo Image**: Recommended max-width 400 pixels, transparent background preferred
-- **Format**: JPG or PNG for backgrounds, PNG for logo (for transparency)
+- **Full-page background**: Images cover the entire viewport
+- **Centered logo**: Logo is positioned at 45% from top, centered horizontally
+- **Bottom game buttons**: TTRPG game selection buttons appear at the bottom with gradient overlay
+- **Auto-advance**: Slides change every 20 seconds
+- **Manual navigation**: Arrow buttons on left (<) and right (>) sides
+- **Smooth transitions**: 1.5 second fade between slides
 
 ## Testing
 
@@ -63,3 +56,4 @@ After adding images:
 3. Test the navigation arrows (< and >)
 4. Wait 20 seconds to confirm auto-advance works
 5. Check that the logo stays centered and visible over all backgrounds
+6. Verify game buttons appear correctly at the bottom
