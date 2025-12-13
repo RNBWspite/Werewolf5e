@@ -289,11 +289,11 @@
             
             // Security questions mapping
             const securityQuestions = {
-                'pet': 'What was the name of your first pet?',
-                'city': 'In what city were you born?',
-                'school': 'What is the name of your elementary school?',
-                'friend': 'What is your best friend\'s name?',
-                'book': 'What is your favorite book?'
+                "pet": "What was the name of your first pet?",
+                "city": "In what city were you born?",
+                "school": "What is the name of your elementary school?",
+                "friend": "What is your best friend's name?",
+                "book": "What is your favorite book?"
             };
             
             // Toggle between sign in and sign up forms
@@ -414,6 +414,8 @@
             
             // Handle Password Reset - Step 1: Verify Email
             let resetEmail = '';
+            let failedAttempts = {}; // Track failed attempts per email (Note: In production, implement server-side rate limiting)
+            
             verifyEmailBtn.addEventListener('click', function() {
                 const email = document.getElementById('reset-email').value.trim().toLowerCase();
                 
@@ -421,18 +423,24 @@
                 const users = JSON.parse(localStorage.getItem('users') || '{}');
                 const user = users[email];
                 
+                // Use generic error message to prevent user enumeration
                 if (!user) {
-                    alert('No account found with this email address.');
+                    alert('If this email is registered, a security question will be displayed. Please check your email address and try again.');
                     return;
                 }
                 
                 if (!user.securityQuestion || !user.securityAnswer) {
-                    alert('This account was created before security questions were implemented. Please contact support for assistance.');
+                    alert('Password recovery is not available for this account. Please contact support at support@rnbwrolls.com for assistance.');
                     return;
                 }
                 
                 // Store email for step 2
                 resetEmail = email;
+                
+                // Initialize failed attempts counter for this email
+                if (!failedAttempts[email]) {
+                    failedAttempts[email] = 0;
+                }
                 
                 // Show security question
                 document.getElementById('security-question-text').textContent = securityQuestions[user.securityQuestion];
@@ -460,11 +468,28 @@
                 const users = JSON.parse(localStorage.getItem('users') || '{}');
                 const user = users[resetEmail];
                 
-                // Verify security answer
+                // Verify security answer with rate limiting (Note: In production, implement server-side rate limiting)
                 if (user.securityAnswer !== securityAnswer) {
-                    alert('Incorrect answer to security question. Please try again.');
+                    failedAttempts[resetEmail] = (failedAttempts[resetEmail] || 0) + 1;
+                    
+                    // After 3 failed attempts, lock out temporarily
+                    if (failedAttempts[resetEmail] >= 3) {
+                        alert('Too many failed attempts. Please try again later or contact support at support@rnbwrolls.com.');
+                        // Reset form and go back to sign in
+                        resetForm.reset();
+                        document.getElementById('reset-step-1').classList.remove('hidden');
+                        document.getElementById('reset-step-2').classList.add('hidden');
+                        resetWrapper.classList.add('hidden');
+                        signinWrapper.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    alert('Incorrect answer to security question. Please try again. (' + (3 - failedAttempts[resetEmail]) + ' attempts remaining)');
                     return;
                 }
+                
+                // Reset failed attempts on successful verification
+                failedAttempts[resetEmail] = 0;
                 
                 // Update password
                 user.password = newPassword;
