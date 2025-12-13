@@ -401,8 +401,7 @@ button.ttrpg-button {
 .create-character-main {
   position: relative;
   z-index: 1;
-  padding: 20px;
-  padding-top: 94px;
+  padding: 94px 20px 20px 20px;
   min-height: calc(100vh - 80px);
   font-family: 'Special Elite', cursive;
 }
@@ -1237,8 +1236,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    ========================= */
 
 .account-main {
-  padding: 40px 20px;
-  padding-top: 94px;
+  padding: 94px 20px 40px 20px;
   min-height: calc(100vh - 80px);
   font-family: 'Special Elite', cursive;
 }
@@ -1473,8 +1471,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    ========================= */
 
 .characters-main {
-  padding: 40px 20px;
-  padding-top: 94px;
+  padding: 94px 20px 40px 20px;
   min-height: calc(100vh - 80px);
   font-family: 'Special Elite', cursive;
   max-width: 1400px;
