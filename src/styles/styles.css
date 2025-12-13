@@ -1309,6 +1309,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #b8e23b;
 }
 
+.forgot-password {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.security-question-display {
+  background-color: rgba(154, 205, 50, 0.1);
+  border: 1px solid rgba(154, 205, 50, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+  color: #ffffff;
+  font-style: italic;
+  margin-top: 5px;
+}
+
 /* User View */
 .user-header {
   display: flex;

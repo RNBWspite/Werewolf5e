@@ -50,6 +50,7 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">Sign In</button>
                         </div>
+                        <p class="forgot-password"><button type="button" class="link-btn" id="show-forgot-password">Forgot Password?</button></p>
                     </form>
                     <p class="auth-switch">Don't have an account? <button type="button" class="link-btn" id="show-signup">Create one</button></p>
                 </div>
@@ -78,11 +79,64 @@
                             <label for="signup-confirm">Confirm Password</label>
                             <input type="password" id="signup-confirm" name="confirm" placeholder="Confirm your password" required>
                         </div>
+                        <div class="form-group">
+                            <label for="signup-security-question">Security Question</label>
+                            <select id="signup-security-question" name="securityQuestion" required>
+                                <option value="">Choose a security question...</option>
+                                <option value="pet">What was the name of your first pet?</option>
+                                <option value="city">In what city were you born?</option>
+                                <option value="school">What is the name of your elementary school?</option>
+                                <option value="friend">What is your best friend's name?</option>
+                                <option value="book">What is your favorite book?</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-security-answer">Security Answer</label>
+                            <input type="text" id="signup-security-answer" name="securityAnswer" placeholder="Enter your answer" required minlength="2">
+                        </div>
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">Create Account</button>
                         </div>
                     </form>
                     <p class="auth-switch">Already have an account? <button type="button" class="link-btn" id="show-signin">Sign in</button></p>
+                </div>
+                
+                <!-- Password Reset Form (Hidden by default) -->
+                <div class="auth-form-wrapper hidden" id="reset-wrapper">
+                    <h2>Reset Password</h2>
+                    <form id="reset-form" class="auth-form">
+                        <div id="reset-step-1">
+                            <div class="form-group">
+                                <label for="reset-email">Email</label>
+                                <input type="email" id="reset-email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" id="verify-email-btn">Continue</button>
+                            </div>
+                        </div>
+                        <div id="reset-step-2" class="hidden">
+                            <div class="form-group">
+                                <label id="security-question-label">Security Question</label>
+                                <p id="security-question-text" class="security-question-display"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="reset-security-answer">Your Answer</label>
+                                <input type="text" id="reset-security-answer" name="securityAnswer" placeholder="Enter your answer" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reset-new-password">New Password</label>
+                                <input type="password" id="reset-new-password" name="newPassword" placeholder="Enter new password" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="reset-confirm-password">Confirm New Password</label>
+                                <input type="password" id="reset-confirm-password" name="confirmPassword" placeholder="Confirm new password" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Reset Password</button>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="auth-switch"><button type="button" class="link-btn" id="back-to-signin">Back to Sign In</button></p>
                 </div>
             </div>
         </section>
@@ -144,11 +198,16 @@
             const userView = document.getElementById('user-view');
             const signinWrapper = document.getElementById('signin-wrapper');
             const signupWrapper = document.getElementById('signup-wrapper');
+            const resetWrapper = document.getElementById('reset-wrapper');
             const signinForm = document.getElementById('signin-form');
             const signupForm = document.getElementById('signup-form');
+            const resetForm = document.getElementById('reset-form');
             const showSignupBtn = document.getElementById('show-signup');
             const showSigninBtn = document.getElementById('show-signin');
+            const showForgotPasswordBtn = document.getElementById('show-forgot-password');
+            const backToSigninBtn = document.getElementById('back-to-signin');
             const signoutBtn = document.getElementById('signout-btn');
+            const verifyEmailBtn = document.getElementById('verify-email-btn');
             
             // Gaming systems configuration
             const gamingSystems = {
@@ -228,15 +287,46 @@
                 }
             }
             
+            // Security questions mapping
+            const securityQuestions = {
+                'pet': 'What was the name of your first pet?',
+                'city': 'In what city were you born?',
+                'school': 'What is the name of your elementary school?',
+                'friend': 'What is your best friend\'s name?',
+                'book': 'What is your favorite book?'
+            };
+            
             // Toggle between sign in and sign up forms
             showSignupBtn.addEventListener('click', function() {
                 signinWrapper.classList.add('hidden');
                 signupWrapper.classList.remove('hidden');
+                resetWrapper.classList.add('hidden');
             });
             
             showSigninBtn.addEventListener('click', function() {
                 signupWrapper.classList.add('hidden');
                 signinWrapper.classList.remove('hidden');
+                resetWrapper.classList.add('hidden');
+                resetForm.reset();
+                document.getElementById('reset-step-1').classList.remove('hidden');
+                document.getElementById('reset-step-2').classList.add('hidden');
+            });
+            
+            showForgotPasswordBtn.addEventListener('click', function() {
+                signinWrapper.classList.add('hidden');
+                signupWrapper.classList.add('hidden');
+                resetWrapper.classList.remove('hidden');
+                resetForm.reset();
+                document.getElementById('reset-step-1').classList.remove('hidden');
+                document.getElementById('reset-step-2').classList.add('hidden');
+            });
+            
+            backToSigninBtn.addEventListener('click', function() {
+                resetWrapper.classList.add('hidden');
+                signinWrapper.classList.remove('hidden');
+                resetForm.reset();
+                document.getElementById('reset-step-1').classList.remove('hidden');
+                document.getElementById('reset-step-2').classList.add('hidden');
             });
             
             // Handle Sign Up
@@ -248,6 +338,8 @@
                 const dob = document.getElementById('signup-dob').value;
                 const password = document.getElementById('signup-password').value;
                 const confirm = document.getElementById('signup-confirm').value;
+                const securityQuestion = document.getElementById('signup-security-question').value;
+                const securityAnswer = document.getElementById('signup-security-answer').value.trim().toLowerCase();
                 
                 // Validate passwords match
                 if (password !== confirm) {
@@ -281,6 +373,8 @@
                     email: email,
                     dob: dob,
                     password: password, // In a real app, this would be hashed
+                    securityQuestion: securityQuestion,
+                    securityAnswer: securityAnswer, // In a real app, this would be hashed
                     createdAt: new Date().toISOString(),
                     characters: [],
                     campaigns: []
@@ -316,6 +410,85 @@
                 // Log in user
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 showUserView(user);
+            });
+            
+            // Handle Password Reset - Step 1: Verify Email
+            let resetEmail = '';
+            verifyEmailBtn.addEventListener('click', function() {
+                const email = document.getElementById('reset-email').value.trim().toLowerCase();
+                
+                // Get users
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                const user = users[email];
+                
+                if (!user) {
+                    alert('No account found with this email address.');
+                    return;
+                }
+                
+                if (!user.securityQuestion || !user.securityAnswer) {
+                    alert('This account was created before security questions were implemented. Please contact support for assistance.');
+                    return;
+                }
+                
+                // Store email for step 2
+                resetEmail = email;
+                
+                // Show security question
+                document.getElementById('security-question-text').textContent = securityQuestions[user.securityQuestion];
+                
+                // Move to step 2
+                document.getElementById('reset-step-1').classList.add('hidden');
+                document.getElementById('reset-step-2').classList.remove('hidden');
+            });
+            
+            // Handle Password Reset - Step 2: Verify Answer and Reset Password
+            resetForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const securityAnswer = document.getElementById('reset-security-answer').value.trim().toLowerCase();
+                const newPassword = document.getElementById('reset-new-password').value;
+                const confirmPassword = document.getElementById('reset-confirm-password').value;
+                
+                // Validate passwords match
+                if (newPassword !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+                
+                // Get users
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                const user = users[resetEmail];
+                
+                // Verify security answer
+                if (user.securityAnswer !== securityAnswer) {
+                    alert('Incorrect answer to security question. Please try again.');
+                    return;
+                }
+                
+                // Update password
+                user.password = newPassword;
+                users[resetEmail] = user;
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Update current user if logged in
+                const currentUser = localStorage.getItem('currentUser');
+                if (currentUser) {
+                    const current = JSON.parse(currentUser);
+                    if (current.email === resetEmail) {
+                        current.password = newPassword;
+                        localStorage.setItem('currentUser', JSON.stringify(current));
+                    }
+                }
+                
+                alert('Password reset successfully! You can now sign in with your new password.');
+                
+                // Reset form and go back to sign in
+                resetForm.reset();
+                document.getElementById('reset-step-1').classList.remove('hidden');
+                document.getElementById('reset-step-2').classList.add('hidden');
+                resetWrapper.classList.add('hidden');
+                signinWrapper.classList.remove('hidden');
             });
             
             // Handle Sign Out
