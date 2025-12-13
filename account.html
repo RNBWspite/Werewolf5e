@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/styles/styles.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <header class="sticky-header">
@@ -79,21 +80,6 @@
                             <label for="signup-confirm">Confirm Password</label>
                             <input type="password" id="signup-confirm" name="confirm" placeholder="Confirm your password" required>
                         </div>
-                        <div class="form-group">
-                            <label for="signup-security-question">Security Question</label>
-                            <select id="signup-security-question" name="securityQuestion" required>
-                                <option value="">Choose a security question...</option>
-                                <option value="pet">What was the name of your first pet?</option>
-                                <option value="city">In what city were you born?</option>
-                                <option value="school">What is the name of your elementary school?</option>
-                                <option value="friend">What is your best friend's name?</option>
-                                <option value="book">What is your favorite book?</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-security-answer">Security Answer</label>
-                            <input type="text" id="signup-security-answer" name="securityAnswer" placeholder="Enter your answer" required minlength="2">
-                        </div>
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">Create Account</button>
                         </div>
@@ -104,36 +90,19 @@
                 <!-- Password Reset Form (Hidden by default) -->
                 <div class="auth-form-wrapper hidden" id="reset-wrapper">
                     <h2>Reset Password</h2>
+                    <p class="subtitle">Enter your email address and we'll send you a link to reset your password.</p>
                     <form id="reset-form" class="auth-form">
-                        <div id="reset-step-1">
-                            <div class="form-group">
-                                <label for="reset-email">Email</label>
-                                <input type="email" id="reset-email" name="email" placeholder="Enter your email" required>
-                            </div>
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-primary" id="verify-email-btn">Continue</button>
-                            </div>
+                        <div class="form-group">
+                            <label for="reset-email">Email</label>
+                            <input type="email" id="reset-email" name="email" placeholder="Enter your email" required>
                         </div>
-                        <div id="reset-step-2" class="hidden">
-                            <div class="form-group">
-                                <label id="security-question-label">Security Question</label>
-                                <p id="security-question-text" class="security-question-display"></p>
-                            </div>
-                            <div class="form-group">
-                                <label for="reset-security-answer">Your Answer</label>
-                                <input type="text" id="reset-security-answer" name="securityAnswer" placeholder="Enter your answer" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="reset-new-password">New Password</label>
-                                <input type="password" id="reset-new-password" name="newPassword" placeholder="Enter new password" required minlength="6">
-                            </div>
-                            <div class="form-group">
-                                <label for="reset-confirm-password">Confirm New Password</label>
-                                <input type="password" id="reset-confirm-password" name="confirmPassword" placeholder="Confirm new password" required>
-                            </div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Reset Password</button>
-                            </div>
+                        
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submit-reset-btn">Send Reset Link</button>
                         </div>
                     </form>
                     <p class="auth-switch"><button type="button" class="link-btn" id="back-to-signin">Back to Sign In</button></p>
@@ -207,7 +176,6 @@
             const showForgotPasswordBtn = document.getElementById('show-forgot-password');
             const backToSigninBtn = document.getElementById('back-to-signin');
             const signoutBtn = document.getElementById('signout-btn');
-            const verifyEmailBtn = document.getElementById('verify-email-btn');
             
             // Gaming systems configuration
             const gamingSystems = {
@@ -287,15 +255,6 @@
                 }
             }
             
-            // Security questions mapping
-            const securityQuestions = {
-                "pet": "What was the name of your first pet?",
-                "city": "In what city were you born?",
-                "school": "What is the name of your elementary school?",
-                "friend": "What is your best friend's name?",
-                "book": "What is your favorite book?"
-            };
-            
             // Toggle between sign in and sign up forms
             showSignupBtn.addEventListener('click', function() {
                 signinWrapper.classList.add('hidden');
@@ -308,8 +267,9 @@
                 signinWrapper.classList.remove('hidden');
                 resetWrapper.classList.add('hidden');
                 resetForm.reset();
-                document.getElementById('reset-step-1').classList.remove('hidden');
-                document.getElementById('reset-step-2').classList.add('hidden');
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
             });
             
             showForgotPasswordBtn.addEventListener('click', function() {
@@ -317,20 +277,22 @@
                 signupWrapper.classList.add('hidden');
                 resetWrapper.classList.remove('hidden');
                 resetForm.reset();
-                document.getElementById('reset-step-1').classList.remove('hidden');
-                document.getElementById('reset-step-2').classList.add('hidden');
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
             });
             
             backToSigninBtn.addEventListener('click', function() {
                 resetWrapper.classList.add('hidden');
                 signinWrapper.classList.remove('hidden');
                 resetForm.reset();
-                document.getElementById('reset-step-1').classList.remove('hidden');
-                document.getElementById('reset-step-2').classList.add('hidden');
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
             });
             
             // Handle Sign Up
-            signupForm.addEventListener('submit', function(e) {
+            signupForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const username = document.getElementById('signup-username').value.trim();
@@ -338,8 +300,6 @@
                 const dob = document.getElementById('signup-dob').value;
                 const password = document.getElementById('signup-password').value;
                 const confirm = document.getElementById('signup-confirm').value;
-                const securityQuestion = document.getElementById('signup-security-question').value;
-                const securityAnswer = document.getElementById('signup-security-answer').value.trim().toLowerCase();
                 
                 // Validate passwords match
                 if (password !== confirm) {
@@ -360,160 +320,132 @@
                     return;
                 }
                 
-                // Check if user already exists
-                const users = JSON.parse(localStorage.getItem('users') || '{}');
-                if (users[email]) {
-                    alert('An account with this email already exists. Please sign in.');
-                    return;
+                // Call backend API to create user
+                try {
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username,
+                            email,
+                            dob,
+                            password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        alert(data.error || 'Failed to create account');
+                        return;
+                    }
+                    
+                    // Save user to localStorage (for frontend compatibility)
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    
+                    alert('Account created successfully! Welcome to the pack, ' + escapeHtml(username) + '!');
+                    showUserView(data.user);
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    alert('An error occurred while creating your account. Please try again.');
                 }
-                
-                // Create new user
-                const newUser = {
-                    username: username,
-                    email: email,
-                    dob: dob,
-                    password: password, // In a real app, this would be hashed
-                    securityQuestion: securityQuestion,
-                    securityAnswer: securityAnswer, // In a real app, this would be hashed
-                    createdAt: new Date().toISOString(),
-                    characters: [],
-                    campaigns: []
-                };
-                
-                // Save user
-                users[email] = newUser;
-                localStorage.setItem('users', JSON.stringify(users));
-                
-                // Log in the new user
-                localStorage.setItem('currentUser', JSON.stringify(newUser));
-                
-                alert('Account created successfully! Welcome to the pack, ' + escapeHtml(username) + '!');
-                showUserView(newUser);
             });
             
             // Handle Sign In
-            signinForm.addEventListener('submit', function(e) {
+            signinForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const email = document.getElementById('signin-email').value.trim().toLowerCase();
                 const password = document.getElementById('signin-password').value;
                 
-                // Get users
-                const users = JSON.parse(localStorage.getItem('users') || '{}');
-                const user = users[email];
-                
-                if (!user || user.password !== password) {
-                    alert('Invalid email or password. Please try again.');
-                    return;
-                }
-                
-                // Log in user
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                showUserView(user);
-            });
-            
-            // Handle Password Reset - Step 1: Verify Email
-            let resetEmail = '';
-            let failedAttempts = {}; // Track failed attempts per email (Note: In production, implement server-side rate limiting)
-            
-            verifyEmailBtn.addEventListener('click', function() {
-                const email = document.getElementById('reset-email').value.trim().toLowerCase();
-                
-                // Get users
-                const users = JSON.parse(localStorage.getItem('users') || '{}');
-                const user = users[email];
-                
-                // Use generic error message to prevent user enumeration
-                if (!user) {
-                    alert('If this email is registered, a security question will be displayed. Please check your email address and try again.');
-                    return;
-                }
-                
-                if (!user.securityQuestion || !user.securityAnswer) {
-                    alert('Password recovery is not available for this account. Please contact support at support@rnbwrolls.com for assistance.');
-                    return;
-                }
-                
-                // Store email for step 2
-                resetEmail = email;
-                
-                // Initialize failed attempts counter for this email
-                if (!failedAttempts[email]) {
-                    failedAttempts[email] = 0;
-                }
-                
-                // Show security question
-                document.getElementById('security-question-text').textContent = securityQuestions[user.securityQuestion];
-                
-                // Move to step 2
-                document.getElementById('reset-step-1').classList.add('hidden');
-                document.getElementById('reset-step-2').classList.remove('hidden');
-            });
-            
-            // Handle Password Reset - Step 2: Verify Answer and Reset Password
-            resetForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const securityAnswer = document.getElementById('reset-security-answer').value.trim().toLowerCase();
-                const newPassword = document.getElementById('reset-new-password').value;
-                const confirmPassword = document.getElementById('reset-confirm-password').value;
-                
-                // Validate passwords match
-                if (newPassword !== confirmPassword) {
-                    alert('Passwords do not match!');
-                    return;
-                }
-                
-                // Get users
-                const users = JSON.parse(localStorage.getItem('users') || '{}');
-                const user = users[resetEmail];
-                
-                // Verify security answer with rate limiting (Note: In production, implement server-side rate limiting)
-                if (user.securityAnswer !== securityAnswer) {
-                    failedAttempts[resetEmail] = (failedAttempts[resetEmail] || 0) + 1;
+                // Call backend API to login
+                try {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email,
+                            password
+                        })
+                    });
                     
-                    // After 3 failed attempts, lock out temporarily
-                    if (failedAttempts[resetEmail] >= 3) {
-                        alert('Too many failed attempts. Please try again later or contact support at support@rnbwrolls.com.');
-                        // Reset form and go back to sign in
-                        resetForm.reset();
-                        document.getElementById('reset-step-1').classList.remove('hidden');
-                        document.getElementById('reset-step-2').classList.add('hidden');
-                        resetWrapper.classList.add('hidden');
-                        signinWrapper.classList.remove('hidden');
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        alert(data.error || 'Invalid email or password');
                         return;
                     }
                     
-                    alert('Incorrect answer to security question. Please try again. (' + (3 - failedAttempts[resetEmail]) + ' attempts remaining)');
+                    // Log in user
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    showUserView(data.user);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('An error occurred while signing in. Please try again.');
+                }
+            });
+            
+            // Handle Password Reset - Email-based with reCAPTCHA
+            resetForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('reset-email').value.trim().toLowerCase();
+                const submitBtn = document.getElementById('submit-reset-btn');
+                
+                // Get reCAPTCHA response
+                const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : null;
+                
+                if (!recaptchaResponse) {
+                    alert('Please complete the reCAPTCHA verification.');
                     return;
                 }
                 
-                // Reset failed attempts on successful verification
-                failedAttempts[resetEmail] = 0;
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
                 
-                // Update password
-                user.password = newPassword;
-                users[resetEmail] = user;
-                localStorage.setItem('users', JSON.stringify(users));
-                
-                // Update current user if logged in
-                const currentUser = localStorage.getItem('currentUser');
-                if (currentUser) {
-                    const current = JSON.parse(currentUser);
-                    if (current.email === resetEmail) {
-                        current.password = newPassword;
-                        localStorage.setItem('currentUser', JSON.stringify(current));
+                try {
+                    const response = await fetch('/api/password-reset/request', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email,
+                            recaptchaToken: recaptchaResponse
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        alert('If an account exists with this email, a password reset link has been sent. Please check your email inbox (and spam folder).');
+                        resetForm.reset();
+                        if (typeof grecaptcha !== 'undefined') {
+                            grecaptcha.reset();
+                        }
+                        resetWrapper.classList.add('hidden');
+                        signinWrapper.classList.remove('hidden');
+                    } else {
+                        alert(data.error || 'Failed to process password reset request');
+                        if (typeof grecaptcha !== 'undefined') {
+                            grecaptcha.reset();
+                        }
                     }
+                } catch (error) {
+                    console.error('Password reset error:', error);
+                    alert('An error occurred. Please try again.');
+                    if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.reset();
+                    }
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Reset Link';
                 }
-                
-                alert('Password reset successfully! You can now sign in with your new password.');
-                
-                // Reset form and go back to sign in
-                resetForm.reset();
-                document.getElementById('reset-step-1').classList.remove('hidden');
-                document.getElementById('reset-step-2').classList.add('hidden');
-                resetWrapper.classList.add('hidden');
-                signinWrapper.classList.remove('hidden');
             });
             
             // Handle Sign Out

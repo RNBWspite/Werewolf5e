@@ -1,0 +1,23 @@
+{
+  "name": "werewolf5e",
+  "version": "1.0.0",
+  "description": "Werewolf 5E - A role-playing game application with backend API for user authentication and password reset",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["werewolf", "rpg", "authentication", "password-reset"],
+  "author": "RNBW Rolls",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemailer": "^7.0.7"
+  }
+}
