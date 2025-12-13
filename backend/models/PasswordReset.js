@@ -9,7 +9,10 @@ class PasswordReset {
         this.email = data.email;
         this.token = data.token;
         this.createdAt = data.createdAt || Date.now();
-        this.expiresAt = data.expiresAt || Date.now() + parseInt(process.env.RESET_TOKEN_EXPIRY || 3600000);
+        // Validate token expiry with safe fallback (default 1 hour)
+        const expiry = parseInt(process.env.RESET_TOKEN_EXPIRY);
+        const tokenExpiry = (!isNaN(expiry) && expiry > 0 && expiry <= 86400000) ? expiry : 3600000;
+        this.expiresAt = data.expiresAt || Date.now() + tokenExpiry;
         this.used = data.used || false;
     }
 

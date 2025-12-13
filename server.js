@@ -31,13 +31,27 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Server is running' });
 });
 
+// Get public configuration
+app.get('/api/config', (req, res) => {
+    const config = require('./backend/config');
+    res.json({
+        recaptchaSiteKey: config.recaptcha.siteKey
+    });
+});
+
 // Catch-all route for serving HTML pages
 app.get('*', (req, res) => {
     const requestedPath = req.path === '/' ? '/index.html' : req.path;
     const filePath = path.join(__dirname, requestedPath);
     res.sendFile(filePath, (err) => {
         if (err) {
-            res.status(404).sendFile(path.join(__dirname, '404.html'));
+            // Try to serve 404.html, or send a simple 404 response
+            const notFoundPath = path.join(__dirname, '404.html');
+            res.status(404).sendFile(notFoundPath, (err404) => {
+                if (err404) {
+                    res.status(404).send('<h1>404 - Page Not Found</h1>');
+                }
+            });
         }
     });
 });

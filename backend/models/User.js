@@ -50,7 +50,9 @@ class User {
         }
 
         // Hash password
-        const hashedPassword = await bcrypt.hash(userData.password, parseInt(process.env.BCRYPT_ROUNDS) || 10);
+        const rounds = parseInt(process.env.BCRYPT_ROUNDS);
+        const bcryptRounds = (!isNaN(rounds) && rounds >= 10 && rounds <= 15) ? rounds : 10;
+        const hashedPassword = await bcrypt.hash(userData.password, bcryptRounds);
 
         const newUser = new User({
             ...userData,
@@ -75,7 +77,9 @@ class User {
 
         // If password is being updated, hash it
         if (updates.password) {
-            updates.password = await bcrypt.hash(updates.password, parseInt(process.env.BCRYPT_ROUNDS) || 10);
+            const rounds = parseInt(process.env.BCRYPT_ROUNDS);
+            const bcryptRounds = (!isNaN(rounds) && rounds >= 10 && rounds <= 15) ? rounds : 10;
+            updates.password = await bcrypt.hash(updates.password, bcryptRounds);
         }
 
         users[normalizedEmail] = { ...users[normalizedEmail], ...updates };

@@ -4,9 +4,13 @@ class RecaptchaService {
     async verify(token, remoteIp = null) {
         const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
+        // Only bypass reCAPTCHA in explicit development mode with test keys
         if (!secretKey) {
-            console.warn('RECAPTCHA_SECRET_KEY not configured. Skipping verification in development.');
-            return { success: true, score: 1.0 };
+            if (process.env.NODE_ENV === 'development') {
+                console.warn('RECAPTCHA_SECRET_KEY not configured. Bypassing verification in development mode only.');
+                return { success: true, score: 1.0 };
+            }
+            throw new Error('reCAPTCHA secret key not configured');
         }
 
         try {

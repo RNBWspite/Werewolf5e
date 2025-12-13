@@ -20,7 +20,10 @@ class EmailService {
     }
 
     async sendPasswordResetEmail(email, token, username) {
-        const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password.html?token=${token}`;
+        // Use HTTPS by default for security, fallback to HTTP only in development
+        const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+        const defaultUrl = `${protocol}://localhost:3000`;
+        const resetUrl = `${process.env.FRONTEND_URL || defaultUrl}/reset-password.html?token=${token}`;
         
         const mailOptions = {
             from: process.env.EMAIL_FROM,

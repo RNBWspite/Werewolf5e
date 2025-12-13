@@ -39,8 +39,9 @@ router.post('/request', async (req, res) => {
 
         if (!user) {
             // Still return success to prevent user enumeration
-            // Add small delay to prevent timing attacks
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Add configurable delay to prevent timing attacks (default 1 second)
+            const delay = parseInt(process.env.TIMING_DELAY) || 1000;
+            await new Promise(resolve => setTimeout(resolve, delay));
             return res.json(genericResponse);
         }
 
