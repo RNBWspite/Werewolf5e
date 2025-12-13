@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/styles/styles.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <header class="sticky-header">
@@ -50,6 +51,7 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">Sign In</button>
                         </div>
+                        <p class="forgot-password"><button type="button" class="link-btn" id="show-forgot-password">Forgot Password?</button></p>
                     </form>
                     <p class="auth-switch">Don't have an account? <button type="button" class="link-btn" id="show-signup">Create one</button></p>
                 </div>
@@ -83,6 +85,27 @@
                         </div>
                     </form>
                     <p class="auth-switch">Already have an account? <button type="button" class="link-btn" id="show-signin">Sign in</button></p>
+                </div>
+                
+                <!-- Password Reset Form (Hidden by default) -->
+                <div class="auth-form-wrapper hidden" id="reset-wrapper">
+                    <h2>Reset Password</h2>
+                    <p class="subtitle">Enter your email address and we'll send you a link to reset your password.</p>
+                    <form id="reset-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="reset-email">Email</label>
+                            <input type="email" id="reset-email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="g-recaptcha" id="reset-recaptcha"></div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submit-reset-btn">Send Reset Link</button>
+                        </div>
+                    </form>
+                    <p class="auth-switch"><button type="button" class="link-btn" id="back-to-signin">Back to Sign In</button></p>
                 </div>
             </div>
         </section>
@@ -131,7 +154,37 @@
     </main>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load reCAPTCHA site key from backend
+            let recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'; // Default test key
+            try {
+                const configResponse = await fetch('/api/config');
+                const config = await configResponse.json();
+                recaptchaSiteKey = config.recaptchaSiteKey;
+            } catch (error) {
+                console.warn('Failed to load config, using default reCAPTCHA key');
+            }
+            
+            // Initialize reCAPTCHA when it's loaded
+            function initRecaptcha() {
+                if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
+                    const recaptchaElement = document.getElementById('reset-recaptcha');
+                    if (recaptchaElement && !recaptchaElement.hasChildNodes()) {
+                        grecaptcha.render('reset-recaptcha', {
+                            'sitekey': recaptchaSiteKey
+                        });
+                    }
+                }
+            }
+            
+            // Check if grecaptcha is already loaded
+            if (typeof grecaptcha !== 'undefined') {
+                initRecaptcha();
+            } else {
+                // Wait for grecaptcha to load
+                window.addEventListener('load', initRecaptcha);
+            }
+            
             // HTML escape utility to prevent XSS
             function escapeHtml(text) {
                 const div = document.createElement('div');
@@ -144,10 +197,14 @@
             const userView = document.getElementById('user-view');
             const signinWrapper = document.getElementById('signin-wrapper');
             const signupWrapper = document.getElementById('signup-wrapper');
+            const resetWrapper = document.getElementById('reset-wrapper');
             const signinForm = document.getElementById('signin-form');
             const signupForm = document.getElementById('signup-form');
+            const resetForm = document.getElementById('reset-form');
             const showSignupBtn = document.getElementById('show-signup');
             const showSigninBtn = document.getElementById('show-signin');
+            const showForgotPasswordBtn = document.getElementById('show-forgot-password');
+            const backToSigninBtn = document.getElementById('back-to-signin');
             const signoutBtn = document.getElementById('signout-btn');
             
             // Gaming systems configuration
@@ -232,15 +289,40 @@
             showSignupBtn.addEventListener('click', function() {
                 signinWrapper.classList.add('hidden');
                 signupWrapper.classList.remove('hidden');
+                resetWrapper.classList.add('hidden');
             });
             
             showSigninBtn.addEventListener('click', function() {
                 signupWrapper.classList.add('hidden');
                 signinWrapper.classList.remove('hidden');
+                resetWrapper.classList.add('hidden');
+                resetForm.reset();
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
+            });
+            
+            showForgotPasswordBtn.addEventListener('click', function() {
+                signinWrapper.classList.add('hidden');
+                signupWrapper.classList.add('hidden');
+                resetWrapper.classList.remove('hidden');
+                resetForm.reset();
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
+            });
+            
+            backToSigninBtn.addEventListener('click', function() {
+                resetWrapper.classList.add('hidden');
+                signinWrapper.classList.remove('hidden');
+                resetForm.reset();
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
             });
             
             // Handle Sign Up
-            signupForm.addEventListener('submit', function(e) {
+            signupForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const username = document.getElementById('signup-username').value.trim();
@@ -268,54 +350,132 @@
                     return;
                 }
                 
-                // Check if user already exists
-                const users = JSON.parse(localStorage.getItem('users') || '{}');
-                if (users[email]) {
-                    alert('An account with this email already exists. Please sign in.');
-                    return;
+                // Call backend API to create user
+                try {
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username,
+                            email,
+                            dob,
+                            password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        alert(data.error || 'Failed to create account');
+                        return;
+                    }
+                    
+                    // Save user to localStorage (for frontend compatibility)
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    
+                    alert('Account created successfully! Welcome to the pack, ' + escapeHtml(username) + '!');
+                    showUserView(data.user);
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    alert('An error occurred while creating your account. Please try again.');
                 }
-                
-                // Create new user
-                const newUser = {
-                    username: username,
-                    email: email,
-                    dob: dob,
-                    password: password, // In a real app, this would be hashed
-                    createdAt: new Date().toISOString(),
-                    characters: [],
-                    campaigns: []
-                };
-                
-                // Save user
-                users[email] = newUser;
-                localStorage.setItem('users', JSON.stringify(users));
-                
-                // Log in the new user
-                localStorage.setItem('currentUser', JSON.stringify(newUser));
-                
-                alert('Account created successfully! Welcome to the pack, ' + escapeHtml(username) + '!');
-                showUserView(newUser);
             });
             
             // Handle Sign In
-            signinForm.addEventListener('submit', function(e) {
+            signinForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const email = document.getElementById('signin-email').value.trim().toLowerCase();
                 const password = document.getElementById('signin-password').value;
                 
-                // Get users
-                const users = JSON.parse(localStorage.getItem('users') || '{}');
-                const user = users[email];
+                // Call backend API to login
+                try {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email,
+                            password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        alert(data.error || 'Invalid email or password');
+                        return;
+                    }
+                    
+                    // Log in user
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    showUserView(data.user);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('An error occurred while signing in. Please try again.');
+                }
+            });
+            
+            // Handle Password Reset - Email-based with reCAPTCHA
+            resetForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
                 
-                if (!user || user.password !== password) {
-                    alert('Invalid email or password. Please try again.');
+                const email = document.getElementById('reset-email').value.trim().toLowerCase();
+                const submitBtn = document.getElementById('submit-reset-btn');
+                
+                // Get reCAPTCHA response
+                const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : null;
+                
+                if (!recaptchaResponse) {
+                    alert('Please complete the reCAPTCHA verification.');
                     return;
                 }
                 
-                // Log in user
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                showUserView(user);
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                
+                try {
+                    const response = await fetch('/api/password-reset/request', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email,
+                            recaptchaToken: recaptchaResponse
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        alert('If an account exists with this email, a password reset link has been sent. Please check your email inbox (and spam folder).');
+                        resetForm.reset();
+                        if (typeof grecaptcha !== 'undefined') {
+                            grecaptcha.reset();
+                        }
+                        resetWrapper.classList.add('hidden');
+                        signinWrapper.classList.remove('hidden');
+                    } else {
+                        alert(data.error || 'Failed to process password reset request');
+                        if (typeof grecaptcha !== 'undefined') {
+                            grecaptcha.reset();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Password reset error:', error);
+                    alert('An error occurred. Please try again.');
+                    if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.reset();
+                    }
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Reset Link';
+                }
             });
             
             // Handle Sign Out

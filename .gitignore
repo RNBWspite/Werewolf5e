@@ -14,3 +14,10 @@ dist/
 
 # Build artifacts
 *.log
+
+# Environment variables
+.env
+
+# Backend data
+backend/data/*.json
+!backend/data/.gitkeep
