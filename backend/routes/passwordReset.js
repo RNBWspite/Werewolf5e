@@ -4,9 +4,10 @@ const User = require('../models/User');
 const PasswordReset = require('../models/PasswordReset');
 const emailService = require('../services/emailService');
 const recaptchaService = require('../services/recaptchaService');
+const { passwordResetLimiter } = require('../middleware/rateLimiter');
 
 // Request password reset
-router.post('/request', async (req, res) => {
+router.post('/request', passwordResetLimiter, async (req, res) => {
     try {
         const { email, recaptchaToken } = req.body;
 
@@ -98,7 +99,7 @@ router.post('/verify-token', async (req, res) => {
 });
 
 // Reset password
-router.post('/reset', async (req, res) => {
+router.post('/reset', passwordResetLimiter, async (req, res) => {
     try {
         const { token, newPassword, recaptchaToken } = req.body;
 

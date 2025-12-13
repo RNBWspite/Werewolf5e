@@ -18,9 +18,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files
 app.use(express.static(path.join(__dirname)));
 
-// Import routes
+// Import routes and middleware
+const { apiLimiter } = require('./backend/middleware/rateLimiter');
 const authRoutes = require('./backend/routes/auth');
 const passwordResetRoutes = require('./backend/routes/passwordReset');
+
+// Apply general rate limiting to all API routes
+app.use('/api/', apiLimiter);
 
 // API routes
 app.use('/api/auth', authRoutes);

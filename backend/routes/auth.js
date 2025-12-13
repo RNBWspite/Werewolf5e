@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const { authLimiter, registerLimiter } = require('../middleware/rateLimiter');
 
 // Register new user
-router.post('/register', async (req, res) => {
+router.post('/register', registerLimiter, async (req, res) => {
     try {
         const { username, email, dob, password } = req.body;
 
@@ -43,7 +44,7 @@ router.post('/register', async (req, res) => {
 });
 
 // Login
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
     try {
         const { email, password } = req.body;
 
