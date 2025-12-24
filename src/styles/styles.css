@@ -1236,7 +1236,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    ========================= */
 
 .account-main {
-  padding: 94px 20px 40px 20px;
+  padding: 120px 20px 40px 20px;
   min-height: calc(100vh - 80px);
   font-family: 'Special Elite', cursive;
 }
