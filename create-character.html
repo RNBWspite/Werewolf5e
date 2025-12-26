@@ -1299,7 +1299,7 @@
             let selectedSecondaryCategory = null;
             let selectedSecondaryAttributes = [];
             let selectedTertiaryAttributes = [];
-            let weakestAttribute = null;
+            // Note: weakest attribute is automatically determined as the unassigned attribute (stays at 1)
 
             // Add new steps to the steps object
             steps.attrCategory = document.getElementById('step-attr-category');
@@ -1590,12 +1590,8 @@
                     }
                     updateTertiaryCounter();
                     
-                    // Calculate weakest attribute (the one not selected from all remaining)
-                    if (selectedTertiaryAttributes.length === 4) {
-                        // Get all remaining attributes
-                        const allRemainingAttrs = getAllRemainingAttributes();
-                        weakestAttribute = allRemainingAttrs.find(a => !selectedTertiaryAttributes.includes(a));
-                    }
+                    // Note: The weakest attribute is automatically determined as the one
+                    // not selected - it will remain at the base value of 1
                     
                     document.getElementById('next-to-skill-type').disabled = selectedTertiaryAttributes.length !== 4;
                 });
@@ -2317,10 +2313,8 @@
                     characterData.attributes[attr] = 2;
                 });
                 
-                // Weakest attribute stays at 1 (automatically determined)
-                if (weakestAttribute) {
-                    characterData.attributes[weakestAttribute] = 1;
-                }
+                // Weakest attribute remains at 1 (already initialized, no action needed)
+                // The remaining unassigned attribute automatically stays at base value of 1
                 
                 // Validate that the distribution is correct
                 validateAttributeDistribution();
