@@ -279,7 +279,8 @@
                                     verification
                                 });
                                 
-                                // Show progress for large test runs (reduced frequency to improve performance)
+                                // Show progress for large test runs
+                                // Update every 300 tests to avoid performance issues from frequent DOM manipulation
                                 if (testCount % 300 === 0) {
                                     resultsDiv.innerHTML = `<div class="test-section"><h2>Running Tests... (${testCount} scenarios tested)</h2></div>`;
                                 }

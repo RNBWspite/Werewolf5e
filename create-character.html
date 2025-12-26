@@ -2341,8 +2341,15 @@
                     console.error('Expected: 1×4pts, 3×3pts, 4×2pts, 1×1pt');
                     console.error('Got:', distribution);
                     console.error('Attributes:', characterData.attributes);
-                    // Alert user of the issue
-                    alert('Error: Character attribute distribution is invalid. Please refresh and try again.');
+                    console.error('This is a bug in the character creation system. Please report this issue.');
+                    // Alert user of the issue with actionable guidance
+                    alert('Error: Character attributes are invalid.\n\n' +
+                          'Expected: 1 attr at 4 pts, 3 attrs at 3 pts, 4 attrs at 2 pts, 1 attr at 1 pt\n' +
+                          'This is a system error. Please:\n' +
+                          '1. Take a screenshot\n' +
+                          '2. Note your selections\n' +
+                          '3. Report this bug\n' +
+                          '4. Refresh and try again');
                     return false;
                 }
                 
