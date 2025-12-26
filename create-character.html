@@ -2044,6 +2044,8 @@
             let currentInitialChoice = null;
             let backstoryFragments = [];
             let generatedBackstory = '';
+            let requiredDistribution = {}; // e.g., { 3: 1, 2: 8, 1: 10 }
+            let currentDistribution = {}; // e.g., { 3: 0, 2: 0, 1: 4 }
 
             // Initialize skills with base values
             function initializeSkills() {
@@ -2051,6 +2053,52 @@
                 Object.keys(allSkills).forEach(skill => {
                     skillPoints[skill] = allSkills[skill].base;
                 });
+            }
+            
+            // Get current skill distribution
+            function getCurrentDistribution() {
+                const dist = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+                Object.values(skillPoints).forEach(val => {
+                    dist[val]++;
+                });
+                return dist;
+            }
+            
+            // Check if a skill can accept more points
+            function canAddPointToSkill(skill) {
+                const currentValue = skillPoints[skill];
+                
+                // Max skill value is 5
+                if (currentValue >= 5) return false;
+                
+                // Check if we need more skills at (currentValue + 1)
+                const targetValue = currentValue + 1;
+                const currentDist = getCurrentDistribution();
+                
+                // If we need more skills at this level, allow it
+                if (requiredDistribution[targetValue] && currentDist[targetValue] < requiredDistribution[targetValue]) {
+                    return true;
+                }
+                
+                return false;
+            }
+            
+            // Check if skill distribution is complete
+            function isDistributionComplete() {
+                const currentDist = getCurrentDistribution();
+                
+                for (let level in requiredDistribution) {
+                    if (currentDist[level] < requiredDistribution[level]) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+            
+            // Get skills that can still receive points
+            function getAvailableSkills() {
+                return Object.keys(skillPoints).filter(skill => canAddPointToSkill(skill));
             }
 
             // Add steps to steps object
@@ -2096,11 +2144,16 @@
             // Initialize skills questionnaire
             function initializeSkillsQuestionnaire() {
                 initializeSkills();
+                
+                // Set required distribution based on skill type
+                requiredDistribution = skillDistributions[selectedSkillType].distribution;
                 totalSkillPointsRemaining = skillDistributions[selectedSkillType].totalPoints;
+                
                 currentScenarioIndex = 0;
                 currentScenarioPhase = 'initial';
                 currentInitialChoice = null;
                 backstoryFragments = [];
+                
                 renderSkillQuestion();
             }
 
@@ -2109,25 +2162,62 @@
                 const container = document.getElementById('skill-question-container');
                 const progress = document.getElementById('skill-progress');
                 const pointsDisplay = document.getElementById('skill-points-remaining');
-                const scenario = skillScenarios[currentScenarioIndex];
                 
-                progress.textContent = `Scenario ${currentScenarioIndex + 1} of ${skillScenarios.length}`;
-                pointsDisplay.textContent = `Points remaining: ${totalSkillPointsRemaining}`;
+                // Check if distribution is complete
+                if (isDistributionComplete()) {
+                    displaySkillsResult();
+                    showStep(steps.skillsQuest, steps.skillsResult);
+                    return;
+                }
+                
+                // Cycle through scenarios, wrapping around if needed
+                const scenario = skillScenarios[currentScenarioIndex % skillScenarios.length];
+                
+                progress.textContent = `Scenario ${Math.floor(currentScenarioIndex / skillScenarios.length) * skillScenarios.length + (currentScenarioIndex % skillScenarios.length) + 1}`;
+                
+                // Update points display with distribution info
+                const currentDist = getCurrentDistribution();
+                let distText = '';
+                for (let level = 5; level >= 1; level--) {
+                    if (requiredDistribution[level]) {
+                        distText += `${level} pts: ${currentDist[level]}/${requiredDistribution[level]}  `;
+                    }
+                }
+                pointsDisplay.textContent = distText.trim();
                 
                 container.innerHTML = '';
+                
+                const availableSkills = getAvailableSkills();
                 
                 if (currentScenarioPhase === 'initial') {
                     // Show initial question
                     document.getElementById('skills-quest-prompt').textContent = "The elder leans forward, eyes gleaming with curiosity. \"Now let me see what life has taught you...\"";
                     document.getElementById('skills-quest-question').textContent = `"${scenario.prompt}"`;
                     
-                    scenario.initialChoices.forEach((choice, index) => {
+                    // Filter initial choices to only show those with available skills
+                    const validChoices = scenario.initialChoices.filter(choice => {
+                        return choice.skills.some(skill => availableSkills.includes(skill));
+                    });
+                    
+                    if (validChoices.length === 0) {
+                        // No valid choices, skip to next scenario
+                        currentScenarioIndex++;
+                        currentScenarioPhase = 'initial';
+                        renderSkillQuestion();
+                        return;
+                    }
+                    
+                    validChoices.forEach((choice, index) => {
                         const btn = document.createElement('button');
                         btn.type = 'button';
                         btn.className = 'choice-btn skill-answer-btn';
+                        
+                        // Filter skills to only show available ones
+                        const availableChoiceSkills = choice.skills.filter(s => availableSkills.includes(s));
+                        
                         btn.innerHTML = `
                             <span class="choice-text">${choice.text}</span>
-                            <span class="skill-hints">(Related: ${choice.skills.map(s => allSkills[s].name).join(', ')})</span>
+                            <span class="skill-hints">(Related: ${availableChoiceSkills.map(s => allSkills[s].name).join(', ')})</span>
                         `;
                         btn.addEventListener('click', function() {
                             container.querySelectorAll('.skill-answer-btn').forEach(b => b.classList.remove('selected'));
@@ -2142,7 +2232,21 @@
                     document.getElementById('skills-quest-prompt').textContent = "The elder nods slowly, considering your words...";
                     document.getElementById('skills-quest-question').textContent = `"${currentInitialChoice.followUp.prompt}"`;
                     
-                    currentInitialChoice.followUp.choices.forEach((choice, index) => {
+                    // Filter follow-up choices to only show available skills
+                    const validFollowUps = currentInitialChoice.followUp.choices.filter(choice => {
+                        return availableSkills.includes(choice.skill);
+                    });
+                    
+                    if (validFollowUps.length === 0) {
+                        // No valid follow-ups, move to next scenario
+                        currentScenarioIndex++;
+                        currentScenarioPhase = 'initial';
+                        currentInitialChoice = null;
+                        renderSkillQuestion();
+                        return;
+                    }
+                    
+                    validFollowUps.forEach((choice, index) => {
                         const btn = document.createElement('button');
                         btn.type = 'button';
                         btn.className = 'choice-btn skill-answer-btn';
@@ -2165,8 +2269,6 @@
                 const nextBtn = document.getElementById('next-skill-question');
                 if (currentScenarioPhase === 'initial') {
                     nextBtn.textContent = 'Continue';
-                } else if (currentScenarioIndex === skillScenarios.length - 1) {
-                    nextBtn.textContent = 'See Results';
                 } else {
                     nextBtn.textContent = 'Next Scenario';
                 }
@@ -2188,27 +2290,27 @@
                         const skill = selectedBtn.dataset.selectedSkill;
                         const backstory = selectedBtn.dataset.backstory;
                         
-                        // Add point to skill if we have points remaining
-                        if (totalSkillPointsRemaining > 0) {
+                        // Add point to skill if allowed
+                        if (canAddPointToSkill(skill)) {
                             skillPoints[skill]++;
                             totalSkillPointsRemaining--;
                         }
                         
                         // Add to backstory
-                        const scenario = skillScenarios[currentScenarioIndex];
+                        const scenario = skillScenarios[currentScenarioIndex % skillScenarios.length];
                         backstoryFragments.push(`${scenario.backstoryIntro} ${currentInitialChoice.backstory}, ${backstory}`);
                     }
                     
-                    // Move to next scenario or show results
-                    if (currentScenarioIndex < skillScenarios.length - 1) {
+                    // Check if distribution is complete
+                    if (isDistributionComplete()) {
+                        displaySkillsResult();
+                        showStep(steps.skillsQuest, steps.skillsResult);
+                    } else {
+                        // Move to next scenario
                         currentScenarioIndex++;
                         currentScenarioPhase = 'initial';
                         currentInitialChoice = null;
                         renderSkillQuestion();
-                    } else {
-                        // Show results
-                        displaySkillsResult();
-                        showStep(steps.skillsQuest, steps.skillsResult);
                     }
                 }
             });
