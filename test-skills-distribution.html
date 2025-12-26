@@ -193,37 +193,33 @@
             output.push('</pre>');
             output.push('</details>');
             
-            return allMatch;
+            return { success: allMatch, html: output.join('') };
         }
         
         // Run all tests
-        const output = document.getElementById('output');
-        const results = [];
+        const resultsHtml = [];
+        const testResults = [];
         
         for (let type in skillDistributions) {
             const result = testDistributionType(type, skillDistributions[type]);
-            results.push(result);
-            output.innerHTML += `<div class="test-section">${output.innerHTML}</div>`;
-            output.innerHTML = '';
+            testResults.push(result.success);
+            resultsHtml.push(`<div class="test-section">${result.html}</div>`);
         }
         
-        // Summary
-        const allPassed = results.every(r => r);
-        output.innerHTML = `
+        // Display summary
+        const allPassed = testResults.every(r => r);
+        resultsHtml.unshift(`
             <div class="test-section">
                 <h2 class="${allPassed ? 'pass' : 'fail'}">
                     ${allPassed ? '✓ ALL TESTS PASSED' : '✗ SOME TESTS FAILED'}
                 </h2>
-                <p>Jack of All Trades: ${results[0] ? 'PASS ✓' : 'FAIL ✗'}</p>
-                <p>Balanced: ${results[1] ? 'PASS ✓' : 'FAIL ✗'}</p>
-                <p>Specialist: ${results[2] ? 'PASS ✓' : 'FAIL ✗'}</p>
+                <p>Jack of All Trades: ${testResults[0] ? 'PASS ✓' : 'FAIL ✗'}</p>
+                <p>Balanced: ${testResults[1] ? 'PASS ✓' : 'FAIL ✗'}</p>
+                <p>Specialist: ${testResults[2] ? 'PASS ✓' : 'FAIL ✗'}</p>
             </div>
-        ` + document.getElementById('output').innerHTML;
+        `);
         
-        // Re-run tests for display
-        for (let type in skillDistributions) {
-            testDistributionType(type, skillDistributions[type]);
-        }
+        document.getElementById('output').innerHTML = resultsHtml.join('');
     </script>
 </body>
 </html>

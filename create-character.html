@@ -2173,7 +2173,7 @@
                 // Cycle through scenarios, wrapping around if needed
                 const scenario = skillScenarios[currentScenarioIndex % skillScenarios.length];
                 
-                progress.textContent = `Scenario ${Math.floor(currentScenarioIndex / skillScenarios.length) * skillScenarios.length + (currentScenarioIndex % skillScenarios.length) + 1}`;
+                progress.textContent = `Scenario ${(currentScenarioIndex % skillScenarios.length) + 1}`;
                 
                 // Update points display with distribution info
                 const currentDist = getCurrentDistribution();
@@ -2215,17 +2215,20 @@
                         // Filter skills to only show available ones
                         const availableChoiceSkills = choice.skills.filter(s => availableSkills.includes(s));
                         
-                        btn.innerHTML = `
-                            <span class="choice-text">${choice.text}</span>
-                            <span class="skill-hints">(Related: ${availableChoiceSkills.map(s => allSkills[s].name).join(', ')})</span>
-                        `;
-                        btn.addEventListener('click', function() {
-                            container.querySelectorAll('.skill-answer-btn').forEach(b => b.classList.remove('selected'));
-                            btn.classList.add('selected');
-                            currentInitialChoice = choice;
-                            document.getElementById('next-skill-question').disabled = false;
-                        });
-                        container.appendChild(btn);
+                        // Only show button if there are available skills
+                        if (availableChoiceSkills.length > 0) {
+                            btn.innerHTML = `
+                                <span class="choice-text">${choice.text}</span>
+                                <span class="skill-hints">(Related: ${availableChoiceSkills.map(s => allSkills[s].name).join(', ')})</span>
+                            `;
+                            btn.addEventListener('click', function() {
+                                container.querySelectorAll('.skill-answer-btn').forEach(b => b.classList.remove('selected'));
+                                btn.classList.add('selected');
+                                currentInitialChoice = choice;
+                                document.getElementById('next-skill-question').disabled = false;
+                            });
+                            container.appendChild(btn);
+                        }
                     });
                 } else {
                     // Show follow-up question
