@@ -105,14 +105,14 @@
             
             // Shared skill categories mapping
             const SKILL_CATEGORIES = {
-                athletics: 'physical', brawl: 'physical', firearms: 'physical',
+                athletics: 'physical', brawl: 'physical', driving: 'physical', firearms: 'physical',
                 larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
-                empathy: 'social', etiquette: 'social', intimidation: 'social',
+                'animal ken': 'social', etiquette: 'social', insight: 'social', intimidation: 'social',
                 leadership: 'social', performance: 'social', persuasion: 'social',
                 streetwise: 'social', subterfuge: 'social',
-                academics: 'mental', awareness: 'mental', craft: 'mental',
-                insight: 'mental', investigation: 'mental', medicine: 'mental',
-                occult: 'mental', science: 'mental', technology: 'mental'
+                academics: 'mental', awareness: 'mental', craft: 'mental', finance: 'mental',
+                investigation: 'mental', medicine: 'mental', occult: 'mental', politics: 'mental',
+                science: 'mental', technology: 'mental'
             };
             
             // DOM Elements
@@ -767,14 +767,14 @@
                 if (character.skills) {
                     const skillsByCategory = { physical: [], social: [], mental: [] };
                     const skillCategories = {
-                        athletics: 'physical', brawl: 'physical', firearms: 'physical',
+                        athletics: 'physical', brawl: 'physical', driving: 'physical', firearms: 'physical',
                         larceny: 'physical', melee: 'physical', stealth: 'physical', survival: 'physical',
-                        empathy: 'social', etiquette: 'social', intimidation: 'social',
+                        'animal ken': 'social', etiquette: 'social', insight: 'social', intimidation: 'social',
                         leadership: 'social', performance: 'social', persuasion: 'social',
                         streetwise: 'social', subterfuge: 'social',
-                        academics: 'mental', awareness: 'mental', craft: 'mental',
-                        insight: 'mental', investigation: 'mental', medicine: 'mental',
-                        occult: 'mental', science: 'mental', technology: 'mental'
+                        academics: 'mental', awareness: 'mental', craft: 'mental', finance: 'mental',
+                        investigation: 'mental', medicine: 'mental', occult: 'mental', politics: 'mental',
+                        science: 'mental', technology: 'mental'
                     };
                     
                     Object.entries(character.skills).forEach(([skill, value]) => {
