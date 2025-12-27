@@ -428,7 +428,7 @@ button.ttrpg-button {
 .character-form-container {
   max-width: 1000px;
   margin: 0 auto;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 40px;
   border-radius: 0;
   backdrop-filter: none;
@@ -449,7 +449,7 @@ button.ttrpg-button {
 .form-group label {
   font-weight: bold;
   color: #ffffff;
-  font-family: 'Special Elite', cursive;
+  font-family: 'Syne Mono', monospace;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -461,7 +461,7 @@ button.ttrpg-button {
   background-color: rgba(0, 0, 0, 0.3);
   color: #ffffff;
   font-size: 16px;
-  font-family: 'Special Elite', cursive;
+  font-family: 'Syne Mono', monospace;
 }
 
 .form-group input:focus,
@@ -473,7 +473,7 @@ button.ttrpg-button {
 
 .form-group input::placeholder {
   color: rgba(255, 255, 255, 0.5);
-  font-family: 'Special Elite', cursive;
+  font-family: 'Syne Mono', monospace;
 }
 
 .form-actions {
@@ -492,7 +492,7 @@ button.ttrpg-button {
   cursor: pointer;
   border: none;
   transition: all 0.3s ease;
-  font-family: 'Special Elite', cursive;
+  font-family: 'Syne Mono', monospace;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -604,7 +604,7 @@ button.ttrpg-button {
   margin-bottom: 15px;
   line-height: 1.8;
   font-size: 18px;
-  font-family: 'Special Elite', cursive;
+  font-family: 'Syne Mono', monospace;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   opacity: 0.9;
 }
@@ -615,7 +615,7 @@ button.ttrpg-button {
   font-weight: bold;
   margin-bottom: 0;
   line-height: 1.5;
-  font-family: 'Special Elite', cursive;
+  font-family: 'Syne Mono', monospace;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
@@ -640,7 +640,7 @@ button.ttrpg-button {
   border: 1px solid rgba(107, 142, 35, 0.6);
   border-radius: 4px;
   font-size: 16px;
-  font-family: 'Special Elite', cursive;
+  font-family: 'Syne Mono', monospace;
   cursor: pointer;
   transition: all 0.3s ease;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
