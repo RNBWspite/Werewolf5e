@@ -1647,21 +1647,24 @@
                 performance: { name: 'Performance', base: 1, category: 'social' },
                 science: { name: 'Science', base: 1, category: 'mental' },
                 // All other skills
+                'animal ken': { name: 'Animal Ken', base: 0, category: 'social' },
                 athletics: { name: 'Athletics', base: 0, category: 'physical' },
                 awareness: { name: 'Awareness', base: 0, category: 'mental' },
                 brawl: { name: 'Brawl', base: 0, category: 'physical' },
-                empathy: { name: 'Empathy', base: 0, category: 'social' },
+                driving: { name: 'Driving', base: 0, category: 'physical' },
                 etiquette: { name: 'Etiquette', base: 0, category: 'social' },
+                finance: { name: 'Finance', base: 0, category: 'mental' },
                 firearms: { name: 'Firearms', base: 0, category: 'physical' },
-                insight: { name: 'Insight', base: 0, category: 'mental' },
+                insight: { name: 'Insight', base: 0, category: 'social' },
                 intimidation: { name: 'Intimidation', base: 0, category: 'social' },
                 investigation: { name: 'Investigation', base: 0, category: 'mental' },
-                leadership: { name: 'Leadership', base: 0, category: 'social' },
                 larceny: { name: 'Larceny', base: 0, category: 'physical' },
+                leadership: { name: 'Leadership', base: 0, category: 'social' },
                 medicine: { name: 'Medicine', base: 0, category: 'mental' },
                 melee: { name: 'Melee', base: 0, category: 'physical' },
                 occult: { name: 'Occult', base: 0, category: 'mental' },
                 persuasion: { name: 'Persuasion', base: 0, category: 'social' },
+                politics: { name: 'Politics', base: 0, category: 'mental' },
                 stealth: { name: 'Stealth', base: 0, category: 'physical' },
                 streetwise: { name: 'Streetwise', base: 0, category: 'social' },
                 subterfuge: { name: 'Subterfuge', base: 0, category: 'social' },
@@ -1746,12 +1749,12 @@
                     initialChoices: [
                         { 
                             text: "Sit them down and have an honest heart-to-heart conversation.",
-                            skills: ['empathy', 'persuasion', 'insight', 'leadership'],
+                            skills: ['animal ken', 'persuasion', 'insight', 'leadership'],
                             backstory: "you confronted them directly",
                             followUp: {
                                 prompt: "They're defensive, clearly hiding something. How do you get through to them?",
                                 choices: [
-                                    { text: "Show them you understand their pain and create a safe space.", skill: 'empathy', backstory: "and your compassion broke through their walls." },
+                                    { text: "Show them you understand their pain and create a safe space.", skill: 'animal ken', backstory: "and your compassion broke through their walls." },
                                     { text: "Convince them that whatever it is, you'll face it together.", skill: 'persuasion', backstory: "and your words reminded them they weren't alone." },
                                     { text: "Read between the lines of what they're saying.", skill: 'insight', backstory: "and you saw the truth they couldn't speak." },
                                     { text: "Take charge and tell them you're not leaving until they talk.", skill: 'leadership', backstory: "and your determination wouldn't let them hide." }
@@ -1872,14 +1875,14 @@
                         },
                         { 
                             text: "Look for signs of other people or civilization.",
-                            skills: ['streetwise', 'investigation', 'empathy', 'persuasion'],
+                            skills: ['streetwise', 'investigation', 'animal ken', 'persuasion'],
                             backstory: "you searched for signs of other people",
                             followUp: {
                                 prompt: "You find a remote cabin with a light in the window. What do you do?",
                                 choices: [
                                     { text: "Approach carefully—you know how to read dangerous situations.", skill: 'streetwise', backstory: "and your street smarts told you it was safe." },
                                     { text: "Look for clues about who lives here before approaching.", skill: 'investigation', backstory: "and you confirmed it was safe before knocking." },
-                                    { text: "Approach openly and appeal to their compassion.", skill: 'empathy', backstory: "and they took pity on a fellow traveler." },
+                                    { text: "Approach openly and appeal to their compassion.", skill: 'animal ken', backstory: "and they took pity on a fellow traveler." },
                                     { text: "Knock and convince them to let you in.", skill: 'persuasion', backstory: "and your words earned you shelter from the storm." }
                                 ]
                             }
@@ -1921,14 +1924,14 @@
                         },
                         { 
                             text: "Work within the community to expose them.",
-                            skills: ['streetwise', 'performance', 'empathy', 'leadership'],
+                            skills: ['streetwise', 'performance', 'animal ken', 'leadership'],
                             backstory: "you turned the community against them",
                             followUp: {
                                 prompt: "The community is listening. How do you spread the word?",
                                 choices: [
                                     { text: "Use your street connections to get the word out.", skill: 'streetwise', backstory: "and the word spread through the underground." },
                                     { text: "Organize a public demonstration to draw attention.", skill: 'performance', backstory: "and your protest made headlines." },
-                                    { text: "Connect with those they've hurt and give them a voice.", skill: 'empathy', backstory: "and the victims found the courage to speak out." },
+                                    { text: "Connect with those they've hurt and give them a voice.", skill: 'animal ken', backstory: "and the victims found the courage to speak out." },
                                     { text: "Unite neighborhood leaders to take collective action.", skill: 'leadership', backstory: "and the community stood together against corruption." }
                                 ]
                             }
@@ -1956,13 +1959,13 @@
                         },
                         { 
                             text: "How to read people and navigate social situations.",
-                            skills: ['insight', 'empathy', 'subterfuge', 'etiquette'],
+                            skills: ['insight', 'animal ken', 'subterfuge', 'etiquette'],
                             backstory: "you taught them the art of understanding people",
                             followUp: {
                                 prompt: "What skill will serve them best?",
                                 choices: [
                                     { text: "How to tell when someone is lying.", skill: 'insight', backstory: "teaching them to see through deception." },
-                                    { text: "How to connect with people on an emotional level.", skill: 'empathy', backstory: "showing them how to truly understand others." },
+                                    { text: "How to connect with people and animals on an emotional level.", skill: 'animal ken', backstory: "showing them how to truly understand others." },
                                     { text: "How to blend in and play different roles.", skill: 'subterfuge', backstory: "teaching them the power of misdirection." },
                                     { text: "How to behave appropriately in any social setting.", skill: 'etiquette', backstory: "ensuring they could navigate any crowd." }
                                 ]
@@ -2005,13 +2008,13 @@
                         },
                         { 
                             text: "The healing arts and care for the wounded.",
-                            skills: ['medicine', 'empathy', 'science', 'craft'],
+                            skills: ['medicine', 'animal ken', 'science', 'craft'],
                             backstory: "you chose to learn the healing arts",
                             followUp: {
                                 prompt: "What aspect of healing speaks to you?",
                                 choices: [
                                     { text: "Emergency medicine and trauma care.", skill: 'medicine', backstory: "learning to save lives in critical moments." },
-                                    { text: "The emotional support that aids recovery.", skill: 'empathy', backstory: "understanding that healing is more than physical." },
+                                    { text: "The emotional support and understanding that aids recovery.", skill: 'animal ken', backstory: "understanding that healing is more than physical." },
                                     { text: "The science behind disease and treatment.", skill: 'science', backstory: "studying the mechanisms of the body." },
                                     { text: "Creating medicines and medical tools.", skill: 'craft', backstory: "learning to make the tools of healing." }
                                 ]
@@ -2028,6 +2031,251 @@
                                     { text: "Through fear and commanding presence.", skill: 'intimidation', backstory: "mastering the power of fear." },
                                     { text: "Through misdirection and manipulation.", skill: 'subterfuge', backstory: "learning to pull strings from the shadows." },
                                     { text: "Through inspiring and directing others.", skill: 'leadership', backstory: "becoming someone others would follow." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 8,
+                    prompt: "You're being chased through the city by unknown pursuers. How do you escape?",
+                    backstoryIntro: "When danger followed you through the streets...",
+                    initialChoices: [
+                        { 
+                            text: "Get to your vehicle and lose them in traffic.",
+                            skills: ['driving', 'awareness', 'athletics', 'streetwise'],
+                            backstory: "you relied on your wheels and wits",
+                            followUp: {
+                                prompt: "They're still on your tail. What's your move?",
+                                choices: [
+                                    { text: "Execute a series of dangerous maneuvers to lose them.", skill: 'driving', backstory: "and your driving skills left them in the dust." },
+                                    { text: "Watch for opportunities and openings in the chase.", skill: 'awareness', backstory: "and you spotted the perfect escape route." },
+                                    { text: "Abandon the vehicle and flee on foot through tight spaces.", skill: 'athletics', backstory: "and you vanished into the urban maze." },
+                                    { text: "Use your knowledge of the streets to find shortcuts.", skill: 'streetwise', backstory: "and the city's secrets kept you safe." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Duck into a crowded area and blend in.",
+                            skills: ['stealth', 'subterfuge', 'insight', 'etiquette'],
+                            backstory: "you disappeared into the crowd",
+                            followUp: {
+                                prompt: "You've lost them temporarily. How do you ensure they don't find you?",
+                                choices: [
+                                    { text: "Move silently and stay in the shadows.", skill: 'stealth', backstory: "and you became invisible in plain sight." },
+                                    { text: "Change your appearance and behavior quickly.", skill: 'subterfuge', backstory: "and they walked right past you." },
+                                    { text: "Read the crowd to predict their search pattern.", skill: 'insight', backstory: "and you stayed one step ahead." },
+                                    { text: "Act like you belong in this upscale venue.", skill: 'etiquette', backstory: "and your cultured manner was the perfect disguise." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Confront them and demand to know what they want.",
+                            skills: ['intimidation', 'brawl', 'persuasion', 'leadership'],
+                            backstory: "you turned to face your pursuers",
+                            followUp: {
+                                prompt: "They're not backing down. What's your next move?",
+                                choices: [
+                                    { text: "Make them fear the consequences of continuing.", skill: 'intimidation', backstory: "and your fierce presence made them reconsider." },
+                                    { text: "Show them you're ready to fight if necessary.", skill: 'brawl', backstory: "and they decided you weren't worth the trouble." },
+                                    { text: "Talk them down and find out what they really want.", skill: 'persuasion', backstory: "and words resolved what violence couldn't." },
+                                    { text: "Take command of the situation and set the terms.", skill: 'leadership', backstory: "and your authority shifted the dynamic." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 9,
+                    prompt: "You discover your family's estate is in financial trouble. How do you save it?",
+                    backstoryIntro: "When financial ruin threatened what you held dear...",
+                    initialChoices: [
+                        { 
+                            text: "Analyze the finances and create a recovery plan.",
+                            skills: ['finance', 'academics', 'investigation', 'technology'],
+                            backstory: "you dove into the numbers",
+                            followUp: {
+                                prompt: "You've identified the problems. How do you fix them?",
+                                choices: [
+                                    { text: "Restructure the investments and cut unnecessary expenses.", skill: 'finance', backstory: "and your financial acumen turned things around." },
+                                    { text: "Research similar cases and apply proven solutions.", skill: 'academics', backstory: "and knowledge from history guided you." },
+                                    { text: "Investigate who or what caused this crisis.", skill: 'investigation', backstory: "and uncovering the truth led to recovery." },
+                                    { text: "Use financial software to optimize everything.", skill: 'technology', backstory: "and technology revealed the path forward." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Negotiate with creditors and investors.",
+                            skills: ['persuasion', 'etiquette', 'subterfuge', 'leadership'],
+                            backstory: "you dealt with those who held the purse strings",
+                            followUp: {
+                                prompt: "The negotiations are tense. How do you secure better terms?",
+                                choices: [
+                                    { text: "Convince them that helping you benefits everyone.", skill: 'persuasion', backstory: "and your arguments won them over." },
+                                    { text: "Navigate the social dynamics of high finance.", skill: 'etiquette', backstory: "and your grace earned their cooperation." },
+                                    { text: "Conceal the full extent of the problems while you fix them.", skill: 'subterfuge', backstory: "and what they didn't know bought you time." },
+                                    { text: "Project confidence and take control of the discussion.", skill: 'leadership', backstory: "and they followed your vision." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Find alternative sources of income quickly.",
+                            skills: ['streetwise', 'larceny', 'craft', 'performance'],
+                            backstory: "you sought unconventional solutions",
+                            followUp: {
+                                prompt: "Desperate times call for creative measures. What do you do?",
+                                choices: [
+                                    { text: "Use your street connections to find lucrative opportunities.", skill: 'streetwise', backstory: "and the underground economy saved you." },
+                                    { text: "Acquire valuable items through questionable means.", skill: 'larceny', backstory: "and you did what was necessary." },
+                                    { text: "Create and sell handmade goods.", skill: 'craft', backstory: "and your craftsmanship became profitable." },
+                                    { text: "Put on shows or events to raise money.", skill: 'performance', backstory: "and your talent brought in the funds." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 10,
+                    prompt: "A local election could change everything for your community. How do you get involved?",
+                    backstoryIntro: "When politics threatened to reshape your world...",
+                    initialChoices: [
+                        { 
+                            text: "Work behind the scenes to influence the outcome.",
+                            skills: ['politics', 'subterfuge', 'persuasion', 'finance'],
+                            backstory: "you played the political game",
+                            followUp: {
+                                prompt: "The campaign needs your expertise. What's your contribution?",
+                                choices: [
+                                    { text: "Navigate the complex political landscape and broker deals.", skill: 'politics', backstory: "and your political savvy made the difference." },
+                                    { text: "Operate in the shadows to undermine opposition.", skill: 'subterfuge', backstory: "and your hidden actions swayed the result." },
+                                    { text: "Convince key stakeholders to support your candidate.", skill: 'persuasion', backstory: "and you won crucial endorsements." },
+                                    { text: "Manage campaign funds and fundraising efforts.", skill: 'finance', backstory: "and money talks in politics." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Rally the community to vote for change.",
+                            skills: ['leadership', 'performance', 'streetwise', 'animal ken'],
+                            backstory: "you mobilized the people",
+                            followUp: {
+                                prompt: "How do you get people to the polls?",
+                                choices: [
+                                    { text: "Lead by example and organize grassroots efforts.", skill: 'leadership', backstory: "and people followed your call to action." },
+                                    { text: "Give passionate speeches that inspire action.", skill: 'performance', backstory: "and your words moved hearts and minds." },
+                                    { text: "Work the streets and connect with ordinary voters.", skill: 'streetwise', backstory: "and you spoke their language." },
+                                    { text: "Build genuine connections with community members.", skill: 'animal ken', backstory: "and your empathy united diverse voices." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Investigate and expose corruption in the opposition.",
+                            skills: ['investigation', 'technology', 'academics', 'awareness'],
+                            backstory: "you dug for the truth",
+                            followUp: {
+                                prompt: "You've found evidence of wrongdoing. How do you expose it?",
+                                choices: [
+                                    { text: "Build an ironclad case with all the evidence.", skill: 'investigation', backstory: "and the facts spoke for themselves." },
+                                    { text: "Use digital forensics to prove your claims.", skill: 'technology', backstory: "and the data told the whole story." },
+                                    { text: "Present a thoroughly researched exposé.", skill: 'academics', backstory: "and your scholarship was unassailable." },
+                                    { text: "Stay vigilant for attempts to cover it up.", skill: 'awareness', backstory: "and you caught them in the act." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 11,
+                    prompt: "A wounded animal appears at your door during a storm. What do you do?",
+                    backstoryIntro: "When a creature in need found you...",
+                    initialChoices: [
+                        { 
+                            text: "Bring it inside and tend to its wounds.",
+                            skills: ['animal ken', 'medicine', 'survival', 'craft'],
+                            backstory: "you opened your home to help",
+                            followUp: {
+                                prompt: "The animal is frightened and in pain. How do you help?",
+                                choices: [
+                                    { text: "Calm the animal and earn its trust.", skill: 'animal ken', backstory: "and your gentle touch soothed its fear." },
+                                    { text: "Treat its injuries with medical knowledge.", skill: 'medicine', backstory: "and your healing skills saved its life." },
+                                    { text: "Use wilderness knowledge to help it recover.", skill: 'survival', backstory: "and your understanding of nature guided you." },
+                                    { text: "Create a shelter and supplies for its recovery.", skill: 'craft', backstory: "and you built what it needed to heal." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Assess the situation carefully before acting.",
+                            skills: ['awareness', 'insight', 'investigation', 'science'],
+                            backstory: "you proceeded with caution",
+                            followUp: {
+                                prompt: "You need to understand what happened. What's your approach?",
+                                choices: [
+                                    { text: "Observe its behavior and the surrounding area.", skill: 'awareness', backstory: "and you spotted signs of what had occurred." },
+                                    { text: "Read the animal's body language and condition.", skill: 'insight', backstory: "and you understood its needs without words." },
+                                    { text: "Look for clues about how it was injured.", skill: 'investigation', backstory: "and the evidence told the story." },
+                                    { text: "Examine it systematically to understand the injury.", skill: 'science', backstory: "and scientific method revealed the solution." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Contact someone who can help.",
+                            skills: ['technology', 'etiquette', 'persuasion', 'politics'],
+                            backstory: "you reached out for expert help",
+                            followUp: {
+                                prompt: "Getting help isn't easy. How do you make it happen?",
+                                choices: [
+                                    { text: "Use your phone and internet to find resources.", skill: 'technology', backstory: "and modern tools connected you to help." },
+                                    { text: "Navigate the social networks of animal rescue.", skill: 'etiquette', backstory: "and you knew who to call and how to ask." },
+                                    { text: "Convince professionals to come out in the storm.", skill: 'persuasion', backstory: "and your plea moved them to action." },
+                                    { text: "Pull strings with local authorities to get assistance.", skill: 'politics', backstory: "and your connections made things happen." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 12,
+                    prompt: "You need to get across town fast, but there's a major event blocking all the roads. How do you do it?",
+                    backstoryIntro: "When time was running out and the way was blocked...",
+                    initialChoices: [
+                        { 
+                            text: "Navigate through the chaos with skill and daring.",
+                            skills: ['driving', 'athletics', 'survival', 'awareness'],
+                            backstory: "you found a way through the impossible",
+                            followUp: {
+                                prompt: "The obstacles keep coming. How do you overcome them?",
+                                choices: [
+                                    { text: "Use advanced driving techniques to navigate tight spaces.", skill: 'driving', backstory: "and your vehicle became an extension of yourself." },
+                                    { text: "Abandon your vehicle and parkour across rooftops.", skill: 'athletics', backstory: "and you flew across the urban landscape." },
+                                    { text: "Use your knowledge of the terrain to find alternate routes.", skill: 'survival', backstory: "and instinct guided you through." },
+                                    { text: "Stay alert and spot opportunities as they appear.", skill: 'awareness', backstory: "and you seized every chance." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Use your connections to get special access.",
+                            skills: ['politics', 'streetwise', 'persuasion', 'subterfuge'],
+                            backstory: "you called in favors",
+                            followUp: {
+                                prompt: "Who do you contact to make this happen?",
+                                choices: [
+                                    { text: "Reach out to someone with official authority.", skill: 'politics', backstory: "and political connections opened doors." },
+                                    { text: "Contact your street-level connections for insider routes.", skill: 'streetwise', backstory: "and the underground showed you the way." },
+                                    { text: "Talk your way past security and barriers.", skill: 'persuasion', backstory: "and your silver tongue gained you passage." },
+                                    { text: "Use misdirection to get past checkpoints.", skill: 'subterfuge', backstory: "and they never questioned your presence." }
+                                ]
+                            }
+                        },
+                        { 
+                            text: "Find a completely different method of travel.",
+                            skills: ['technology', 'finance', 'larceny', 'craft'],
+                            backstory: "you thought outside the box",
+                            followUp: {
+                                prompt: "Unconventional methods require creativity. What do you do?",
+                                choices: [
+                                    { text: "Use an app to call an alternative transport service.", skill: 'technology', backstory: "and the digital age provided a solution." },
+                                    { text: "Pay for private transport that can bypass the blockage.", skill: 'finance', backstory: "and money bought you speed." },
+                                    { text: "Borrow a vehicle without asking first.", skill: 'larceny', backstory: "and you'd return it later, probably." },
+                                    { text: "Quickly build or modify something to get you there.", skill: 'craft', backstory: "and your ingenuity created the impossible." }
                                 ]
                             }
                         }
