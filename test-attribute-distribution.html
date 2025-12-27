@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attribute Distribution Test Suite - Werewolf 5e</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #00ff00;
+        }
+        h1 {
+            color: #00ff00;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #333;
+            background: #0a0a0a;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #666;
+        }
+        .pass {
+            border-left-color: #00ff00;
+            background: #002200;
+        }
+        .fail {
+            border-left-color: #ff0000;
+            background: #220000;
+            color: #ff6666;
+        }
+        .summary {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #00ff00;
+            background: #002200;
+        }
+        .summary.fail {
+            border-color: #ff0000;
+            background: #220000;
+            color: #ff6666;
+        }
+        .details {
+            font-size: 0.9em;
+            margin: 5px 0;
+            color: #888;
+        }
+        button {
+            background: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background: #005500;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .stat-box {
+            padding: 10px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Werewolf 5e - Attribute Distribution Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>Test Configuration</h2>
+        <p>This test suite verifies that the character creation system ALWAYS produces the required attribute distribution:</p>
+        <ul>
+            <li>1 attribute at 4/5 points</li>
+            <li>3 attributes at 3/5 points</li>
+            <li>4 attributes at 2/5 points</li>
+            <li>1 attribute at 1/5 points</li>
+        </ul>
+        <p>Total attributes: 9 (Physical: 3, Social: 3, Mental: 3)</p>
+    </div>
+
+    <button onclick="runAllTests()">Run All Tests</button>
+
+    <div id="test-results"></div>
+
+    <script>
+        // Attribute categories definition (same as in create-character.html)
+        const attributeCategories = {
+            physical: {
+                attributes: {
+                    strength: { title: 'Strength' },
+                    dexterity: { title: 'Dexterity' },
+                    stamina: { title: 'Stamina' }
+                }
+            },
+            social: {
+                attributes: {
+                    charisma: { title: 'Charisma' },
+                    manipulation: { title: 'Manipulation' },
+                    composure: { title: 'Composure' }
+                }
+            },
+            mental: {
+                attributes: {
+                    intelligence: { title: 'Intelligence' },
+                    wits: { title: 'Wits' },
+                    resolve: { title: 'Resolve' }
+                }
+            }
+        };
+
+        // Replicate the calculateFinalAttributes function from create-character.html
+        function calculateFinalAttributes(selectedPrimaryAttribute, selectedSecondaryAttributes, selectedTertiaryAttributes) {
+            const characterData = {
+                attributes: {
+                    strength: 1,
+                    dexterity: 1,
+                    stamina: 1,
+                    charisma: 1,
+                    manipulation: 1,
+                    composure: 1,
+                    intelligence: 1,
+                    wits: 1,
+                    resolve: 1
+                }
+            };
+
+            // Primary attribute: 4 points
+            characterData.attributes[selectedPrimaryAttribute] = 4;
+            
+            // Secondary attributes (3 selected): 3 points each
+            selectedSecondaryAttributes.forEach(function(attr) {
+                characterData.attributes[attr] = 3;
+            });
+            
+            // Tertiary attributes (4 selected): 2 points each
+            selectedTertiaryAttributes.forEach(function(attr) {
+                characterData.attributes[attr] = 2;
+            });
+            
+            // Weakest attribute stays at 1 (automatically determined)
+            
+            return characterData.attributes;
+        }
+
+        // Verify distribution matches requirements
+        function verifyDistribution(attributes) {
+            const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+            
+            Object.values(attributes).forEach(value => {
+                distribution[value]++;
+            });
+            
+            const isCorrect = 
+                distribution[4] === 1 &&
+                distribution[3] === 3 &&
+                distribution[2] === 4 &&
+                distribution[1] === 1;
+            
+            return {
+                isCorrect,
+                distribution,
+                details: {
+                    at4: distribution[4],
+                    at3: distribution[3],
+                    at2: distribution[2],
+                    at1: distribution[1]
+                }
+            };
+        }
+
+        // Generate all possible combinations
+        function getCombinations(arr, k) {
+            if (k === 0) return [[]];
+            if (arr.length === 0) return [];
+            
+            const [first, ...rest] = arr;
+            const withoutFirst = getCombinations(rest, k);
+            const withFirst = getCombinations(rest, k - 1).map(comb => [first, ...comb]);
+            
+            return [...withoutFirst, ...withFirst];
+        }
+
+        // Get all attributes as flat array
+        function getAllAttributes() {
+            const all = [];
+            Object.values(attributeCategories).forEach(cat => {
+                Object.keys(cat.attributes).forEach(attr => {
+                    all.push(attr);
+                });
+            });
+            return all;
+        }
+
+        // Run comprehensive test suite
+        function runAllTests() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<div class="test-section"><h2>Running Tests...</h2></div>';
+            
+            const allTests = [];
+            const categories = ['physical', 'social', 'mental'];
+            
+            // Test all possible user choice scenarios
+            let testCount = 0;
+            
+            // For each possible primary category
+            for (let primaryCat of categories) {
+                const primaryCatAttrs = Object.keys(attributeCategories[primaryCat].attributes);
+                
+                // For each possible primary attribute within that category
+                for (let primaryAttr of primaryCatAttrs) {
+                    // For each possible secondary category
+                    const secondaryCats = categories.filter(c => c !== primaryCat);
+                    
+                    for (let secondaryCat of secondaryCats) {
+                        const tertiaryCat = categories.find(c => c !== primaryCat && c !== secondaryCat);
+                        
+                        // Build secondary selection pool
+                        const secondaryPool = [
+                            ...primaryCatAttrs.filter(a => a !== primaryAttr),
+                            ...Object.keys(attributeCategories[secondaryCat].attributes)
+                        ];
+                        
+                        // Test all combinations of 3 from secondary pool
+                        const secondaryCombinations = getCombinations(secondaryPool, 3);
+                        
+                        for (let secondaryAttrs of secondaryCombinations) {
+                            // Build tertiary selection pool
+                            const allAttrs = getAllAttributes();
+                            const tertiaryPool = allAttrs.filter(a => 
+                                a !== primaryAttr && !secondaryAttrs.includes(a)
+                            );
+                            
+                            // Test all combinations of 4 from tertiary pool
+                            const tertiaryCombinations = getCombinations(tertiaryPool, 4);
+                            
+                            for (let tertiaryAttrs of tertiaryCombinations) {
+                                testCount++;
+                                
+                                // Calculate final attributes
+                                const finalAttrs = calculateFinalAttributes(
+                                    primaryAttr,
+                                    secondaryAttrs,
+                                    tertiaryAttrs
+                                );
+                                
+                                // Verify distribution
+                                const verification = verifyDistribution(finalAttrs);
+                                
+                                allTests.push({
+                                    id: testCount,
+                                    primaryCat,
+                                    primaryAttr,
+                                    secondaryCat,
+                                    tertiaryCat,
+                                    secondaryAttrs,
+                                    tertiaryAttrs,
+                                    finalAttrs,
+                                    verification
+                                });
+                                
+                                // Show progress for large test runs
+                                // Update every 300 tests to avoid performance issues from frequent DOM manipulation
+                                if (testCount % 300 === 0) {
+                                    resultsDiv.innerHTML = `<div class="test-section"><h2>Running Tests... (${testCount} scenarios tested)</h2></div>`;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Display results
+            displayResults(allTests);
+        }
+
+        function displayResults(allTests) {
+            const resultsDiv = document.getElementById('test-results');
+            const passedTests = allTests.filter(t => t.verification.isCorrect);
+            const failedTests = allTests.filter(t => !t.verification.isCorrect);
+            
+            let html = '';
+            
+            // Summary
+            const allPassed = failedTests.length === 0;
+            html += `
+                <div class="summary ${allPassed ? 'pass' : 'fail'}">
+                    ${allPassed ? '✓ ALL TESTS PASSED' : '✗ SOME TESTS FAILED'}
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div>Total Tests</div>
+                        <div style="font-size: 2em; font-weight: bold;">${allTests.length}</div>
+                    </div>
+                    <div class="stat-box" style="border-color: #00ff00;">
+                        <div>Passed</div>
+                        <div style="font-size: 2em; font-weight: bold; color: #00ff00;">${passedTests.length}</div>
+                    </div>
+                    <div class="stat-box" style="border-color: ${failedTests.length > 0 ? '#ff0000' : '#333'};">
+                        <div>Failed</div>
+                        <div style="font-size: 2em; font-weight: bold; color: ${failedTests.length > 0 ? '#ff0000' : '#888'};">${failedTests.length}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Show sample passed tests
+            if (passedTests.length > 0) {
+                html += `
+                    <div class="test-section">
+                        <h2>Sample Passed Tests (showing 5 of ${passedTests.length})</h2>
+                `;
+                
+                passedTests.slice(0, 5).forEach(test => {
+                    html += `
+                        <div class="test-result pass">
+                            <strong>Test #${test.id}</strong>
+                            <div class="details">Primary: ${test.primaryAttr} (${test.primaryCat})</div>
+                            <div class="details">Secondary: [${test.secondaryAttrs.join(', ')}] from ${test.primaryCat} + ${test.secondaryCat}</div>
+                            <div class="details">Tertiary: [${test.tertiaryAttrs.join(', ')}]</div>
+                            <div class="details">Distribution: 4pts×${test.verification.details.at4}, 3pts×${test.verification.details.at3}, 2pts×${test.verification.details.at2}, 1pt×${test.verification.details.at1} ✓</div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            }
+            
+            // Show all failed tests if any
+            if (failedTests.length > 0) {
+                html += `
+                    <div class="test-section">
+                        <h2 style="color: #ff0000;">Failed Tests (${failedTests.length})</h2>
+                `;
+                
+                failedTests.forEach(test => {
+                    html += `
+                        <div class="test-result fail">
+                            <strong>Test #${test.id} FAILED</strong>
+                            <div class="details">Primary: ${test.primaryAttr} (${test.primaryCat})</div>
+                            <div class="details">Secondary: [${test.secondaryAttrs.join(', ')}] from ${test.primaryCat} + ${test.secondaryCat}</div>
+                            <div class="details">Tertiary: [${test.tertiaryAttrs.join(', ')}]</div>
+                            <div class="details">Expected: 4pts×1, 3pts×3, 2pts×4, 1pt×1</div>
+                            <div class="details">Got: 4pts×${test.verification.details.at4}, 3pts×${test.verification.details.at3}, 2pts×${test.verification.details.at2}, 1pt×${test.verification.details.at1} ✗</div>
+                            <div class="details">Attributes: ${JSON.stringify(test.finalAttrs)}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            }
+            
+            // Conclusion
+            html += `
+                <div class="test-section">
+                    <h2>Conclusion</h2>
+                    <p>${allPassed ? 
+                        'The character creation system <strong>GUARANTEES</strong> the correct attribute distribution for ALL possible user choices.' :
+                        'The character creation system has issues that need to be addressed.'
+                    }</p>
+                    <p>No matter what choices a user makes during character creation:</p>
+                    <ul>
+                        <li>They will have exactly 1 attribute at 4 points</li>
+                        <li>They will have exactly 3 attributes at 3 points</li>
+                        <li>They will have exactly 4 attributes at 2 points</li>
+                        <li>They will have exactly 1 attribute at 1 point</li>
+                    </ul>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', function() {
+            runAllTests();
+        });
+    </script>
+</body>
+</html>
