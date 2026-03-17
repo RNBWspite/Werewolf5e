@@ -2638,6 +2638,8 @@
                 generatedBackstory = document.getElementById('backstory-text').textContent;
                 populateSummary();
                 showStep(steps.skillsResult, steps.summary);
+                // Enable the submit button now that all steps are complete
+                submitBtn.disabled = false;
             });
 
             // Calculate final attribute values
