@@ -2280,6 +2280,594 @@
                             }
                         }
                     ]
+                },
+                {
+                    id: 13,
+                    prompt: "A ghost from your past shows up at your door, claiming you owe them something. How do you handle it?",
+                    backstoryIntro: "When someone from your history came looking for you...",
+                    initialChoices: [
+                        {
+                            text: "Hear them out before deciding anything.",
+                            skills: ['insight', 'awareness', 'animal ken', 'persuasion'],
+                            backstory: "you listened carefully before responding",
+                            followUp: {
+                                prompt: "Their story doesn't add up. How do you respond?",
+                                choices: [
+                                    { text: "Read their expressions and body language for the truth.", skill: 'insight', backstory: "and their tells revealed more than their words." },
+                                    { text: "Stay alert for any sign they brought trouble with them.", skill: 'awareness', backstory: "and your vigilance kept you from being blindsided." },
+                                    { text: "Appeal to shared history and find common ground.", skill: 'animal ken', backstory: "and your empathy cut through years of distance." },
+                                    { text: "Negotiate a fair resolution on your own terms.", skill: 'persuasion', backstory: "and your words turned an old grudge into peace." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Deny everything and force them to prove their claim.",
+                            skills: ['subterfuge', 'intimidation', 'politics', 'etiquette'],
+                            backstory: "you played it cool and called their bluff",
+                            followUp: {
+                                prompt: "They produce evidence. How do you respond?",
+                                choices: [
+                                    { text: "Pivot your story without missing a beat.", skill: 'subterfuge', backstory: "and your quick thinking kept you ahead." },
+                                    { text: "Make it clear that pushing this further will cost them.", skill: 'intimidation', backstory: "and the weight of your warning stopped them cold." },
+                                    { text: "Leverage what you know about their connections.", skill: 'politics', backstory: "and knowing who they knew gave you the upper hand." },
+                                    { text: "Redirect the conversation with practiced grace.", skill: 'etiquette', backstory: "and your composure deflected their accusations." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Dig up what you can on them before committing to anything.",
+                            skills: ['investigation', 'streetwise', 'technology', 'academics'],
+                            backstory: "you did your homework before making a move",
+                            followUp: {
+                                prompt: "What you find raises more questions. How do you proceed?",
+                                choices: [
+                                    { text: "Cross-reference their story with what you've uncovered.", skill: 'investigation', backstory: "and the inconsistencies told the real story." },
+                                    { text: "Ask your contacts what they know about this person.", skill: 'streetwise', backstory: "and the street had plenty to say about them." },
+                                    { text: "Search their digital footprint for the full picture.", skill: 'technology', backstory: "and their online trail exposed their true motive." },
+                                    { text: "Research the legal and historical context of their claim.", skill: 'academics', backstory: "and the facts of the matter settled it definitively." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 14,
+                    prompt: "You stumble upon a scene that clearly involves the supernatural—something no rational explanation covers. What do you do?",
+                    backstoryIntro: "The night you came face to face with something beyond understanding...",
+                    initialChoices: [
+                        {
+                            text: "Investigate it—you need to know what you're dealing with.",
+                            skills: ['occult', 'investigation', 'science', 'awareness'],
+                            backstory: "you pressed forward into the unknown",
+                            followUp: {
+                                prompt: "The deeper you look, the stranger it gets. How do you make sense of it?",
+                                choices: [
+                                    { text: "Draw on knowledge of myths, rituals, and supernatural lore.", skill: 'occult', backstory: "and the old texts finally made terrible sense." },
+                                    { text: "Methodically document every detail you can find.", skill: 'investigation', backstory: "and the evidence painted an undeniable picture." },
+                                    { text: "Look for a rational framework that might still apply.", skill: 'science', backstory: "and even science had to bow to what you found." },
+                                    { text: "Stay alert for any movement or shift in the environment.", skill: 'awareness', backstory: "and your senses saved you from a second surprise." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Get out and get help—this is above your pay grade.",
+                            skills: ['survival', 'driving', 'streetwise', 'leadership'],
+                            backstory: "you knew when to run and who to call",
+                            followUp: {
+                                prompt: "Convincing anyone to help with something like this is difficult. What do you do?",
+                                choices: [
+                                    { text: "Trust your instincts and move fast.", skill: 'survival', backstory: "and your instincts got you out alive." },
+                                    { text: "Put distance between yourself and the scene quickly.", skill: 'driving', backstory: "and you were gone before it could follow." },
+                                    { text: "Find someone from the underground who deals in such things.", skill: 'streetwise', backstory: "and the right contacts knew exactly what it meant." },
+                                    { text: "Rally those around you to act decisively.", skill: 'leadership', backstory: "and your calm command kept everyone moving." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Record everything and figure out what it means later.",
+                            skills: ['technology', 'academics', 'medicine', 'insight'],
+                            backstory: "you documented what you saw and sought understanding",
+                            followUp: {
+                                prompt: "Reviewing what you captured raises disturbing questions. How do you proceed?",
+                                choices: [
+                                    { text: "Use digital tools to enhance and analyze what you recorded.", skill: 'technology', backstory: "and the footage revealed details invisible to the naked eye." },
+                                    { text: "Research comparable accounts in historical records.", skill: 'academics', backstory: "and history held clues that matched what you saw." },
+                                    { text: "Check if what you witnessed had physical effects on those present.", skill: 'medicine', backstory: "and the symptoms confirmed something real had happened." },
+                                    { text: "Reflect on what you felt in that moment to find meaning.", skill: 'insight', backstory: "and your instincts understood what your mind couldn't." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 15,
+                    prompt: "A natural disaster strikes your area and dozens of people need help. How do you respond?",
+                    backstoryIntro: "When catastrophe struck and people looked to whoever was left standing...",
+                    initialChoices: [
+                        {
+                            text: "Take charge and coordinate the rescue effort.",
+                            skills: ['leadership', 'persuasion', 'awareness', 'survival'],
+                            backstory: "you stepped into the chaos and brought order",
+                            followUp: {
+                                prompt: "Resources are scarce and people are panicking. What do you prioritize?",
+                                choices: [
+                                    { text: "Organize volunteers into efficient teams.", skill: 'leadership', backstory: "and your direction turned desperation into action." },
+                                    { text: "Calm the crowd and keep morale from collapsing.", skill: 'persuasion', backstory: "and your voice steadied those on the edge of panic." },
+                                    { text: "Scout the area for dangers others have missed.", skill: 'awareness', backstory: "and your watchful eye prevented a second disaster." },
+                                    { text: "Make hard decisions fast with limited information.", skill: 'survival', backstory: "and your instincts saved lives that strategy alone couldn't." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Focus on getting the injured to safety.",
+                            skills: ['medicine', 'athletics', 'animal ken', 'craft'],
+                            backstory: "you threw yourself into helping the wounded",
+                            followUp: {
+                                prompt: "The injuries are severe and supplies are limited. How do you manage?",
+                                choices: [
+                                    { text: "Apply emergency medical knowledge to stabilize the worst cases.", skill: 'medicine', backstory: "and your hands kept people breathing who shouldn't have." },
+                                    { text: "Carry people out of danger zones with sheer physical effort.", skill: 'athletics', backstory: "and your endurance matched the scale of the need." },
+                                    { text: "Soothe frightened survivors and keep them cooperative.", skill: 'animal ken', backstory: "and your compassion brought out the best in everyone." },
+                                    { text: "Improvise stretchers and tools from available materials.", skill: 'craft', backstory: "and your resourcefulness saved those who couldn't walk." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Secure communication and call in every resource available.",
+                            skills: ['technology', 'politics', 'finance', 'investigation'],
+                            backstory: "you made sure the right people knew what was happening",
+                            followUp: {
+                                prompt: "Official help is slow. How do you accelerate the response?",
+                                choices: [
+                                    { text: "Use every device and network available to broadcast the situation.", skill: 'technology', backstory: "and your broadcast brought help faster than anyone expected." },
+                                    { text: "Contact officials and pressure them to act immediately.", skill: 'politics', backstory: "and the right calls cut through the bureaucratic delays." },
+                                    { text: "Organize emergency funding from local businesses and donors.", skill: 'finance', backstory: "and resources flowed in before official channels even opened." },
+                                    { text: "Map the affected zones and direct rescuers efficiently.", skill: 'investigation', backstory: "and your situational assessment saved critical time." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 16,
+                    prompt: "You're the only witness to a serious crime and must decide how to handle that responsibility. What do you do?",
+                    backstoryIntro: "The moment you saw what you were never supposed to see...",
+                    initialChoices: [
+                        {
+                            text: "Come forward and give a full account of what you saw.",
+                            skills: ['academics', 'persuasion', 'insight', 'etiquette'],
+                            backstory: "you chose to stand up for the truth",
+                            followUp: {
+                                prompt: "You're now under pressure from multiple sides. How do you hold your ground?",
+                                choices: [
+                                    { text: "Document your account meticulously so it can't be disputed.", skill: 'academics', backstory: "and your careful record withstood every challenge." },
+                                    { text: "Win over those who doubt you with compelling testimony.", skill: 'persuasion', backstory: "and your sincerity made even skeptics believe." },
+                                    { text: "Read the room to understand who is trustworthy.", skill: 'insight', backstory: "and you knew exactly who was playing both sides." },
+                                    { text: "Navigate the formal setting with composure and professionalism.", skill: 'etiquette', backstory: "and your bearing lent weight to your every word." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Conduct your own investigation before involving anyone else.",
+                            skills: ['investigation', 'stealth', 'technology', 'streetwise'],
+                            backstory: "you decided to learn the full picture first",
+                            followUp: {
+                                prompt: "Your investigation is drawing unwanted attention. How do you protect yourself?",
+                                choices: [
+                                    { text: "Build an irrefutable case before you can be silenced.", skill: 'investigation', backstory: "and the evidence you gathered was impossible to ignore." },
+                                    { text: "Move carefully and keep your activities hidden.", skill: 'stealth', backstory: "and you stayed invisible until you had what you needed." },
+                                    { text: "Secure your findings digitally with redundant backups.", skill: 'technology', backstory: "and your data survived every attempt to erase it." },
+                                    { text: "Reach out to trusted contacts in the underground.", skill: 'streetwise', backstory: "and the streets had already heard pieces of the story." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Stay silent for now and figure out who you can trust.",
+                            skills: ['subterfuge', 'politics', 'finance', 'awareness'],
+                            backstory: "you played it safe while you assessed your options",
+                            followUp: {
+                                prompt: "Someone has figured out you know something. What's your move?",
+                                choices: [
+                                    { text: "Give nothing away and maintain your cover story.", skill: 'subterfuge', backstory: "and your composure never cracked under pressure." },
+                                    { text: "Use political leverage to protect yourself from retaliation.", skill: 'politics', backstory: "and powerful allies made you untouchable." },
+                                    { text: "Ensure that exposing you would cost them more than it's worth.", skill: 'finance', backstory: "and the financial stakes kept everyone in check." },
+                                    { text: "Stay alert for signs you're being followed or watched.", skill: 'awareness', backstory: "and your constant vigilance kept you one step ahead." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 17,
+                    prompt: "You discover a hidden underground network of tunnels beneath your city. What do you do with this knowledge?",
+                    backstoryIntro: "Beneath the streets you walked every day, something ancient and secret waited...",
+                    initialChoices: [
+                        {
+                            text: "Explore the tunnels to learn what they hide.",
+                            skills: ['survival', 'athletics', 'awareness', 'investigation'],
+                            backstory: "you descended into the dark to find the truth",
+                            followUp: {
+                                prompt: "The tunnels go deeper than expected and someone else is down here. How do you proceed?",
+                                choices: [
+                                    { text: "Navigate using environmental cues and survival instincts.", skill: 'survival', backstory: "and the dark held no fear for someone prepared as you." },
+                                    { text: "Move quickly and quietly through the tight passages.", skill: 'athletics', backstory: "and your physical ability kept you ahead of trouble." },
+                                    { text: "Listen and watch for signs of who—or what—uses these tunnels.", skill: 'awareness', backstory: "and your senses warned you before your eyes could." },
+                                    { text: "Map the tunnels and search for clues about their purpose.", skill: 'investigation', backstory: "and your documentation revealed the network's true scope." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Research the tunnels' origins and history.",
+                            skills: ['academics', 'occult', 'science', 'politics'],
+                            backstory: "you searched for context before taking any action",
+                            followUp: {
+                                prompt: "The records you find are incomplete and deliberately obscured. How do you fill in the gaps?",
+                                choices: [
+                                    { text: "Dig through archives, city records, and historical texts.", skill: 'academics', backstory: "and buried history revealed who built what lies below." },
+                                    { text: "Look for symbols and markings that suggest ritual use.", skill: 'occult', backstory: "and the signs pointed to purposes far older than the city." },
+                                    { text: "Analyze the tunnel construction for geological and structural clues.", skill: 'science', backstory: "and the materials told a story no document ever could." },
+                                    { text: "Trace which city agencies knew and who kept it quiet.", skill: 'politics', backstory: "and the cover-up proved the secret was worth keeping." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Tell someone who might benefit from—or be threatened by—this knowledge.",
+                            skills: ['streetwise', 'persuasion', 'subterfuge', 'leadership'],
+                            backstory: "you decided information was power and acted accordingly",
+                            followUp: {
+                                prompt: "Multiple parties want to control the tunnels. How do you navigate the situation?",
+                                choices: [
+                                    { text: "Work through your street connections to control access.", skill: 'streetwise', backstory: "and the underground network became yours to direct." },
+                                    { text: "Convince the right people the tunnels should be protected.", skill: 'persuasion', backstory: "and your case ensured the discovery was handled responsibly." },
+                                    { text: "Feed different parties just enough information to serve your goals.", skill: 'subterfuge', backstory: "and none of them ever knew the full picture." },
+                                    { text: "Form a coalition of trustworthy individuals to manage it.", skill: 'leadership', backstory: "and your alliance ensured the tunnels served the right purpose." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 18,
+                    prompt: "A powerful and dangerous person offers you a deal that could change your life—but the price might be too high. How do you respond?",
+                    backstoryIntro: "The day someone powerful offered you everything you wanted at a price you might regret...",
+                    initialChoices: [
+                        {
+                            text: "Negotiate to change the terms before agreeing to anything.",
+                            skills: ['persuasion', 'finance', 'politics', 'etiquette'],
+                            backstory: "you sat at the table and worked the deal",
+                            followUp: {
+                                prompt: "They're not accustomed to being challenged. How do you hold your position?",
+                                choices: [
+                                    { text: "Make a compelling case for why the deal benefits both sides.", skill: 'persuasion', backstory: "and your argument shifted the terms in your favor." },
+                                    { text: "Counter with a financial structure that protects your interests.", skill: 'finance', backstory: "and your knowledge of money made the offer fairer." },
+                                    { text: "Use your understanding of power to navigate their agenda.", skill: 'politics', backstory: "and reading their game gave you the right leverage." },
+                                    { text: "Conduct the negotiation with flawless social grace.", skill: 'etiquette', backstory: "and your manner commanded the respect of a peer." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Research who they are and what they've done to others who took this deal.",
+                            skills: ['investigation', 'streetwise', 'technology', 'insight'],
+                            backstory: "you dug deep before giving any answer",
+                            followUp: {
+                                prompt: "What you find is alarming. How do you use this information?",
+                                choices: [
+                                    { text: "Build a complete picture of their patterns and past dealings.", skill: 'investigation', backstory: "and the pattern told you everything you needed to know." },
+                                    { text: "Ask around among those who've dealt with them before.", skill: 'streetwise', backstory: "and the warnings from others were impossible to ignore." },
+                                    { text: "Uncover their digital trail to find leverage.", skill: 'technology', backstory: "and what they tried to hide became your protection." },
+                                    { text: "Trust your gut reading of their true intentions.", skill: 'insight', backstory: "and every instinct told you where the trap was hidden." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Play along while quietly working against them.",
+                            skills: ['subterfuge', 'stealth', 'larceny', 'awareness'],
+                            backstory: "you smiled and shook their hand while planning your own move",
+                            followUp: {
+                                prompt: "They're watching you closely. How do you stay ahead?",
+                                choices: [
+                                    { text: "Maintain the perfect facade of cooperation.", skill: 'subterfuge', backstory: "and they never suspected your true intentions." },
+                                    { text: "Move through the shadows of their organization undetected.", skill: 'stealth', backstory: "and you learned their secrets without being seen." },
+                                    { text: "Acquire what you need from them without them realizing.", skill: 'larceny', backstory: "and they never noticed what was missing until too late." },
+                                    { text: "Stay hyperaware of shifts in their attitude toward you.", skill: 'awareness', backstory: "and the moment suspicion surfaced, you were ready." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 19,
+                    prompt: "You're tasked with protecting someone who doesn't want to be protected. How do you keep them safe?",
+                    backstoryIntro: "When someone's life depended on you even as they fought your help...",
+                    initialChoices: [
+                        {
+                            text: "Guard them from a distance without interfering in their life.",
+                            skills: ['stealth', 'awareness', 'firearms', 'driving'],
+                            backstory: "you watched over them like a shadow",
+                            followUp: {
+                                prompt: "A threat materializes and you must act. How do you respond?",
+                                choices: [
+                                    { text: "Intercept the threat before your charge ever knows it existed.", skill: 'stealth', backstory: "and you neutralized the danger in complete silence." },
+                                    { text: "Spot the threat early and create distance before it closes.", skill: 'awareness', backstory: "and your early warning bought crucial seconds." },
+                                    { text: "Handle the threat at range before it can reach them.", skill: 'firearms', backstory: "and your precision ended the danger cleanly." },
+                                    { text: "Get them into a vehicle and out of the danger zone fast.", skill: 'driving', backstory: "and your driving put them beyond harm's reach." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Win their trust so they cooperate with necessary precautions.",
+                            skills: ['persuasion', 'animal ken', 'leadership', 'insight'],
+                            backstory: "you worked to earn their cooperation rather than enforce it",
+                            followUp: {
+                                prompt: "They've agreed to work with you, but an argument about the situation erupts. How do you handle it?",
+                                choices: [
+                                    { text: "Lay out the facts calmly and let reason win.", skill: 'persuasion', backstory: "and your argument convinced them to trust the process." },
+                                    { text: "Connect with them emotionally and address their real fears.", skill: 'animal ken', backstory: "and understanding their feelings turned resistance to trust." },
+                                    { text: "Take firm control and make it clear who's responsible for what.", skill: 'leadership', backstory: "and your clear authority reassured them you had it handled." },
+                                    { text: "Listen carefully to understand what's really driving their resistance.", skill: 'insight', backstory: "and knowing the truth behind their anger changed everything." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Identify and neutralize the source of the threat before it reaches them.",
+                            skills: ['investigation', 'intimidation', 'brawl', 'melee'],
+                            backstory: "you decided the best defense was a decisive offense",
+                            followUp: {
+                                prompt: "You've found the source of the danger. How do you deal with it?",
+                                choices: [
+                                    { text: "Gather enough intelligence to expose and stop them.", skill: 'investigation', backstory: "and your evidence dismantled the threat from the inside." },
+                                    { text: "Make absolutely clear what happens if they continue.", skill: 'intimidation', backstory: "and your warning left no room for misunderstanding." },
+                                    { text: "Meet them physically and end the threat directly.", skill: 'brawl', backstory: "and the fight was brief and entirely in your favor." },
+                                    { text: "Use a weapon to control the encounter on your terms.", skill: 'melee', backstory: "and armed and ready, you had the decisive advantage." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 20,
+                    prompt: "You're seriously injured and alone, far from help. How do you survive?",
+                    backstoryIntro: "The night you had to save yourself with nothing but will and knowledge...",
+                    initialChoices: [
+                        {
+                            text: "Treat your injuries with whatever you have available.",
+                            skills: ['medicine', 'craft', 'science', 'survival'],
+                            backstory: "you focused on keeping yourself functional",
+                            followUp: {
+                                prompt: "The injury is worse than you thought. What do you do next?",
+                                choices: [
+                                    { text: "Apply emergency medical techniques to stabilize yourself.", skill: 'medicine', backstory: "and your medical knowledge kept you in the fight." },
+                                    { text: "Improvise tools and bandages from your surroundings.", skill: 'craft', backstory: "and your resourcefulness made do where supplies fell short." },
+                                    { text: "Use your understanding of the body to assess and manage the damage.", skill: 'science', backstory: "and scientific thinking guided your self-treatment." },
+                                    { text: "Ration your energy and find the best place to recover.", skill: 'survival', backstory: "and your instincts for self-preservation saw you through." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Signal for help through any means possible.",
+                            skills: ['technology', 'awareness', 'performance', 'streetwise'],
+                            backstory: "you focused on getting someone to find you",
+                            followUp: {
+                                prompt: "Your first attempts haven't worked. How do you try harder?",
+                                choices: [
+                                    { text: "Use your device to send a location-tagged distress call.", skill: 'technology', backstory: "and the signal cut through when nothing else could." },
+                                    { text: "Stay alert for signs of anyone who might hear you.", skill: 'awareness', backstory: "and you spotted the opportunity to make yourself known." },
+                                    { text: "Make yourself impossible to miss or ignore.", skill: 'performance', backstory: "and your presence demanded attention even in the silence." },
+                                    { text: "Draw on your knowledge of where help is most likely to come from.", skill: 'streetwise', backstory: "and your instinct about people led rescuers straight to you." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Push through the pain and get yourself to safety.",
+                            skills: ['athletics', 'brawl', 'intimidation', 'leadership'],
+                            backstory: "you refused to stop moving",
+                            followUp: {
+                                prompt: "Your body is screaming to stop. What keeps you going?",
+                                choices: [
+                                    { text: "Push your physical limits further than you thought possible.", skill: 'athletics', backstory: "and your body found reserves you didn't know existed." },
+                                    { text: "Use the pain as fuel and let adrenaline carry you forward.", skill: 'brawl', backstory: "and the warrior in you refused to fall." },
+                                    { text: "Override your fear with iron-willed determination.", skill: 'intimidation', backstory: "and even your own weakness couldn't stand against you." },
+                                    { text: "Lead yourself through the crisis with mental clarity.", skill: 'leadership', backstory: "and directing your own actions like a commander kept you alive." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 21,
+                    prompt: "You're challenged to a public performance—music, speech, or spectacle—with everything riding on the outcome. How do you prepare?",
+                    backstoryIntro: "The time all eyes were on you and failure was not an option...",
+                    initialChoices: [
+                        {
+                            text: "Commit fully to the performance and trust your talent.",
+                            skills: ['performance', 'persuasion', 'leadership', 'insight'],
+                            backstory: "you threw yourself into it with everything you had",
+                            followUp: {
+                                prompt: "The audience is harder to read than expected. How do you adjust?",
+                                choices: [
+                                    { text: "Pour yourself into the performance and let authenticity carry it.", skill: 'performance', backstory: "and your genuine passion won the crowd over completely." },
+                                    { text: "Speak directly to what the audience wants to feel.", skill: 'persuasion', backstory: "and you moved them because you understood them." },
+                                    { text: "Command the space with absolute confidence.", skill: 'leadership', backstory: "and your presence alone made them pay attention." },
+                                    { text: "Read the crowd and adjust your performance in real time.", skill: 'insight', backstory: "and your sensitivity to their reaction made you brilliant." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Research your audience and the context to tailor your approach.",
+                            skills: ['academics', 'investigation', 'politics', 'etiquette'],
+                            backstory: "you prepared meticulously before stepping into the spotlight",
+                            followUp: {
+                                prompt: "Your research reveals something unexpected. How do you adapt?",
+                                choices: [
+                                    { text: "Weave historical and cultural references that resonate with your audience.", skill: 'academics', backstory: "and your depth of knowledge left a lasting impression." },
+                                    { text: "Use what you've learned about key individuals to tailor your message.", skill: 'investigation', backstory: "and your targeted approach hit exactly the right notes." },
+                                    { text: "Navigate the political undercurrents in the room.", skill: 'politics', backstory: "and your awareness of the power dynamics gave you the edge." },
+                                    { text: "Conduct yourself with impeccable awareness of social expectations.", skill: 'etiquette', backstory: "and every gesture reinforced the right impression." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Improvise and use the environment to your advantage.",
+                            skills: ['craft', 'technology', 'awareness', 'subterfuge'],
+                            backstory: "you trusted your ability to think on your feet",
+                            followUp: {
+                                prompt: "Something goes wrong mid-performance. How do you recover?",
+                                choices: [
+                                    { text: "Use available materials to create something unexpected and striking.", skill: 'craft', backstory: "and your improvisation became the highlight of the night." },
+                                    { text: "Use available tech to enhance or salvage the moment.", skill: 'technology', backstory: "and a quick technical solution turned disaster into triumph." },
+                                    { text: "Spot the problem before the audience does and redirect attention.", skill: 'awareness', backstory: "and your quick thinking prevented anyone from noticing the flaw." },
+                                    { text: "Turn the mishap into an intentional part of the act.", skill: 'subterfuge', backstory: "and the audience never knew what was planned and what wasn't." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 22,
+                    prompt: "You find yourself deep in enemy territory with a mission to complete and no backup. How do you proceed?",
+                    backstoryIntro: "Alone behind enemy lines with everything on the line...",
+                    initialChoices: [
+                        {
+                            text: "Move unseen and accomplish the mission without being detected.",
+                            skills: ['stealth', 'athletics', 'survival', 'awareness'],
+                            backstory: "you became a ghost and the mission became routine",
+                            followUp: {
+                                prompt: "A patrol comes closer than expected. How do you handle it?",
+                                choices: [
+                                    { text: "Press into the shadows and become part of the environment.", skill: 'stealth', backstory: "and they walked right past you without a flicker of suspicion." },
+                                    { text: "Move silently and quickly to a better position.", skill: 'athletics', backstory: "and your agility kept you out of their line of sight." },
+                                    { text: "Use the terrain to your advantage and survive the encounter.", skill: 'survival', backstory: "and the environment became your greatest ally." },
+                                    { text: "Track their patterns and find the gap in their sweep.", skill: 'awareness', backstory: "and your patience revealed the opening you needed." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Blend in and pretend to belong there.",
+                            skills: ['subterfuge', 'etiquette', 'persuasion', 'insight'],
+                            backstory: "you walked in like you owned the place",
+                            followUp: {
+                                prompt: "Someone becomes suspicious. How do you defuse their doubts?",
+                                choices: [
+                                    { text: "Maintain your cover with unwavering conviction.", skill: 'subterfuge', backstory: "and your story held under every question they threw at you." },
+                                    { text: "Act exactly as someone who belongs here would act.", skill: 'etiquette', backstory: "and your familiarity with the expected manners disarmed them." },
+                                    { text: "Engage them warmly and redirect their attention.", skill: 'persuasion', backstory: "and by the end of the conversation, they were apologizing to you." },
+                                    { text: "Read their suspicion and address it before it becomes a problem.", skill: 'insight', backstory: "and you answered the question they hadn't yet asked." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Gather intelligence and find any advantage before acting.",
+                            skills: ['investigation', 'technology', 'larceny', 'finance'],
+                            backstory: "you assessed the situation fully before committing to action",
+                            followUp: {
+                                prompt: "You've found useful intelligence. How do you exploit it?",
+                                choices: [
+                                    { text: "Cross-reference what you've found to identify the critical weakness.", skill: 'investigation', backstory: "and your analysis pinpointed exactly where to strike." },
+                                    { text: "Access their systems and use their own infrastructure against them.", skill: 'technology', backstory: "and their technology became your most valuable weapon." },
+                                    { text: "Quietly acquire key items or documents you'll need.", skill: 'larceny', backstory: "and what you took from them changed the outcome entirely." },
+                                    { text: "Trace their funding and resources to find their real vulnerabilities.", skill: 'finance', backstory: "and following the money revealed exactly how to cripple them." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 23,
+                    prompt: "You're asked to mentor someone far less experienced who has great potential. How do you help them grow?",
+                    backstoryIntro: "When someone who reminded you of yourself needed guidance...",
+                    initialChoices: [
+                        {
+                            text: "Train them physically and push their limits.",
+                            skills: ['athletics', 'brawl', 'melee', 'firearms'],
+                            backstory: "you put them through a regimen that would make or break them",
+                            followUp: {
+                                prompt: "They hit a wall and want to quit. How do you keep them going?",
+                                choices: [
+                                    { text: "Run drills with them until their body learns what their mind fears.", skill: 'athletics', backstory: "and repetition turned their doubt into muscle memory." },
+                                    { text: "Spar with them to teach them what they're truly capable of.", skill: 'brawl', backstory: "and taking a hit from you taught them to take a hit from anyone." },
+                                    { text: "Train them with weapons until precision becomes instinct.", skill: 'melee', backstory: "and the discipline of armed combat focused everything else." },
+                                    { text: "Teach them marksmanship as a lesson in patience and control.", skill: 'firearms', backstory: "and the stillness required for accuracy steadied them in all things." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Teach them the importance of knowledge and preparation.",
+                            skills: ['academics', 'occult', 'science', 'medicine'],
+                            backstory: "you showed them that the mind is the greatest weapon",
+                            followUp: {
+                                prompt: "They struggle to retain what they've learned. How do you reach them?",
+                                choices: [
+                                    { text: "Connect their lessons to history and broader context.", skill: 'academics', backstory: "and understanding why made them remember what." },
+                                    { text: "Open their eyes to the hidden world and what it demands of them.", skill: 'occult', backstory: "and knowing the stakes made every lesson vital." },
+                                    { text: "Ground abstract ideas in observable, testable reality.", skill: 'science', backstory: "and the scientific method gave them a framework for everything." },
+                                    { text: "Show them how knowledge saves lives in the most concrete terms.", skill: 'medicine', backstory: "and understanding what they could prevent made them study harder." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Help them develop their social and emotional intelligence.",
+                            skills: ['animal ken', 'insight', 'leadership', 'streetwise'],
+                            backstory: "you focused on what no one else had taught them",
+                            followUp: {
+                                prompt: "They make a critical social mistake with serious consequences. How do you guide them through it?",
+                                choices: [
+                                    { text: "Teach them to understand people the way you understand them.", skill: 'animal ken', backstory: "and your lessons in empathy changed how they moved through the world." },
+                                    { text: "Help them see the situation from every person's perspective.", skill: 'insight', backstory: "and the lesson turned a failure into a foundation." },
+                                    { text: "Show them how a leader takes responsibility and earns back trust.", skill: 'leadership', backstory: "and watching you handle it taught more than any lecture could." },
+                                    { text: "Introduce them to the unwritten rules of the world they inhabit.", skill: 'streetwise', backstory: "and street wisdom became their greatest social tool." }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 24,
+                    prompt: "A long-running conflict in your life comes to a head and must finally be resolved. How do you end it?",
+                    backstoryIntro: "The day you finally faced down the source of years of tension...",
+                    initialChoices: [
+                        {
+                            text: "Seek a negotiated resolution that works for all parties.",
+                            skills: ['persuasion', 'politics', 'etiquette', 'finance'],
+                            backstory: "you pursued peace through dialogue and mutual benefit",
+                            followUp: {
+                                prompt: "The other side is resistant. How do you bring them to the table?",
+                                choices: [
+                                    { text: "Construct an argument they cannot reasonably reject.", skill: 'persuasion', backstory: "and your case made resolution the only sensible choice." },
+                                    { text: "Leverage the political relationships that make refusal costly.", skill: 'politics', backstory: "and the weight of your connections made them reconsider." },
+                                    { text: "Conduct the process with a dignity that commands respect.", skill: 'etiquette', backstory: "and the manner of your approach changed the tone entirely." },
+                                    { text: "Structure a deal with enough mutual financial benefit to motivate cooperation.", skill: 'finance', backstory: "and when the numbers made sense, so did peace." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "Expose the root cause and force everyone to confront the truth.",
+                            skills: ['investigation', 'academics', 'insight', 'leadership'],
+                            backstory: "you brought what had been hidden into the light",
+                            followUp: {
+                                prompt: "The truth is more complicated than anyone expected. How do you guide what comes next?",
+                                choices: [
+                                    { text: "Present the evidence so thoroughly it cannot be denied.", skill: 'investigation', backstory: "and the facts made the argument for you." },
+                                    { text: "Contextualize the conflict within its full historical background.", skill: 'academics', backstory: "and understanding the past opened the door to the future." },
+                                    { text: "Help all parties see what this conflict has truly cost everyone.", skill: 'insight', backstory: "and your reading of the room brought buried feelings to the surface." },
+                                    { text: "Step up and guide the difficult conversation toward resolution.", skill: 'leadership', backstory: "and your steady hand steered everyone through the hardest part." }
+                                ]
+                            }
+                        },
+                        {
+                            text: "End it decisively, by force if necessary.",
+                            skills: ['intimidation', 'brawl', 'melee', 'firearms'],
+                            backstory: "you decided enough was enough and moved to end it",
+                            followUp: {
+                                prompt: "The confrontation escalates beyond what you anticipated. How do you control it?",
+                                choices: [
+                                    { text: "Assert such overwhelming authority that further resistance collapses.", skill: 'intimidation', backstory: "and the sheer force of your presence ended what violence might have started." },
+                                    { text: "Meet force with force and bring the confrontation to a close.", skill: 'brawl', backstory: "and when the dust settled, the matter was finished." },
+                                    { text: "Use a weapon to establish control and dictate the outcome.", skill: 'melee', backstory: "and armed and resolved, you set the terms of the ending." },
+                                    { text: "Ensure the range and precision to manage the situation on your terms.", skill: 'firearms', backstory: "and your readiness prevented far more violence than it caused." }
+                                ]
+                            }
+                        }
+                    ]
                 }
             ];
 
